@@ -1,6 +1,6 @@
 /*
  * A mex function to compute the orientation of polygons
- * for the GDS II toolbox
+ * for the GDSII toolbox
  * 
  * [cw] = poly_iscw(pa);
  *

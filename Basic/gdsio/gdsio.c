@@ -1,4 +1,4 @@
-/* Fast GDS II low-level IO library
+/* Fast GDSII low-level IO library
  * Copyright (C) 2012 Ulf Griesmann
  */
 
@@ -80,7 +80,7 @@ read_record_hdr(FILE* fob, uint16_t *rtype, uint16_t *rlen)
 
 
 /*
- * write a GDS II record header
+ * write a GDSII record header
  */
 err_id 
 write_record_hdr(FILE* fob, uint16_t rtype, uint16_t rlen)

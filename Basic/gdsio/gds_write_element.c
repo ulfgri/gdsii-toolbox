@@ -1,9 +1,9 @@
 /*
- * Part of the GDS II toolbox for Octave & MATLAB
+ * Part of the GDSII toolbox for Octave & MATLAB
  * Copyright (c) 2012- 2013, Ulf Griesmann
  *
  * Description:
- * Writes element data to a GDS II library file.
+ * Writes element data to a GDSII library file.
  *
  * gds_write_element(gf, data, uu_to_dbu, bcompound);
  *

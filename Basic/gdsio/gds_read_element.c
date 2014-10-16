@@ -1,9 +1,9 @@
 /*
- * Part of the GDS II toolbox for Octave & MATLAB
+ * Part of the GDSII toolbox for Octave & MATLAB
  * Copyright (c) 2012- 2013, Ulf Griesmann
  *
  * Description:
- * Reads element data from a GDS II library file.
+ * Reads element data from a GDSII library file.
  *
  * [data] = gds_read_element(gf, rtype, dbu_to_uu);
  *

@@ -19,7 +19,7 @@ function [gf] = gds_initialize(fname, uunit, dbunit, lname, reflibs, fonts);
 %
 
 % Initial version: Ulf Griesmann, NIST, January 2008
-% Changed GDS II version number from 3 to 7. Ulf Griesmann, Feb. 2011
+% Changed GDSII version number from 3 to 7. Ulf Griesmann, Feb. 2011
 % changed user unit to "real" unit in m. Ulf Griesmann, Oct. 2011
 % accept library name as an additional argument. U. Griesmann,
 % Jan. 2012

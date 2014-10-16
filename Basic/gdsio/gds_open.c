@@ -1,9 +1,9 @@
 /*
- * Part of the GDS II toolbox for Octave & MATLAB
+ * Part of the GDSII toolbox for Octave & MATLAB
  * Copyright (c) 2012, Ulf Griesmann
  *
  * Description:
- * Opens a GDS II library file for reading or writing.
+ * Opens a GDSII library file for reading or writing.
  * 
  * [gf,size] = gds_open(name, mode);
  *

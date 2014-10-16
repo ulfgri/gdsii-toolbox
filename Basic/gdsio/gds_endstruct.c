@@ -1,9 +1,9 @@
 /*
- * Part of the GDS II toolbox for Octave & MATLAB
+ * Part of the GDSII toolbox for Octave & MATLAB
  * Copyright (c) 2012, Ulf Griesmann
  *
  * Description:
- * Writes an ENDSTR record to a GDS II library file.
+ * Writes an ENDSTR record to a GDSII library file.
  * 
  * gds_endstruct(gf);
  *

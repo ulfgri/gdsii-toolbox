@@ -17,7 +17,7 @@ function write_gds_library(glib, fname, varargin);
 %                 .cgds containing compound elements is created. Compound
 %                 elements are stored with multiple XY records per
 %                 element. They are not compatible with other software for
-%                 processing GDS II layout files.  Default is 0.
+%                 processing GDSII layout files.  Default is 0.
 %
 
 % Ulf Griesmann, NIST, November 2011

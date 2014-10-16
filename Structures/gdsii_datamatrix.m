@@ -41,7 +41,7 @@ if isempty(layer), layer = 1; end
 DM = datamatrixmex(str)';  % comes from C, must be transposed
 DM = DM(end:-1:1,:);       % first line is at the top
 
-% convert Datamatrix to a GDS II structure
+% convert Datamatrix to a GDSII structure
 pix.height  = height/size(DM,1);  % edge length of pixel
 pix.width   = height/size(DM,1);  % pixel width is same as height
 dms = gdsii_bitmap(DM, pix, sname, layer);

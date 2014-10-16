@@ -1,9 +1,9 @@
 /*
- * Part of the GDS II toolbox for Octave & MATLAB
+ * Part of the GDSII toolbox for Octave & MATLAB
  * Copyright (c) 2012, Ulf Griesmann
  *
  * Description:
- * Writes a structure header to a GDS II library file.
+ * Writes a structure header to a GDSII library file.
  * 
  * gds_beginstruct(gf, sname, cdate);
  *

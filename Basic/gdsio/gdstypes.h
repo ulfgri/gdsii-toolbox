@@ -1,5 +1,5 @@
 /*
- * Part of the GDS II toolbox for Octave & MATLAB
+ * Part of the GDSII toolbox for Octave & MATLAB
  * Copyright (c) 2013, Ulf Griesmann
  *
  * Description:
@@ -12,7 +12,7 @@
 #include <stdint.h>
 
 
-/*--- GDS II record IDs ------------------------------*/
+/*--- GDSII record IDs -------------------------------*/
 /*                                                    */
 /*    record id -------+ +---------- data type        */
 /*                     | |                            */

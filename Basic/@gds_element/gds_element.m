@@ -2,11 +2,11 @@ function gelm = gds_element(etype, varargin);
 %function gelm = gds_element(etype, varargin);
 %
 % gds_element :  Constructor for the GDS element class. It creates the 
-%                elements of a GDS II layout: boundary, box, path, text, 
+%                elements of a GDSII layout: boundary, box, path, text, 
 %                node, structure reference (sref), and array reference (aref).
 %
 % gelm :       element object created by the constructor
-% etype :      a string with one of the GDS II elements: boundary,
+% etype :      a string with one of the GDSII elements: boundary,
 %              path, box, aref, sref, text, node. 
 % varargin :   EITHER a list of property, value pairs
 %              OR a structure with ALL element properties - no

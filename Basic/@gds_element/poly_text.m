@@ -10,7 +10,7 @@ function belm = poly_text(telm, height);
 %
 % NOTE:
 % -----
-% GDS II text elements are not designed to be rendered as polygons.
+% GDSII text elements are not designed to be rendered as polygons.
 % They appear to have originally been intended for drawning by a
 % plotter device. The height property of text elements (not in the
 % GDS definition !) is used to size the text elements for rendering

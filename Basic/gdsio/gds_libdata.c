@@ -1,9 +1,9 @@
 /*
- * Part of the GDS II toolbox for Octave & MATLAB
+ * Part of the GDSII toolbox for Octave & MATLAB
  * Copyright (c) 2012, Ulf Griesmann
  *
  * Description:
- * Reads library header data from a GDS II library file.
+ * Reads library header data from a GDSII library file.
  * 
  * [ldata] = gds_libdata(gf);
  *

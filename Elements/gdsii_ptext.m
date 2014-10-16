@@ -364,7 +364,7 @@ return
 
 %
 % The following function is copied from the NIST Optics Toolbox
-% to make the GDS II toolbox self contained
+% to make the GDSII toolbox self contained
 %
 
 function [mpos] = poly_rotz(mp, ang)

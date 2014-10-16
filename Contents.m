@@ -1,11 +1,11 @@
-% Octave & MATLAB Toolbox for GDS II libraries
-% --------------------------------------------
+% Octave & MATLAB Toolbox for GDSII libraries
+% -------------------------------------------
 %
 % The functions in this toolbox are used to generate layout databases
-% for direct write lithography tools in GDS II format. They are
+% for direct write lithography tools in GDSII format. They are
 % particularly useful when a layout is the result of a calculation.
 % Matlab / Octave can then be used as a macro language for writing the
-% layout. Most functionality of the GDS II format (elements,
+% layout. Most functionality of the GDSII format (elements,
 % structures) is supported with the exception of some arcane corners.
 %
 % The functions and methods of the toolbox are grouped in the
@@ -13,8 +13,8 @@
 %
 % Basic/
 %    Contains basic functions for writing and reading records,
-%    elements, structures, and libraries in GDS II format. Also
-%    contains the object framework for creating and GDS II
+%    elements, structures, and libraries in GDSII format. Also
+%    contains the object framework for creating and GDSII
 %    libraries.
 %
 % Elements/
@@ -62,7 +62,7 @@
 % Layout viewer and editor (highly recommended !):
 % http://www.klayout.de
 % 
-% LayoutEditor for inspecting and editing of GDS II files:
+% LayoutEditor for inspecting and editing of GDSII files:
 % http://www.layouteditor.net
 %
 % This software is in the Public Domain, with the exception of the mex

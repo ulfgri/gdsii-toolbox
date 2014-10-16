@@ -1,7 +1,7 @@
-% Classes and Methods for GDS II 
-% ==============================
+% Classes and Methods for GDSII 
+% =============================
 %
-% GDS II libraries (files) consist of elements of the types boundary,
+% GDSII libraries (files) consist of elements of the types boundary,
 % sref, aref, path, node, box, and text, that are grouped into
 % structures (sometimes called cells). The structures are combined
 % into libries that describe a layout.

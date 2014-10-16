@@ -2,12 +2,12 @@ function [glib] = read_gds_library(gdsname, verbose, hdronly);
 %function [glib] = read_gds_library(gdsname, verbose, hdronly);
 %
 % read_gds_library :  
-%        Reads a GDS II file and returns its structures
+%        Reads a GDSII file and returns its structures
 %        and elements as a gds_library object. Can also be 
 %        used to read and display the header portion of a 
-%        GDS II file.
+%        GDSII file.
 %
-% gdsname :  name of a GDS II file to read (with or without .gds extension).
+% gdsname :  name of a GDSII file to read (with or without .gds extension).
 % verbose :  when > 0, print out information about the file and
 %            structure names during reading. Default is 0 (quiet).
 % hdronly :  when > 0, only the header information will be displayed and 

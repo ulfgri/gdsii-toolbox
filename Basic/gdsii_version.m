@@ -29,8 +29,8 @@ lsw_ver = [interpreter, ' ',version];
 if nargout == 0
 
    fprintf('\n-----------------------------------------------------\n');
-   fprintf('Interpreter version    : %s\n', lsw_ver);
-   fprintf('GDS II Toolbox version : %s\n', ltb_ver);
+   fprintf('Interpreter version   : %s\n', lsw_ver);
+   fprintf('GDSII Toolbox version : %s\n', ltb_ver);
    fprintf('-----------------------------------------------------\n\n');
 
 else

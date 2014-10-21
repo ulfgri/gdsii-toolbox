@@ -13,7 +13,7 @@ function [gs] = gdsii_grating(name, pos, pitch, duty, width, height, ang, layer)
 % width  : (Optional) width of the grating in user units. Default is 10000.
 % height : (Optional) height of the grating in user units. Default
 %          is 10000.
-% ang    : (Optional) rotation angle in radians. Default is 0.
+% ang    : (Optional) rotation angle in degrees. Default is 0.
 % layer  : (Optional) layer to which the structure is
 %          written. Default is 1.
 % gs     : a cell array of gds_structure objects. 
@@ -26,20 +26,20 @@ global gdsii_uunit;
 global gdsii_dbunit;
 
 % check arguments
-if nargin < 8, layer = []; end;
-if nargin < 7, ang = []; end;
-if nargin < 6, height = []; end;
-if nargin < 5, width = []; end;
-if nargin < 4, duty = []; end; 
-if nargin < 3, error('gdsii_grating :  too few arguments.'); end;
+if nargin < 8, layer = []; end
+if nargin < 7, ang = []; end
+if nargin < 6, height = []; end
+if nargin < 5, width = []; end
+if nargin < 4, duty = []; end 
+if nargin < 3, error('gdsii_grating :  too few arguments.'); end
 
-if isempty(layer), layer = 1; end;
-if isempty(duty), duty = 0.5; end;
-if isempty(width), width = 10000; end;
-if isempty(height), height = 10000; end;
-if isempty(ang), ang = 0; end;
-if isempty(name), name = 'GRATING'; end;
-if isempty(pos), pos = [0,0]; end;
+if isempty(layer), layer = 1; end
+if isempty(duty), duty = 0.5; end
+if isempty(width), width = 10000; end
+if isempty(height), height = 10000; end
+if isempty(ang), ang = 0; end
+if isempty(name), name = 'GRATING'; end
+if isempty(pos), pos = [0,0]; end
 
 % create a structure containing a boundary element describing a grating line
 xy = [0,0; ...
@@ -59,7 +59,7 @@ repe = gds_element('aref', 'sname',[name,'_LINE'], 'xy',arc, 'adim',adim);
 reps = gds_structure(['REP_',name,'_LINE'], repe);
 
 % move the grating to its final location
-strans.angle = 180 * ang / pi;
+strans.angle = ang;
 srel = gds_element('sref', 'sname',['REP_',name,'_LINE'], 'xy',pos, 'strans',strans);
 srst = gds_structure(name, srel);
 

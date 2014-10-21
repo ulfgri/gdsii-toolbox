@@ -12,8 +12,6 @@ function [bl, width] = gdsii_ptext(str, pos, height, layer, ang);
 % layer :  (Optional) layer on which to draw the string. Default is 1.
 % ang   :  (Optional) rotate text by angle 'ang' around the bottom
 %          left corner of the textbox. 'ang' must be in radians.
-% noel  :  (Optional) if ~= 0, return the text as a cell array of polygons 
-%          instead of a gds_element object. Default is 0. 
 %
 % bl    :  a compound gds_element object (boundaries)
 % width :  (Optional) Width of the string in the same units as height

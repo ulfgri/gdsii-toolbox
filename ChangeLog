@@ -1,3 +1,10 @@
+2014-October-20, Ulf Griesmann
+- fix help text of gdsii_ptext.m; argument 'noel' no longer
+  exists.
+- eliminate omakemex.m; makemex.m is also used on Octave/Windows
+- rotation angle in degrees in 'gdsii_grating.m'.
+
+
 2014-September-27, Ulf Griesmann
 - version 118d
 - final version before git version control.

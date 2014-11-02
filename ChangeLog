@@ -3,7 +3,7 @@
   exists.
 - eliminate omakemex.m; makemex.m is also used on Octave/Windows
 - rotation angle in degrees in 'gdsii_grating.m'.
-
+- replace gdsint --> intmax_t
 
 2014-September-27, Ulf Griesmann
 - version 118d

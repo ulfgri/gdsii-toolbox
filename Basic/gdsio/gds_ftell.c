@@ -14,6 +14,7 @@
  */
 
 #include <stdio.h>
+#include <stdint.h>
 #include "gdsio.h"
 #include "mex.h"
 #include "mexfuncs.h"
@@ -25,7 +26,7 @@ mexFunction(int nlhs, mxArray *plhs[],
 	    int nrhs, const mxArray *prhs[])
 {
    FILE *fob;         /* file object pointer */
-   gdsint pos;
+   intmax_t pos;
    double *pd;
 
    /* 

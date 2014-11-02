@@ -15,19 +15,6 @@
 #include <stdint.h>
 #include "gdstypes.h"
 
-/*
- * define an integer type that has sizeof(gdsint) == 32 on 32 bit
- * Windows and Linux and sizeof(gdsint) == 64 on 64 bit Windows and
- * Linux. This atrocity is necessary because long int is only 32 bits
- * wide on 64 bit Windows.
- */
-#if UINTPTR_MAX == 0xffffffff            /* we are on 32 bit */
-   typedef long int gdsint;
-#elif UINTPTR_MAX == 0xffffffffffffffff  /* we are on 64 bit */
-   typedef long long int gdsint;
-#else
-   "Get me out of here."
-#endif
 
 /* error codes */
 typedef enum {A_OK = 0,

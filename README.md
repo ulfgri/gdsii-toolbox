@@ -2,7 +2,7 @@
 Octave / MATLAB Toolbox for GDSII Stream Format
 ===============================================
 
-Ulf Griesmann, NIST, 2008 - 2014 
+Ulf Griesmann, NIST, 2008 - 2015 
 ulf.griesmann@nist.gov, ulfgri@gmail.com
 
 
@@ -34,7 +34,7 @@ Additional documentation is available on:
 https://sites.google.com/site/ulfgri/numerical/gdsii-toolbox
 
 in a tutorial: GDSII_for_the_Rest_of_Us-<date>.pdf
-The file gdsii_docs-<nn>.zip contains definitions of the GDS II file
+The file gdsii_docs-<nn>.zip contains definitions of the GDSII file
 format and example scripts for the toolbox. 
 
 
@@ -44,8 +44,8 @@ Toolbox functions are grouped into the following directories:
 
 Basic:
     Contains the low level functions for reading and writing
-    of files in GDS II stream format and defines objects and
-    methods for working with GDS II layouts.
+    of files in GDSII stream format and defines objects and
+    methods for working with GDSII layouts.
 
 Elements:
     Contains functions that return gds_element objects.
@@ -54,7 +54,7 @@ Structures:
     Contains functions that return gds_structure objects
 
 Boolean: 
-    The GDS II toolbox contains a method that performs boolean
+    The GDSII toolbox contains a method that performs boolean
     set operations on boundary elements. This is described in more
     detail in the file: README-Boolean / README-Boolean.pdf
 
@@ -89,7 +89,7 @@ at the MATLAB/Octave command prompt.
 
 Useful Stuff
 ============
-Very good viewer and editor for GDS II files: http://www.klayout.de
+Very good viewer and editor for GDSII files: http://www.klayout.de
 
 
 Help

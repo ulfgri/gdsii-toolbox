@@ -3,7 +3,7 @@
 %
 
 % don't run on Linux or unix
-if isunix
+if isunix && (exist('OCTAVE_VERSION')==5)
     fprintf('\n>>>\n');
     fprintf('>>> Use makemex-octave shell script to compile mex functions in Linux\n');
     fprintf('>>>\n\n');

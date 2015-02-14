@@ -13,18 +13,18 @@ function [ts] = topstruct(cas, bcell);
 
 % Initial version, Ulf Griesmann, December 2012
 
-% check arguments
-if nargin < 2, bcell = []; end
+    % check arguments
+    if nargin < 2, bcell = []; end
 
-if isempty(bcell), bcell = 0; end
+    if isempty(bcell), bcell = 0; end
 
-% calculate the adjacency matrix of the structure tree
-[A,N] = adjmatrix(cas);
+    % calculate the adjacency matrix of the structure tree
+    [A,N] = adjmatrix(cas);
 
-% find top level structure name(s)
-ts = N(find(sum(A)==0));
-if length(ts) == 1 && ~bcell
-  ts = ts{1}; 
+    % find top level structure name(s)
+    ts = N(find(sum(A)==0));
+    if length(ts) == 1 && ~bcell
+        ts = ts{1}; 
+    end
+
 end
-
-return

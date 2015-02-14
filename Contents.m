@@ -1,12 +1,13 @@
 % Octave & MATLAB Toolbox for GDSII libraries
-% -------------------------------------------
+% --------------------------------------------
 %
 % The functions in this toolbox are used to generate layout databases
 % for direct write lithography tools in GDSII format. They are
 % particularly useful when a layout is the result of a calculation.
 % Matlab / Octave can then be used as a macro language for writing the
 % layout. Most functionality of the GDSII format (elements,
-% structures) is supported with the exception of some arcane corners.
+% structures) is supported with the exception of some arcane or 
+% obsolete corners.
 %
 % The functions and methods of the toolbox are grouped in the
 % following directories:
@@ -14,8 +15,7 @@
 % Basic/
 %    Contains basic functions for writing and reading records,
 %    elements, structures, and libraries in GDSII format. Also
-%    contains the object framework for creating and GDSII
-%    libraries.
+%    contains the object framework for creating GDSII libraries.
 %
 % Elements/
 %    Contains higher level functions that return gds_element
@@ -42,13 +42,7 @@
 %
 % >>  makemex
 %
-% at the MATLAB command prompt. 
-% 
-% In Octave for Windows, the command
-%
-% >> omakemex
-%
-% must be used instead.
+% at the command prompt of MATLAB or Octave (under Windows).  
 % 
 % In Linux/Unix the MEX functions are best compiled by running
 %
@@ -59,16 +53,13 @@
 %
 % Useful Stuff:
 % -------------
-% Layout viewer and editor (highly recommended !):
+% KLayout layout viewer and editor (highly recommended !):
 % http://www.klayout.de
 % 
-% LayoutEditor for inspecting and editing of GDSII files:
-% http://www.layouteditor.net
-%
 % This software is in the Public Domain, with the exception of the mex
 % function for DataMatrix creation, which is under the GNU GPL version
 % 2., and the functions for Booean set operations.
 %
-% Ulf Griesmann, NIST, 2008 - 2014
+% Ulf Griesmann, NIST, 2008 - 2015
 % -------------------------------------------------------
 

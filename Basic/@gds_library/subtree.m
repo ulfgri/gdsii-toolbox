@@ -1,20 +1,31 @@
-function [cas] = subtree(glib, sname);
-%function [cas] = subtree(glib, sname);
+function [cas,si] = subtree(glib, sname)
+%function [cas,si] = subtree(glib, sname)
 %
-% subtree: a method that returns a cell array of
-%             gds_structure objects that form a sub-tree 
-%             of structures in a library with a user
-%             specified structure as its top level.
+% subtree :  a method that returns a cell array of
+%            gds_structure objects that form a sub-tree 
+%            of structures in a library with a user
+%            specified structure as its top level.
 %
 % Input:
 % glib :   input gds_library object
 % sname :  name of the subtree top structure
 %
 % Output:
-% cas :    cell array of gds_structure objects 
+% cas :    cell array of gds_structure objects
+% si :     vector with indices of gds_structure objects 
+%          in the library. This is useful e.g. for pruning
+%          a subtree.
 
 % Initial version, Ulf Griesmann, February 2015
 
+    % check input argument
+    if nargin < 2
+        error('Structure name argument is missing.');
+    end
+    if ~ischar(sname)
+        error('Structure name argument is not a character string.');
+    end
+    
     % indices of structures in subtree
     subtree_ind = [];
 
@@ -29,7 +40,8 @@ function [cas] = subtree(glib, sname);
 
     % find the indices of all children
     find_children(A, stri);
-    cas = glib.st(sort(unique(subtree_ind)));
+    si = sort(unique(subtree_ind));
+    cas = glib.st(si);
 
     function find_children(A, pai);
       %

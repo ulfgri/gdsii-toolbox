@@ -46,7 +46,7 @@ mexFunction(int nlhs, mxArray *plhs[],
    /* get property string */
    mxGetString(prhs[1], pstr, PS_LEN);
 
-   /* decode property argument using the hash function in prop_hash.h */
+   /* decode property argument using the hash function in get_prop_hash.h */
    pk = (struct keyword *)in_word_set(pstr, strlen(pstr));
    if (pk == NULL) {
       sprintf(errmsg, "has_property :  not a known optional property: %s.", pstr);

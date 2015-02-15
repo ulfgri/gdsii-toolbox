@@ -1,3 +1,7 @@
+2015-X-X, Ulf Griesmann
+- @gds_library/subtree.m returns a cell array of gds_structure
+  objects.
+
 2014-October-20, Ulf Griesmann
 - fix help text of gdsii_ptext.m; argument 'noel' no longer
   exists.

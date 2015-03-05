@@ -25,7 +25,7 @@ function [olib] = add_struct(ilib, varargin);
           if ~all(cellfun(@(x)isa(x,'gds_structure'), S))
              error('gds_library.add_struct :  input cell array member is not a gds_structure.');
           end
-          olib.st = [olib.st, S]; 
+          olib.st = [ilib.st, S(:)']; % make row vector 
        else
           error('gds_library.add_struct : arguments must be gds_structures or cell arrays.');
        end 

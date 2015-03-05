@@ -11,7 +11,7 @@ function [bl, width] = gdsii_ptext(str, pos, height, layer, ang);
 % height:  height of the character box in user coordinates
 % layer :  (Optional) layer on which to draw the string. Default is 1.
 % ang   :  (Optional) rotate text by angle 'ang' around the bottom
-%          left corner of the textbox. 'ang' must be in radians.
+%          left corner of the textbox. 'ang' must be in degrees.
 %
 % bl    :  a compound gds_element object (boundaries)
 % width :  (Optional) Width of the string in the same units as height
@@ -70,6 +70,7 @@ end
 
 if isempty(layer), layer = 1; end;
 if isempty(ang), ang = 0; end;
+ang = pi*ang/180;            % radians needed below
 
 spac = 0.15;                 % symbol spacing
 

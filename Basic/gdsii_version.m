@@ -16,8 +16,8 @@ function [tb_ver, sw_ver] = gdsii_version;
 %
 
 % toolbox version and version date
-tb_version = '118d';
-tb_date = '2014-September-27';
+tb_version = '119';
+tb_date = '2015-March-06';
 ltb_ver = [tb_version, '  (', tb_date, ')'];
 if exist('OCTAVE_VERSION')
     interpreter = 'Octave';

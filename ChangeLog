@@ -1,6 +1,13 @@
-2015-X-X, Ulf Griesmann
+2015-March-05, Ulf Griesmann
+- version 119
 - @gds_library/subtree.m returns a cell array of gds_structure
   objects.
+- made methods @gds_structure/add_element.m and
+  @gds_library/add_struct.m more robust. Now handles
+  row and column vectors of elements or structures
+  correctly.
+- angle argument in gdsii_ptext.m is now specified in degrees
+  instead of radians, because we use degrees throughout the toolbox.
 
 2014-October-20, Ulf Griesmann
 - fix help text of gdsii_ptext.m; argument 'noel' no longer

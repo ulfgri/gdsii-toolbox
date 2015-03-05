@@ -1,5 +1,5 @@
 2015-March-05, Ulf Griesmann
-- version 119
+- version 120
 - @gds_library/subtree.m returns a cell array of gds_structure
   objects.
 - made methods @gds_structure/add_element.m and

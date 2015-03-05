@@ -15,7 +15,9 @@
 % gdsii_sierpinski  - return a Sierpinski fractal.
 % gdsii_checky      - return a nested checker pattern for 
 %                     lithography test exposures.
+% gdsii_zonelens    - returns a layout consisting of concentric
+%                     rings (e.g. a zone lens).
 %
-% Ulf Griesmann, NIST, 2008 - 2013
+% Ulf Griesmann, NIST, 2008 - 2015
 % -------------------------------------------------------
 

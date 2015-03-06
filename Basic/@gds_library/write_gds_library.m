@@ -19,6 +19,11 @@ function write_gds_library(glib, fname, varargin);
 %                 element. They are not compatible with other software for
 %                 processing GDSII layout files.  Default is 0.
 %
+%             unique : when == 1, the function checks if all
+%                 structure names in the library are unique. This
+%                 option allows the check to be turned off because
+%                 it can be slow. Default is 1 (check uniqueness). 
+%
 
 % Ulf Griesmann, NIST, November 2011
 
@@ -35,6 +40,7 @@ end
 % defaults
 verbose = 1;
 compound = 0;
+uniq = 1;
 
 % process varargin
 if ~isempty(varargin)
@@ -46,6 +52,8 @@ if ~isempty(varargin)
             verbose = valu;
          case 'compound'
             compound = valu;
+         case 'unique'
+            uniq = valu;
          otherwise
             error(sprintf('unknown property --> %s\n', prop));
       end
@@ -57,10 +65,12 @@ if strcmp(fname(end-4:end),'.cgds')
    compound = 1;
 end
 
-% check if all structure names are unique
-N = cellfun(@(x)sname(x), glib.st, 'UniformOutput',0); % structure names
-if length(N) ~= length(unique(N))
-   error('write_gds_library :  structure names are not unique.');
+% check if all structure names are unique if option selected
+if uniq
+    N = cellfun(@(x)sname(x), glib.st, 'UniformOutput',0); % structure names
+    if length(N) ~= length(unique(N))
+        error('write_gds_library :  structure names are not unique.');
+    end
 end
 
 if verbose

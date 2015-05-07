@@ -1,6 +1,16 @@
 2015 March 08, Ulf Griesmann
 - version 122
-
+- corrected error messages in Structures/gdsii_multref.m
+- fixed the messages warning about undefined units in overloaded
+  operators for the @gds_element class.
+- In @gds_library/write_gds_library.m make it an option to turn off
+  the check for uniqueness of structure names because the test can be
+  time consuming when there are many structures.
+- updated version of Clipper library to 6.2.1
+- new function Structures/gdsii_zonelens.m to generate layouts
+  consisting of nested concentric rings.
+- tweak to Elements/gdsii_arc.m
+      
 2015-March-05, Ulf Griesmann
 - version 120
 - @gds_library/subtree.m returns a cell array of gds_structure

@@ -1,5 +1,5 @@
-function [cet, width] = gdsii_pathtext(str, pos, height, ang, pwidth, ptype, layer, dtype)
-%function [cet, width] = gdsii_pathtext(str, pos, height, ang, pwidth, ptype, layer, dtype)
+function [cet, width] = gdsii_pathtext(str, pos, height, ang, pwidth, ptype, ext, layer, dtype)
+%function [cet, width] = gdsii_pathtext(str, pos, height, ang, pwidth, ptype, ext, layer, dtype)
 %
 % gdsii_pathtext : renders a text with characters using path elements
 %
@@ -16,6 +16,10 @@ function [cet, width] = gdsii_pathtext(str, pos, height, ang, pwidth, ptype, lay
 % ptype :  (Optional) path type to be used (see 'gds_element' constructor).
 %          Options are 0,1,2,4. Default is 0. 
 %          Only used for path elements.
+% ext :    (Optional) a structure with path extensions for path type 4.
+%                ext.beg : extension at the beginning of the path
+%                ext.end : extension at the end.
+%          Default: ext = struct('beg',0,'end',0);
 % layer :  (Optional) layer on which to draw the string. Default is 1.
 % dtype :  (Optional) data type. Default is 0.
 %
@@ -67,8 +71,9 @@ function [cet, width] = gdsii_pathtext(str, pos, height, ang, pwidth, ptype, lay
     persistent gdsii_fst;   % symbol table
 
     % check arguments
-    if nargin < 8, dtype = []; end
-    if nargin < 7, layer = []; end
+    if nargin < 9, dtype = []; end
+    if nargin < 8, layer = []; end
+    if nargin < 7, ext = []; end
     if nargin < 6, ptype = []; end
     if nargin < 5, pwidth = []; end 
     if nargin < 4, ang = []; end
@@ -79,6 +84,7 @@ function [cet, width] = gdsii_pathtext(str, pos, height, ang, pwidth, ptype, lay
     % fill in default argument values
     if isempty(ptype), ptype = 0; end
     if isempty(pwidth), pwidth = 0.1*height; end
+    if isempty(ext), ext = struct('beg',0,'end',0); end
     if isempty(layer), layer = 1; end
     if isempty(dtype), dtype = 0; end
     if isempty(ang), ang = 0; end;
@@ -132,7 +138,7 @@ function [cet, width] = gdsii_pathtext(str, pos, height, ang, pwidth, ptype, lay
 
     % return the data
     cet = gds_element('path', 'xy',lbl, 'layer',layer, 'dtype',dtype, ...
-                      'width',pwidth, 'ptype',ptype);
+                      'width',pwidth, 'ptype',ptype, 'ext',ext);
     width = lwid;
 
 end

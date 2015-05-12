@@ -1,3 +1,9 @@
+2015 May 11, Ulf Griesmann
+- version 123
+- new function 'Elements/gdsii_pathtext.m' the renders a string
+  with path elements (this was suggested by 'ehud42').
+- renamed function 'Elements/gdsii_ptext.m' --> gdsii_boundarytext.m
+
 2015 March 08, Ulf Griesmann
 - version 122
 - corrected error messages in Structures/gdsii_multref.m

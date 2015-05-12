@@ -153,8 +153,7 @@ function [L] = path_glyph_table
 % while working at the U. S. National Bureau of Standards (now NIST).
 %
 % Every symbol consists of a glyph, a cell array of nx2 matrices containing
-% path vertics, and the width of the symbol.
-% The height of all symbols is scaled to 1. 
+% path vertics, and the width of the symbol. The height of all symbols is scaled to 1. 
 %
 % Indices:
 % ASCII characters from 32 to 126 and 127 for Greek mu

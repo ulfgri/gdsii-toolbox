@@ -1,3 +1,7 @@
+
+- make it possible to delete gds_structure objects from libraries
+  and gds_elements from structures.
+
 2015 May 11, Ulf Griesmann
 - version 123
 - new function 'Elements/gdsii_pathtext.m' the renders a string

@@ -15,7 +15,11 @@ function gstruc = subsasgn(gstruc, ins, val);
   
     case '()'
        idx = ins.subs{:};
-       gstruc.el{idx} = val;
+       if isempty(val)
+          gstruc.el(idx) = val;
+       else
+          gstruc.el{idx} = val;
+       end
 
     case '.'
        if strcmp(ins.subs, 'sname') || strcmp(ins.subs, 'cdate') || strcmp(ins.subs, 'mdate')

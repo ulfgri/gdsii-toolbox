@@ -17,7 +17,7 @@ switch ins.type
     idx = ins.subs{:};
     if isa(val, 'gds_structure')
        glib.st{idx} = val;
-    elseif iscell(val)
+    elseif iscell(val) || isempty(val)
        glib.st(idx) = val;
     else
        error('gds_library.subsasgn :  rhs. must be gds_structure or cell array.');

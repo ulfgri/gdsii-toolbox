@@ -1,4 +1,5 @@
-
+2015-June-07, Ulf Griesmann
+- version 124
 - make it possible to delete gds_structure objects from libraries
   and gds_elements from structures.
 

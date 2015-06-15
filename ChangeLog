@@ -1,3 +1,9 @@
+2015-June-15, Ulf Griesmann
+- version 125
+- fixed a bug in 'gdsii_ptext.m'.
+- replaced calls to obsolete 'gdsii_ptext.m' with
+  'gdsii_boundarytext.m' in several functions. 
+
 2015-June-07, Ulf Griesmann
 - version 124
 - make it possible to delete gds_structure objects from libraries

@@ -107,7 +107,7 @@ pat = gds_element('sref', 'sname', 'CD_FEATURE_PATTERN', ...
 % combine it with the size label
 lpos = pos + scale * [13,14];
 lhei = scale * 10;
-txt = gdsii_ptext(label, cf*lpos, cf*lhei, layer);
+txt = gdsii_boundarytext(label, cf*lpos, cf*lhei, 0, layer);
 
 % return the list of elements
 cae = {pat, txt};

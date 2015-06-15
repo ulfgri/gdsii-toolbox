@@ -21,6 +21,12 @@ function [bl, width] = gdsii_ptext(str, pos, height, layer, ang);
 % NOTE: This function was superseded by 'gdsii_boundarytext.m'
 % ------------------------------------------------------------
 
+    if nargin < 5, ang = 0; end
+    if nargin < 4, layer = 1; end
+    if nargin < 3
+        error('gdsii_ptext: at least three input arguments are required.');
+    end
+    
     [bl,width] = gdsii_boundarytext(str,pos,height,ang,layer,0);
 
 end

@@ -117,10 +117,10 @@ while cwid < maxel
       labelname = sprintf('CHECKYLBL_%d', level-1);
       labelheight = fmt.scale * cwid;
       label = sprintf(fmt.str, cwid);
-      [lblxy, labelwidth] = gdsii_ptext(label, [0,0], labelheight, layer);
+      [lblxy, labelwidth] = gdsii_boundarytext(label, [0,0], labelheight, 0, layer);
       if labelwidth > 0.8*cwid  % scale down to fit in width
          labelheight = (0.8*cwid / labelwidth) * cwid / 5;
-         [lblxy, labelwidth] = gdsii_ptext(label, [0,0], labelheight, layer);
+         [lblxy, labelwidth] = gdsii_boundarytext(label, [0,0], labelheight, 0, layer);
       end
       chp{end+1} = gds_structure(labelname, lblxy);
    end

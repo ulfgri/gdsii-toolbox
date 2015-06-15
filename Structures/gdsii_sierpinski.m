@@ -86,7 +86,7 @@ while cwid < maxel
    pname = sprintf('TRIANG_%d', level-1); % previous level name
    sre = gds_element('sref', 'sname',pname, 'xy',[[0,0;cwid,0];cwid*vt]);
    cwstr = sprintf('%.1f', cwid);    % width string
-   lbl = gdsii_ptext(cwstr, cwid*[0.625,0.725], 0.1*cwid, layer);
+   lbl = gdsii_boundarytext(cwstr, cwid*[0.625,0.725], 0.1*cwid, 0, layer);
    slist{end+1} = gds_structure(cname, sre, lbl);
    
    % next level

@@ -1,4 +1,10 @@
 
+- update '@gds_element/poly_text.m' method to allow rendering of text 
+  elements with either boundary or path elements.
+  
+- remove bugs on 64 bit Windows. Make sure everything works
+  with future MATLAB versions (all 64 bit integers)
+
 - delete_list: has a bug: NULL is not returned correctly
 
 - 'flatten' method for libraries to replace all sref and aref elements

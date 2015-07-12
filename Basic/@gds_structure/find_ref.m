@@ -10,10 +10,20 @@ function rnam = find_ref(gstruct);
 
 % Ulf Griesmann, NIST, November 2011
 
-   % find the reference elements
-   reidx = cellfun(@(x)is_ref(x), gstruct.el);
-
-   % and get their referenced structure names (need not be unique)
-   rnam = cellfun(@(x)x.sname, gstruct.el(reidx), 'UniformOutput',0);
+   % max. length of output cell array
+   nel = length(gstruct.el);
+   rnam = cell(1,nel);
+   
+   m = 0;
+   for k = 1:nel
+       E = gstruct.el{k};
+       if is_ref(E)
+           m = m + 1;
+           rnam{m} = E.sname;
+       end
+   end
+   
+   % truncate output array
+   rnam = rnam(1:m);
    
 end

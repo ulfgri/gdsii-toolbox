@@ -9,6 +9,6 @@ function [name] = sname(gstruc);
 
 % Ulf Griesmann, NIST, June 2011
 
-name = gstruc.sname;
+    name = gstruc.sname;
 
-return
+end

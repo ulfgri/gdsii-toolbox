@@ -7,6 +7,6 @@ function [is] = is_ref(gelm);
 % is :     1 if the element is 'sref' or 'aref' element
 %          0 otherwise
 
-is = isref(gelm.data.internal);
+    is = isref(gelm.data.internal);
 
-return
+end

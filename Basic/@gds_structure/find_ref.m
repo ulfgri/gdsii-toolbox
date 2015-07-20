@@ -19,7 +19,7 @@ function rnam = find_ref(gstruct);
        E = gstruct.el{k};
        if is_ref(E)
            m = m + 1;
-           rnam{m} = E.sname;
+           rnam{m} = sname(E);
        end
    end
    

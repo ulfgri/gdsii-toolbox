@@ -6,6 +6,6 @@ function [type] = etype(gelm);
 % gelm :   a GDS element
 % type :  a string with element type (boundary, path, node, ...)
 
-type = get_etype(gelm.data.internal);
+    type = get_etype(gelm.data.internal);
 
-return
+end

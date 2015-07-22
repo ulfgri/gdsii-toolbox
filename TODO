@@ -1,7 +1,4 @@
 
-- update '@gds_element/poly_text.m' method to allow rendering of text 
-  elements with either boundary or path elements.
-  
 - remove bugs on 64 bit Windows. Make sure everything works
   with future MATLAB versions (all 64 bit integers)
 
@@ -29,6 +26,9 @@
 
 ----------------------------------------------------------
 
+- update '@gds_element/poly_text.m' method to allow rendering of text 
+  elements with either boundary or path elements. (DONE)
+  
 - Define logical operators & and |, etc. for the gds_element class
   to perform Boolean algebra. (DONE)
 

@@ -1,5 +1,5 @@
-function gelms = find(gstruct, ffunc);
-%function gelms = find(gstruct, ffunc);
+function gelms = findel(gstruct, ffunc);
+%function gelms = findel(gstruct, ffunc);
 %
 % Find method for the gds_structure class. Can be used to find 
 % elements with specific properties.
@@ -14,11 +14,11 @@ function gelms = find(gstruct, ffunc);
 % 
 % Example:
 %
-%  gelms = find(gstruct, @(x) is_etype(x,'sref'));
+%  gelms = findel(gstruct, @(x) is_etype(x,'sref'));
 %
 % or:
 %
-%  gelms = find(gstruct, ...
+%  gelms = findel(gstruct, ...
 %               @(x)(is_etype(x,'sref')|is_etype(x,'aref')) );
 %
 % returns all sref (and aref) elements contained in structure gstruct.
@@ -26,11 +26,11 @@ function gelms = find(gstruct, ffunc);
 
 % Ulf Griesmann, NIST, November 2011
 
-if nargin < 2
-   error('gds_structure.find : missing argument.');
-end
+    if nargin < 2
+        error('gds_structure.find : missing argument.');
+    end
 
-% return all elements with desired property
-gelms = gstruct.el( cellfun(ffunc, gstruct.el) ~= 0 );
-  
-return  
+    % return all elements with desired property
+    gelms = gstruct.el( cellfun(ffunc, gstruct.el) ~= 0 );
+      
+end  

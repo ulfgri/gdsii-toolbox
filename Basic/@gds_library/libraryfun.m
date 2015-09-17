@@ -11,6 +11,6 @@ function [cout] = libraryfun(glib, func);
 
 % initial version, Ulf Griesmann, November 2011
 
-cout = cellfun(func, glib.st, 'UniformOutput',0);
+    cout = cellfun(func, glib.st, 'UniformOutput',0);
 
-return
+end

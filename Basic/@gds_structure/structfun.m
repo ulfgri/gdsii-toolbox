@@ -11,6 +11,6 @@ function [cout] = structfun(gstruc, func);
 
 % initial version, Ulf Griesmann, November 2011
 
-cout = cellfun(func, gstruc.el, 'UniformOutput',0);
+    cout = cellfun(func, gstruc.el, 'UniformOutput',0);
 
-return
+end

@@ -15,13 +15,13 @@ function write_structure(gstruc, gf, uunit, dbunit, compound);
 % Ulf Griesmann, NIST, November 2011
 % modified for new low-level I/O, Ulf Griesmann, January 2013
 
-% write a structure header
-gds_beginstruct(gf, gstruc.sname, gstruc.cdate);
+    % write a structure header
+    gds_beginstruct(gf, gstruc.sname, gstruc.cdate);
 
-% write all elements in the structure
-cellfun(@(x)write_element(x,gf,uunit,dbunit,compound), gstruc.el);
+    % write all elements in the structure
+    cellfun(@(x)write_element(x,gf,uunit,dbunit,compound), gstruc.el);
 
-% write an end structure record
-gds_endstruct(gf);
+    % write an end structure record
+    gds_endstruct(gf);
 
-return
+end

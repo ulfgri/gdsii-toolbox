@@ -12,7 +12,7 @@ function [cet, width] = gdsii_pathtext(str, pos, height, ang, pwidth, ptype, ext
 % ang   :  (Optional) rotate text by angle 'ang' around the bottom
 %          left corner of the textbox. 'ang' must be in degrees. Default 0.
 % pwidth : (Optional) path width when characters are rendered as paths.
-%          Default is 1/10 (10%) of the height.
+%          Default is 1/12 (12%) of the height.
 % ptype :  (Optional) path type to be used (see 'gds_element' constructor).
 %          Options are 0,1,2,4. Default is 0. 
 %          Only used for path elements.
@@ -83,7 +83,7 @@ function [cet, width] = gdsii_pathtext(str, pos, height, ang, pwidth, ptype, ext
     
     % fill in default argument values
     if isempty(ptype), ptype = 0; end
-    if isempty(pwidth), pwidth = 0.1*height; end
+    if isempty(pwidth), pwidth = 0.12*height; end
     if isempty(ext), ext = struct('beg',0,'end',0); end
     if isempty(layer), layer = 1; end
     if isempty(dtype), dtype = 0; end

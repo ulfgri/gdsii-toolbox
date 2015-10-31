@@ -10,11 +10,16 @@ data.internal = new_internal(etype);
 
 % parse the list of property / value pairs
 ipropval = {};
-for idx = 1:2:length(propval)
+lenp = numel(propval);
+for idx = 1:2:lenp
 
    % get next property/value pair
    elproperty = propval{idx};
-   elvalue = propval{idx+1};
+   try
+      elvalue = propval{idx+1};
+   catch
+      error('gds_element argument error: element data must be value/property pairs.');
+   end
    
    % check if property is stored outside the internal structure
    if ~isempty(elvalue)

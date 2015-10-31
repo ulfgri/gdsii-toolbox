@@ -66,10 +66,10 @@ end
 
 % units must be defined
 if isempty(gdsii_uunit) 
-   fprintf('\n  +-------------------- WARNING -----------------------+\n');
+   fprintf('\n  +---------- WARNING in gds_element.poly_bool --------+\n');
    fprintf('  | Units are not defined; setting uunit/dbunit = 1000.|\n'); 
    fprintf('  | Define units by creating the library object or     |\n'); 
-   fprintf('  | by calling gdsii_units.                            |\n'); 
+   fprintf('  | by first calling  gdsii_units.                     |\n'); 
    fprintf('  +----------------------------------------------------+\n\n');
    udf = 1000;
 else

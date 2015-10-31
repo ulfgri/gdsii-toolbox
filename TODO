@@ -12,6 +12,9 @@
 
 - mitering of paths with acute angles in 'poly_path.m'
 
+- make it possible to 'invert' a layout, i.e. subtract it from its
+  bounding box (difficult without support by the clipper library).
+
 - more scripts: gdsextract: extract structures from gds libraries
                 gdswindow:  extract data in a window
                 gdsfilter:  extract data by layer

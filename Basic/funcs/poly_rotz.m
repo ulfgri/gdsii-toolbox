@@ -4,7 +4,7 @@ function [mpos] = poly_rotz(mp, ang)
 % poly_rotz : transformation of points by rotation around the z-axis
 %
 % mpos : points to be transformed; one per row
-% ang  : angle around z
+% ang  : angle around the z-axis in radians
 
 % Taken from the NIST Optics Toolbox
 

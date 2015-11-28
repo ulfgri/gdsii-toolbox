@@ -15,15 +15,16 @@ function [gelm] = or(gelm1, gelm2)
    global gdsii_uunit;
 
    % units must be defined
-   if isempty(gdsii_uunit) 
-      fprintf('\n  +-------------------- WARNING -----------------------+\n');
-      fprintf('  | Units are not defined; setting uunit/dbunit = 1000.|\n'); 
-      fprintf('  | Define units by creating the library object or     |\n'); 
-      fprintf('  | by calling gdsii_units.                            |\n'); 
-      fprintf('  +----------------------------------------------------+\n\n');
-      udf = 1000;
+   if isempty(gdsii_uunit)
+       warning('undefined GDSII units');
+       fprintf('\n  +-------------------- WARNING -----------------------+\n');
+       fprintf('  | Units are not defined; setting uunit/dbunit = 1000.|\n'); 
+       fprintf('  | Define units by creating the library object or     |\n'); 
+       fprintf('  | by calling gdsii_units.                            |\n'); 
+       fprintf('  +----------------------------------------------------+\n');
+       udf = 1000;
    else
-      udf = gdsii_uunit;      % conversion factor to db units
+       udf = gdsii_uunit;      % conversion factor to db units
    end
 
    % check arguments

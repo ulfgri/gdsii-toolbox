@@ -47,7 +47,9 @@ function bbx = calc_bbox(xy)
     if len == 1      % one polygon is a common case; handle it directly 
         bbx = [min(xy{1}),max(xy{1})];
     else
-        for k=len:-1:1
+        L = zeros(len,2);
+        U = zeros(len,2);
+        for k = 1:len
             L(k,:) = min(xy{k});
             U(k,:) = max(xy{k});
         end

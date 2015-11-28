@@ -100,9 +100,9 @@ function gelm = gds_element(etype, varargin);
 %             -------------
 %                xy :    3 x 2 list of coordinates in user
 %                        units.
-%                          xy(1,:) :  origin
-%                          xy(2,:) :  lower right corner
-%                          xy(3,:) :  upper left corner
+%                          xy(1,:) :  origin (reference point)
+%                          xy(2,:) :  column spacing x number of columns
+%                          xy(3,:) :  row spacing x number of rows
 %                sname : Name of the referenced structure
 %                strans: strans record for transforming the
 %                        structure.
@@ -130,51 +130,51 @@ function gelm = gds_element(etype, varargin);
 
 % Initial version, Ulf Griesmann, NIST, June 2011
 
-% get element properties
-if isstruct(varargin{1})  % properties are from gds_read_element
+    % get element properties
+    if isstruct(varargin{1})  % properties are from gds_read_element
   
-   data = varargin{1};
+        data = varargin{1};
    
-else  % collect all arguments into a structure
+    else  % collect all arguments into a structure
 
-   if ~ischar(etype)
-      error('gds_element constructor:  first argument must be a string.');
-   end
-   
-   data = parse_element_data(etype, varargin);
+        if ~ischar(etype)
+            error('gds_element constructor:  first argument must be a string.');
+        end
+        
+        data = parse_element_data(etype, varargin);
+        
+    end
+    
+    % check critical element properties
+    if ~isfield(data, 'xy')
+        if isref(data.internal)
+            data.xy = [0,0];  % default [0,0] for reference elements
+        else
+            errmsg = sprintf('gds_element constructor: %s element missing xy data.', ...
+                             get_etype(data.internal));
+            error(errmsg); 
+        end
+    end
+    
+    switch get_etype(data.internal)
+        
+      case {'boundary', 'path'}
+        if ~iscell(data.xy) 
+            data.xy = {data.xy}; 
+        end
+        
+      case 'text'
+        if ~isfield(data, 'text')
+            error('gds_element constructor:  missing text field.'); 
+        end
+    end
 
+    % create the element object
+    % NOTE: each object of a class must have the same fields. Since the
+    % structure 'data' has a varying number of fields, e.g. 'text' is only present
+    % in text elements, we need to create an object 'elmo' that has 'data' as 
+    % its only field.
+    elmo.data = data;
+    gelm = class(elmo, 'gds_element');
+    
 end
-
-% check critical element properties
-if ~isfield(data, 'xy')
-   if isref(data.internal)
-      data.xy = [0,0];  % default [0,0] for reference elements
-   else
-      errmsg = sprintf('gds_element constructor: %s element missing xy data.', ...
-                       get_etype(data.internal));
-      error(errmsg); 
-   end
-end
-
-switch get_etype(data.internal)
-  
-   case {'boundary', 'path'}
-      if ~iscell(data.xy) 
-         data.xy = {data.xy}; 
-      end
-   
-   case 'text'
-      if ~isfield(data, 'text')
-         error('gds_element constructor:  missing text field.'); 
-      end
-end
-
-% create the element object
-% NOTE: each object of a class must have the same fields. Since the
-% structure 'data' has a varying number of fields, e.g. 'text' is only present
-% in text elements, we need to create an object 'elmo' that has 'data' as 
-% its only field.
-elmo.data = data;
-gelm = class(elmo, 'gds_element');
-
-return

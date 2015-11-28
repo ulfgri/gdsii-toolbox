@@ -9,6 +9,8 @@ function [mpos] = poly_rotzd(mp, angd)
 % Taken from the NIST Optics Toolbox
 
     ang = pi * angd / 180;
-    mpos = poly_rotz(mp, ang);
+    mpos = zeros(size(mp));
+    mpos(:,1) = cos(ang)*mp(:,1) - sin(ang)*mp(:,2);
+    mpos(:,2) = sin(ang)*mp(:,1) + cos(ang)*mp(:,2);
   
 end

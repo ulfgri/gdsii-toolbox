@@ -12,7 +12,7 @@ function [bbx] = bbox_tree(cas)
 
 % Initial version, Ulf Griesmann, November 2015
     
-    % pre-calculate boundary boxes before resolving the hierarchy
+    % calculate boundary boxes before resolving the hierarchy
     % to minimize computations especially for leaf nodes 
     caslen = length(cas);
     bbdata = repmat(struct('bbox',[Inf,Inf,-Inf,-Inf], ...
@@ -22,13 +22,13 @@ function [bbx] = bbox_tree(cas)
     end
 
     % find top level structure(s) - they have no parents
-    [A,N] = adjmatrix(cas);
-    sti = find(sum(A)==0);  % top parent index (or indices)
+    A = adjmatrix(cas);
+    T = find(sum(A)==0);    % array with top parent indices
     
-    % calculate bounding boxes of top level structures
-    bbst = zeros(length(sti),4);
-    for k=1:length(sti)
-        bbst(k,:) = bbox_struct(N, bbdata, sti(k)); 
+    % calculate bounding boxes of all top level structures
+    bbst = zeros(length(T),4);
+    for k=1:length(T)
+        bbst(k,:) = bbox_struct(A, bbdata, T(k)); 
     end
     
     bbx = [min(bbst(:,1:2),[],1),max(bbst(:,3:4),[],1)];
@@ -36,45 +36,41 @@ function [bbx] = bbox_tree(cas)
 end
 
 
-function [bbst] = bbox_struct(N, bbdata, sidx)
+function [bbst] = bbox_struct(A, bbdata, sidx)
 %
 % function that is called recursively to apply strans
 % transformations to the pre-computed boundary boxes and to
 % calculate the boundary boxes for the resolved structure
 % hierarchy.
 %
-
-    % check if we have reached a leaf node
-    if isempty(bbdata(sidx).sref)        
+    
+    % indices of child structures referenced by structure sidx
+    chi = find(A(sidx,:));
+        
+    % check if we have reached a leaf structure
+    if isempty(chi)   
         bbst = bbdata(sidx).bbox;
         return
     end
     
     % prepare array for bounding boxes
-    numr = length(bbdata(sidx).sref);
-    B = zeros(numr+1,4);
+    B = zeros(length(chi)+1,4);
     
     % follow the references (also handles compound sref's)
-    for k = 1:numr
+    for k = 1:length(chi)
        
-        % find the index of the referenced structure
-        ridx = find(strcmp(N, bbdata(sidx).sref(k).sname));
-        if ~any(ridx)
-            error('bbox_tree: referenced structure not found in tree.');
-        end
-        
-        % get the boundary box of the referenced structure
-        bbr = bbox_struct(N, bbdata, ridx);
+        % get the boundary box of the referenced structures
+        bbr = bbox_struct(A, bbdata, chi(k));
         
         % apply any transformations to the boundary box
-        if ~isempty(bbdata(sidx).sref(k).adim) % aref
-            bba = bbdata(sidx).sref(k).xy;
-            bba(end+1,:) = bba(2,:) + bba(3,:) - bba(1,:);
-            B(k,:) = [min(bba),max(bba)];
-        else                                   % sref
+        if isempty(bbdata(sidx).sref(k).adim)  % sref
             B(k,:) = bbox_strans(bbr, bbdata(sidx).sref(k).strans);
             B(k,:) = B(k,:) + ...
                      [bbdata(sidx).sref(k).xy, bbdata(sidx).sref(k).xy];
+        else                                   % aref
+            bba = bbdata(sidx).sref(k).xy;
+            bba(end+1,:) = bba(2,:) + bba(3,:) - bba(1,:);
+            B(k,:) = [min(bba),max(bba)];
         end
         
     end
@@ -111,7 +107,7 @@ function [bbt] = bbox_strans(bb, strans)
     end
     
     % angle
-    if isfield(strans,'angle') && ~isempty(strans.angle)
+    if isfield(strans,'angle') && ~isempty(strans.angle) && strans.angle~=0
         bb = poly_rotzd(bb, strans.angle);
     end
     

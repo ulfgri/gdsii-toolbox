@@ -8,11 +8,12 @@ function display(gstruc);
    if nargin == 0, error('gds_structure.display :  missing argument.'); end;
 
    % print variable name
-   fprintf('%s = \n\n', inputname(1));
-   if numel(gstruc.el) == 1
-      fprintf('Structure (1 element):\n');
+   fprintf('%s is a GDSII structure with ', inputname(1));
+   nel = numel(gstruc.el);
+   if nel == 1
+      fprintf('1 element:\n\n');
    else
-      fprintf('Structure (%d elements):\n', numel(gstruc.el));
+      fprintf('%d elements:\n\n', nel);
    end
    fprintf('sname = %s\n', gstruc.sname);
    fprintf('cdate = %d-%d-%d, %02d:%02d:%02d\n', gstruc.cdate);

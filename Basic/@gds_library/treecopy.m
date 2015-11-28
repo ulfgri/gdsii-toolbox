@@ -38,7 +38,7 @@ struc = glib.st(unique(subtree_ind));
          subtree_ind(end+1) = p;
     
          % find the children
-         chi = find(A(p,:)>0);
+         chi = find(A(p,:));
     
          % no more children
          if isempty(chi)

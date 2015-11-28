@@ -9,22 +9,22 @@ function gdsii_units(uunit, dbunit);
 
 % Ulf Griesmann, NIST, August 2012
 
-% units are stored in global variables
-global gdsii_uunit;
-global gdsii_dbunit;
+    % units are stored in global variables
+    global gdsii_uunit;
+    global gdsii_dbunit;
 
-% check arguments
-if nargin < 2, dbunit = []; end
-if nargin < 1, uunit = []; end
+    % check arguments
+    if nargin < 2, dbunit = []; end
+    if nargin < 1, uunit = []; end
 
-if isempty(uunit), uunit = 1e-6; end
-if isempty(dbunit), dbunit = 1e-9; end
-  
-% Internally, the global variable gdsii_uunit is the conversion
-% factor from user to database units !
-
-% store units
-gdsii_uunit = uunit/dbunit;
-gdsii_dbunit = dbunit;
-
-return
+    if isempty(uunit), uunit = 1e-6; end
+    if isempty(dbunit), dbunit = 1e-9; end
+    
+    % Internally, the global variable gdsii_uunit is the conversion
+    % factor from user to database units !
+    
+    % store units
+    gdsii_uunit = uunit/dbunit;
+    gdsii_dbunit = dbunit;
+    
+end

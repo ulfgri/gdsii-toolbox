@@ -29,11 +29,11 @@ function [ostruc] = add_ref(istruc, struc, varargin)
       sname = {struc.sname};
    elseif iscell(struc)
       if ~all(cellfun(@(x)isa(x,'gds_structure'), struc))
-         error('add_ref : at least one object in cell array is not a gds_structure.');
+         error('gds_structure.add_ref: object in cell array is not a gds_structure.');
       end
       sname = topstruct(struc,1);
    else
-      error('gds_structure.add_ref :  second argument must be a string or gds_structure(s).');
+      error('gds_structure.add_ref:  second argument must be a string or gds_structure(s).');
    end
 
    % 'adim' property present --> create aref elements
@@ -47,6 +47,6 @@ function [ostruc] = add_ref(istruc, struc, varargin)
    rel = cellfun(@(x)gds_element(rtype, 'sname',x, varargin{:}), sname, 'UniformOutput',0);
    
    % add them to output structure
-   ostruc.el    = [ostruc.el, rel];
+   ostruc.el = [ostruc.el, rel];
 
 end

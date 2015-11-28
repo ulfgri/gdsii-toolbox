@@ -20,12 +20,12 @@ function [bbx, ref] = bbox(gstruc)
     
     % allocate a table for element bounding boxes
     nel = length(gstruc.el);
-    bbel = zeros(nel,4);
+    bbel = zeros(nel,4); % max number of elements
     
     % initialize this and that
     ref = [];
-    elc = 0;    
-    rec = 0;
+    elc = 0;  % element counter
+    rec = 0;  % reference counter
 
     % iterate over all elements
     for k = 1:nel

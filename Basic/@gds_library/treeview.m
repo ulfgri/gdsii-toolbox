@@ -39,7 +39,7 @@ function display_tree(A, N, pai, indent);
         end
    
         % find children
-        chi = find(A(p,:)>0);
+        chi = find(A(p,:));
    
         % next parent if there are no children
         if isempty(chi)

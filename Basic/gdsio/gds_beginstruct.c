@@ -57,14 +57,14 @@ mexFunction(int nlhs, mxArray *plhs[],
    /* STRNAME record */
    mxGetString(prhs[1], sname, NLEN-2);
    slen = mxGetN(prhs[1]);  /* string length */
-   if (slen > 32) {
-      mexPrintf("\nStructure name %s exceeds 32 characters\n\n", sname);
+   if (slen > 256) {
+      mexPrintf("\nStructure name %s exceeds 256 characters\n\n", sname);
       mexErrMsgTxt("structure name too long.");     
    }
    if (slen % 2)          /* string length is odd */
       slen += 1;
    if ( write_record_hdr(fob, STRNAME, slen) )
-      mexErrMsgTxt("failed to write STRNAME record.");
+      mexErrMsgTxt("failed to write STRNAME record header.");
    if ( write_string(fob, sname, slen) )
       mexErrMsgTxt("failed to write STRNAME record (sname).");
 }

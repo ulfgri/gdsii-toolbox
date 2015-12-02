@@ -1,5 +1,5 @@
-function [tb_ver, sw_ver] = gdsii_version;
-%function [tb_ver, sw_ver] = gdsii_version;
+function [tb_ver, sw_ver] = gdsii_version
+%function [tb_ver, sw_ver] = gdsii_version
 %
 % gdsii_version :  returns the toolbox version and the version of
 %                  the interpreter running the software. When the
@@ -15,31 +15,31 @@ function [tb_ver, sw_ver] = gdsii_version;
 % initial revision, Ulf Griesmann, NIST, Feb 2011
 %
 
-% toolbox version and version date
-tb_version = '126';
-tb_date = '2015-Nov-08';
-ltb_ver = [tb_version, '  (', tb_date, ')'];
-if exist('OCTAVE_VERSION')
-    interpreter = 'Octave';
-else
-    interpreter = 'MATLAB';
-end
-lsw_ver = [interpreter, ' ',version];
-
-if nargout == 0
-
-   fprintf('\n-----------------------------------------------------\n');
-   fprintf('Interpreter version   : %s\n', lsw_ver);
-   fprintf('GDSII Toolbox version : %s\n', ltb_ver);
-   fprintf('-----------------------------------------------------\n\n');
-
-else
-  
-   tb_ver = ltb_ver;
-   if nargout > 1
-      sw_ver = lsw_ver; 
-   end
+    % toolbox version and version date
+    tb_version = '126';
+    tb_date = '2015-Nov-08';
+    ltb_ver = [tb_version, '  (', tb_date, ')'];
+    if exist('OCTAVE_VERSION')
+        interpreter = 'Octave';
+    else
+        interpreter = 'MATLAB';
+    end
+    lsw_ver = [interpreter, ' ',version];
     
-end
+    if nargout == 0
+        
+        fprintf('\n-----------------------------------------------------\n');
+        fprintf('Interpreter version   : %s\n', lsw_ver);
+        fprintf('GDSII Toolbox version : %s\n', ltb_ver);
+        fprintf('-----------------------------------------------------\n\n');
+        
+    else
+        
+        tb_ver = ltb_ver;
+        if nargout > 1
+            sw_ver = lsw_ver; 
+        end
+    
+    end
 
-return
+end

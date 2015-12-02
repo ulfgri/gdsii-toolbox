@@ -1,5 +1,5 @@
-function [glib] = read_gds_library(gdsname, verbose, hdronly);
-%function [glib] = read_gds_library(gdsname, verbose, hdronly);
+function [glib] = read_gds_library(gdsname, verbose, hdronly)
+%function [glib] = read_gds_library(gdsname, verbose, hdronly)
 %
 % read_gds_library :  
 %        Reads a GDSII file and returns its structures
@@ -18,105 +18,105 @@ function [glib] = read_gds_library(gdsname, verbose, hdronly);
 
 % Initial version, Ulf Griesmann, NIST, November 2011
 
-% check arguments
-if nargin < 3, hdronly = []; end
-if nargin < 2, verbose = []; end
-if nargin < 1 
-   error('missing file name');
-end
-if ~nargout & ~hdronly
-   error('missing output argument');
-end
-
-% set defaults
-if isempty(hdronly), hdronly = 0; end
-if hdronly, verbose = 1; end
-if isempty(verbose), verbose = 0; end
-
-% open file for reading
-if ~gds_file_exists(gdsname)
-   if gds_file_exists([gdsname,'.gds'])
-      gdsname = [gdsname, '.gds'];
-   elseif gds_file_exists([gdsname,'.cgds'])
-      gdsname = [gdsname, '.cgds'];
-   else
-      error('input file does not exist.');
-   end
-end
-
-[gf,fsize] = gds_open(gdsname, 'rb'); % use 'b' for Windows
-
-% start time
-t_start = cputime();
-
-% read the library information records
-ldata = gds_libdata(gf);
-fprintf('\nLibrary name  : %s\n', ldata.lname);
-fprintf('Creation date : %d-%d-%d, %02d:%02d:%02d\n', ldata.cdate);
-fprintf('User unit     : %g m\n', ldata.uunit);
-fprintf('Database unit : %g m\n', ldata.dbunit);
-
-% return if only header display
-if hdronly
-   return
-end
-
-% create the library object
-glib = gds_library(ldata.lname, ...
-                   'uunit',ldata.uunit, 'dbunit',ldata.dbunit, ...
-                   'cdate',ldata.cdate, 'mdate',ldata.mdate);
-if ~isempty(ldata.reflibs)
-   glib = set(glib, 'reflibs',ldata.reflibs);
-end
-if ~isempty(ldata.fonts)
-   glib = set(glib, 'fonts',ldata.fonts);
-end
-
-% read all structures
-if verbose
-   fprintf('Structures    :\n');
-end
-
-% element and structure counters
-tnel = 0;
-nstr = 0;
-
-while 1
-  
-  rtype = gds_record_info(gf);
-
-  switch rtype
+    % check arguments
+    if nargin < 3, hdronly = []; end
+    if nargin < 2, verbose = []; end
+    if nargin < 1 
+        error('missing file name');
+    end
+    if ~nargout & ~hdronly
+        error('missing output argument');
+    end
     
-   case 1024 % ENDLIB
-      break
+    % set defaults
+    if isempty(hdronly), hdronly = 0; end
+    if hdronly, verbose = 1; end
+    if isempty(verbose), verbose = 0; end
+    
+    % open file for reading
+    if ~gds_file_exists(gdsname)
+        if gds_file_exists([gdsname,'.gds'])
+            gdsname = [gdsname, '.gds'];
+        elseif gds_file_exists([gdsname,'.cgds'])
+            gdsname = [gdsname, '.cgds'];
+        else
+            error('input file does not exist.');
+        end
+    end
+    
+    [gf,fsize] = gds_open(gdsname, 'rb'); % use 'b' for Windows
+    
+    % start time
+    t_start = cputime();
+    
+    % read the library information records
+    ldata = gds_libdata(gf);
+    fprintf('\nLibrary name  : %s\n', ldata.lname);
+    fprintf('Creation date : %d-%d-%d, %02d:%02d:%02d\n', ldata.cdate);
+    fprintf('User unit     : %g m\n', ldata.uunit);
+    fprintf('Database unit : %g m\n', ldata.dbunit);
+    
+    % return if only header display
+    if hdronly
+        return
+    end
+
+    % create the library object
+    glib = gds_library(ldata.lname, ...
+                       'uunit',ldata.uunit, 'dbunit',ldata.dbunit, ...
+                       'cdate',ldata.cdate, 'mdate',ldata.mdate);
+    if ~isempty(ldata.reflibs)
+        glib = set(glib, 'reflibs',ldata.reflibs);
+    end
+    if ~isempty(ldata.fonts)
+        glib = set(glib, 'fonts',ldata.fonts);
+    end
+    
+    % read all structures
+    if verbose
+        fprintf('Structures    :\n');
+    end
+    
+    % element and structure counters
+    tnel = 0;
+    nstr = 0;
+    
+    while 1
   
-   case 1282 % BGNSTR - beginning of structure
-      nstr = nstr + 1;
-      S = gds_read_struct(gf, ldata.uunit, ldata.dbunit);
-      glib(nstr) = S;
-      tnel = tnel + numel(S);
-      if verbose  % print structure information and progress info
-         fpos = gds_ftell(gf);
-         fprintf('%d ... %3.1f%% ... %s (%d)\n', ...
-                 nstr, 100*fpos/fsize, sname(S), numel(S));
-      end
-      
-   otherwise
-      fclose(gf); % something is wrong - get out
-      error('invalid GDS file - ENDLIB or BGNSTR expected.');
-  end
+        rtype = gds_record_info(gf);
+
+        switch rtype
+            
+          case 1024 % ENDLIB
+            break
   
+          case 1282 % BGNSTR - beginning of structure
+            nstr = nstr + 1;
+            S = gds_read_struct(gf, ldata.uunit, ldata.dbunit);
+            glib(nstr) = S;
+            tnel = tnel + numel(S);
+            if verbose  % print structure information and progress info
+                fpos = gds_ftell(gf);
+                fprintf('%d ... %3.1f%% ... %s (%d)\n', ...
+                        nstr, 100*fpos/fsize, sname(S), numel(S));
+            end
+            
+          otherwise
+            fclose(gf); % something is wrong - get out
+            error('invalid GDS file - ENDLIB or BGNSTR expected.');
+        end
+        
+    end
+
+    % close the GDS file
+    gds_close(gf);
+    
+    % end time
+    t_el = (cputime() - t_start) / 86400;  % elapsed time in days
+    
+    % print statistical information
+    fprintf('\nRead time  : %s\n', datestr(t_el, 'HH:MM:SS.FFF'));
+    fprintf('Structures : %d\n', numst(glib));
+    fprintf('Elements   : %d\n\n', tnel);
+
 end
-
-% close the GDS file
-gds_close(gf);
-
-% end time
-t_el = (cputime() - t_start) / 86400;  % elapsed time in days
-
-% print statistical information
-fprintf('\nRead time  : %s\n', datestr(t_el, 'HH:MM:SS.FFF'));
-fprintf('Structures : %d\n', numst(glib));
-fprintf('Elements   : %d\n\n', tnel);
-
-return

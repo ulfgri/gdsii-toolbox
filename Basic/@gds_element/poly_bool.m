@@ -1,5 +1,5 @@
-function [bo] = poly_bool(ba, bb, op, varargin);
-%function [bo] = poly_bool(ba, bb, op, varargin);
+function [bo] = poly_bool(ba, bb, op, varargin)
+%function [bo] = poly_bool(ba, bb, op, varargin)
 %
 % poly_bool - method for boolean set algebra on 
 %             boundary elements.
@@ -50,45 +50,46 @@ function [bo] = poly_bool(ba, bb, op, varargin);
 
 % Initial version, Ulf Griesman, August 2012
 
-% global variables
-global gdsii_uunit;
+    % global variables
+    global gdsii_uunit;
 
-% check arguments
-if nargin < 3
-   error('gds_element.poly_bool :  expecting at least 3 input arguments');
+    % check arguments
+    if nargin < 3
+        error('gds_element.poly_bool :  expecting at least 3 input arguments');
+    end
+    
+    % only works with boundary elements
+    if ~strcmp(get_etype(ba.data.internal), 'boundary') || ...
+       ~strcmp(get_etype(bb.data.internal), 'boundary')
+        error('gds_element.poly_bool :  input elements must be boundary elements');
+    end
+
+    % units must be defined
+    if isempty(gdsii_uunit) 
+        warning('undefined GDSII units');
+        fprintf('\n  +---------- WARNING in gds_element.poly_bool --------+\n');
+        fprintf('  | Units are not defined; setting uunit/dbunit = 1000.|\n'); 
+        fprintf('  | Define units by creating the library object or     |\n'); 
+        fprintf('  | by first calling  gdsii_units.                     |\n'); 
+        fprintf('  +----------------------------------------------------+\n\n');
+        udf = 1000;
+    else
+        udf = gdsii_uunit;      % conversion factor to db units
+    end
+    
+    % apply boolean set operation
+    [xyo, hf] = poly_boolmex(ba.data.xy, bb.data.xy, op, udf);
+    if any(hf)
+        error('gds_element.poly_bool :  a polygon with a hole was created.');
+    end
+    
+    % create a boundary element for the output polygons
+    bo = ba;
+    bo.data.xy = xyo;
+    
+    % add any property arguments
+    if ~isempty(varargin)
+        bo.data.internal = set_element_data(bo.data.internal, varargin);
+    end
+    
 end
-
-% only works with boundary elements
-if ~strcmp(get_etype(ba.data.internal), 'boundary') || ...
-   ~strcmp(get_etype(bb.data.internal), 'boundary')
-   error('gds_element.poly_bool :  input elements must be boundary elements');
-end
-
-% units must be defined
-if isempty(gdsii_uunit) 
-   fprintf('\n  +---------- WARNING in gds_element.poly_bool --------+\n');
-   fprintf('  | Units are not defined; setting uunit/dbunit = 1000.|\n'); 
-   fprintf('  | Define units by creating the library object or     |\n'); 
-   fprintf('  | by first calling  gdsii_units.                     |\n'); 
-   fprintf('  +----------------------------------------------------+\n\n');
-   udf = 1000;
-else
-   udf = gdsii_uunit;      % conversion factor to db units
-end
-
-% apply boolean set operation
-[xyo, hf] = poly_boolmex(ba.data.xy, bb.data.xy, op, udf);
-if any(hf)
-   error('gds_element.poly_bool :  a polygon with a hole was created.');
-end
-
-% create a boundary element for the output polygons
-bo = ba;
-bo.data.xy = xyo;
-
-% add any property arguments
-if ~isempty(varargin)
-   bo.data.internal = set_element_data(bo.data.internal, varargin);
-end
-
-return

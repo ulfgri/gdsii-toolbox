@@ -1,5 +1,5 @@
-function [gf] = gds_initialize(fname, uunit, dbunit, lname, reflibs, fonts);
-%function [gf] = gds_initialize(fname, uunit, dbunit, lname, reflibs, fonts);
+function [gf] = gds_initialize(fname, uunit, dbunit, lname, reflibs, fonts)
+%function [gf] = gds_initialize(fname, uunit, dbunit, lname, reflibs, fonts)
 %
 % gds_initialize : this function creates a new file in GDSII stream
 %                  format and writes the header section of the file.
@@ -30,58 +30,58 @@ function [gf] = gds_initialize(fname, uunit, dbunit, lname, reflibs, fonts);
 % This software is in the Public Domain. 
 %
 
-% global variables
-global gdsii_uunit;
-global gdsii_dbunit;
+    % global variables
+    global gdsii_uunit;
+    global gdsii_dbunit;
 
-% check parameters
-if isempty(uunit), uunit = 1.0e-6; end
-if isempty(dbunit), dbunit = 1.0e-9; end
+    % check parameters
+    if isempty(uunit), uunit = 1.0e-6; end
+    if isempty(dbunit), dbunit = 1.0e-9; end
 
-% store units for all other functions
-gdsii_dbunit = dbunit;
-gdsii_uunit  = uunit / dbunit; % store the uunit/dbunit ratio
+    % store units for all other functions
+    gdsii_dbunit = dbunit;
+    gdsii_uunit  = uunit / dbunit; % store the uunit/dbunit ratio
 
-if fname(1) ~= '!'  % back up existing file
-  
-   % check if the file already exists
-   if gds_file_exists(fname)
-  
-      % find a backup file name
-      bakver = 1;
-      while 1
-         bak_fname = sprintf('%s.%d', fname, bakver);
-         if ~gds_file_exists(bak_fname)
-            break
-         else
-            bakver = bakver + 1;
-         end
-      end
-   
-      % rename the existing file
-      if isunix || ismac
-         system(sprintf('mv %s %s', fname, bak_fname));
-      elseif ispc
-         system(sprintf('ren %s %s', fname, bak_fname));
-      else
-         error('gdsii_initialize :  could not rename existing file.');
-      end
-      
-   end % if exist ...
-   
-else  % overwrite file if it exists
-   fname = fname(2:end);
+    if fname(1) ~= '!'  % back up existing file
+        
+        % check if the file already exists
+        if gds_file_exists(fname)
+            
+            % find a backup file name
+            bakver = 1;
+            while 1
+                bak_fname = sprintf('%s.%d', fname, bakver);
+                if ~gds_file_exists(bak_fname)
+                    break
+                else
+                    bakver = bakver + 1;
+                end
+            end
+            
+            % rename the existing file
+            if isunix || ismac
+                system(sprintf('mv %s %s', fname, bak_fname));
+            elseif ispc
+                system(sprintf('ren %s %s', fname, bak_fname));
+            else
+                error('gdsii_initialize :  could not rename existing file.');
+            end
+            
+        end % if exist ...
+        
+    else  % overwrite file if it exists
+        fname = fname(2:end);
+    end
+    
+    % set default library name
+    if isempty(lname)
+        lname = fname;
+    end
+
+    % open the library file
+    gf = gds_open(fname, 'wb'); % the 'b' is for Windows
+    
+    % write the HEADER record (format version 7 permits 8192 polygon vertices)
+    gds_beginlib(gf, uunit, dbunit, lname, reflibs, fonts);
+
 end
-
-% set default library name
-if isempty(lname)
-   lname = fname;
-end
-
-% open the library file
-gf = gds_open(fname, 'wb'); % the 'b' is for Windows
-
-% write the HEADER record (format version 7 permits 8192 polygon vertices)
-gds_beginlib(gf, uunit, dbunit, lname, reflibs, fonts);
-
-return

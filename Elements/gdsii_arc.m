@@ -1,5 +1,5 @@
-function [pg] = gdsii_arc(arc, layer, dtype, prop, plex, elflags);
-%function [pg] = gdsii_arc(arc, layer, dtype, prop, plex, elflags);
+function [pg] = gdsii_arc(arc, layer, dtype, prop, plex, elflags)
+%function [pg] = gdsii_arc(arc, layer, dtype, prop, plex, elflags)
 %
 % gdsii_arc :  return the polygon approximation of an arc
 %              or a circle (segment) as a gds_element object
@@ -50,77 +50,78 @@ function [pg] = gdsii_arc(arc, layer, dtype, prop, plex, elflags);
 % Initial version: Ulf Griesmann, NIST, February 2011
 % 
 
-% check arguments
-if nargin < 6, elflags = []; end
-if nargin < 5, plex = []; end
-if nargin < 4, prop = []; end
-if nargin < 3, dtype = []; end
-if nargin < 2, layer = []; end
+    % check arguments
+    if nargin < 6, elflags = []; end
+    if nargin < 5, plex = []; end
+    if nargin < 4, prop = []; end
+    if nargin < 3, dtype = []; end
+    if nargin < 2, layer = []; end
 
-if isempty(layer), layer = 1; end
-if isempty(dtype), dtype = 0; end
+    if isempty(layer), layer = 1; end
+    if isempty(dtype), dtype = 0; end
 
-if not( isfield(arc, 'r') || isfield(arc, 'x1') )
-   error('gdsii_arc :  incomplete arc specification.');
-end
-if ~isfield(arc, 'w')
-   error('gdsii_arc :  missing arc width field.');
-end
-if ~isfield(arc, 'e')
-   error('gdsii_arc :  missing arc.e, max. approximation error field.');
-end
-if ~isfield(arc, 'pap')
-   arc.pap = 2;
-end
+    if not( isfield(arc, 'r') || isfield(arc, 'x1') )
+        error('gdsii_arc :  incomplete arc specification.');
+    end
+    if ~isfield(arc, 'w')
+        error('gdsii_arc :  missing arc width field.');
+    end
+    if ~isfield(arc, 'e')
+        error('gdsii_arc :  missing arc.e, max. approximation error field.');
+    end
+    if ~isfield(arc, 'pap')
+        arc.pap = 2;
+    end
 
-% calculate center, radius if 3 points are given
-if isfield(arc, 'x1')
-   [arc.c, arc.r] = circle_3point(x1, x2, x3);
-end
+    % calculate center, radius if 3 points are given
+    if isfield(arc, 'x1')
+        [arc.c, arc.r] = circle_3point(x1, x2, x3);
+    end
 
-% calculate the polygon approximation
-if arc.r < 0
-   error('gdsii_arc :  radius must be positive.');
-end
-if ~isfield(arc, 'c')
-   arc.c = [0,0];
-end
+    % calculate the polygon approximation
+    if arc.r < 0
+        error('gdsii_arc :  radius must be positive.');
+    end
+    if ~isfield(arc, 'c')
+        arc.c = [0,0];
+    end
 
-% first the outside arc, lowest angle to highest
-rout = arc.w + arc.r;
-[np, phi, rscal] = calc_vertex_num(rout, arc.a2 - arc.a1, arc.e, arc.pap);
-R = repmat(rscal * rout, [np,1]);  % in polar coordinates
-T = linspace(arc.a1, arc.a2, np)';
-C = repmat(arc.c, [np,1]);
-xy = pol_cart(T,R) + C;
+    % first the outside arc, lowest angle to highest
+    rout = arc.w + arc.r;
+    [np, phi, rscal] = calc_vertex_num(rout, arc.a2 - arc.a1, arc.e, arc.pap);
+    R = repmat(rscal * rout, [np,1]);  % in polar coordinates
+    T = linspace(arc.a1, arc.a2, np)';
+    C = repmat(arc.c, [np,1]);
+    xy = pol_cart(T,R) + C;
+    
+    % inside arc, highest angle to lowest
+    if arc.r > 0                % arc segment
+        R = repmat(rscal * arc.r, [np,1]);
+        xy = [xy; pol_cart(T(end:-1:1),R) + C];
+    else                        % circle segment
+        if mod(arc.a2 - arc.a1, 2*pi)
+            xy(end+1,:) = arc.c;
+        end
+    end
 
-% inside arc, highest angle to lowest
-if arc.r > 0                % arc segment
-   R = repmat(rscal * arc.r, [np,1]);
-   xy = [xy; pol_cart(T(end:-1:1),R) + C];
-else                        % circle segment
-   if mod(arc.a2 - arc.a1, 2*pi)
-      xy(end+1,:) = arc.c;
-   end
+    % close the polygon
+    if any(xy(end,:) ~= xy(1,:))
+        xy(end+1,:) = xy(1,:);
+    end
+
+    % return it
+    pg = gds_element('boundary','xy',xy, 'layer',layer, 'dtype',dtype, ...
+                     'prop',prop, 'plex',plex, 'elflags',elflags);
 end
-
-% close the polygon
-if any(xy(end,:) ~= xy(1,:))
-   xy(end+1,:) = xy(1,:);
-end
-
-% return it
-pg = gds_element('boundary','xy',xy, 'layer',layer, 'dtype',dtype, ...
-                 'prop',prop, 'plex',plex, 'elflags',elflags);
-return
 
 %---------------------------------------------------------
 
 function XY = pol_cart(T,R);
 % convert from polar to cartesian coordinates
-XY = [R.*cos(T), R.*sin(T)];
+    
+    XY = [R.*cos(T), R.*sin(T)];
 
-return
+end
 
 %---------------------------------------------------------
    
@@ -138,25 +139,25 @@ function [np, phi, Rfac] = calc_vertex_num(R, ang, E, pap);
 % phi :  angle increment between vertices
 % Rfac:  radius scale factor, depends on pap
 %
-phi  = acos(1 - E / R);
-np   = ceil(ang / phi);  % integer number of vertices
-phi  = ang / (np - 1);   % corrected angle
+    phi  = acos(1 - E / R);
+    np   = ceil(ang / phi);  % integer number of vertices
+    phi  = ang / (np - 1);   % corrected angle
+    
+    switch pap
+      case 0  % polygon is inscribed in arc
+        Rfac = 1;
+        
+      case 1  % polygon area equals arc area
+        Rfac = sqrt( phi / sin(phi) );
+        
+      case 2  % polygon length equals arc length
+        Rfac = 0.5 * phi / sin(phi/2);
+        
+      otherwise
+        error('unknown circle approximation method.');
+    end
 
-switch pap
-  case 0  % polygon is inscribed in arc
-     Rfac = 1;
-     
-  case 1  % polygon area equals arc area
-     Rfac = sqrt( phi / sin(phi) );
-     
-  case 2  % polygon length equals arc length
-     Rfac = 0.5 * phi / sin(phi/2);
-     
-otherwise
-   error('unknown circle approximation method.');
 end
-
-return
 
 %---------------------------------------------------------
 
@@ -173,15 +174,15 @@ function [C,R] = circle_3point(x1, x2, x3);
 
 % initial version, Ulf Griesmann, NIST, September 2011
 
-if nargin < 3
-    error('must have three arguments.');
+    if nargin < 3
+        error('must have three arguments.');
+    end
+    
+    A = [x3(1) - x1(1), x3(2) - x1(2); ...
+         x3(1) - x2(1), x3(2) - x2(2) ];
+    b = [0.5*(x3(1)^2 - x1(1)^2 + x3(2)^2 - x1(2)^2 ); ...
+         0.5*(x3(1)^2 - x2(1)^2 + x3(2)^2 - x2(2)^2 )];
+    C = A\b;
+    R = sqrt(sum((x1-C).^2));
+    
 end
-
-A = [x3(1) - x1(1), x3(2) - x1(2); ...
-     x3(1) - x2(1), x3(2) - x2(2) ];
-b = [0.5*(x3(1)^2 - x1(1)^2 + x3(2)^2 - x1(2)^2 ); ...
-     0.5*(x3(1)^2 - x2(1)^2 + x3(2)^2 - x2(2)^2 )];
-C = A\b;
-R = sqrt(sum((x1-C).^2));
-
-return

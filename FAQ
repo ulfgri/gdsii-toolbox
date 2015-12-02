@@ -1,5 +1,5 @@
 
-Q: Compiling the GDS II toolbox on Windows results in the following error
+Q: Compiling the GDSII toolbox on Windows results in the following error
    message: cannot open include file: 'stdint.h': No such file or directory.
 
 A: Microsoft Visual C++ 2008 Express does not fully conform to recent C 

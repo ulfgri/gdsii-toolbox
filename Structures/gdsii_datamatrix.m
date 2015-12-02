@@ -1,5 +1,5 @@
-function [dms] = gdsii_datamatrix(str, height, sname, layer);
-%function [dms] = gdsii_datamatrix(str, height, sname, layer);
+function [dms] = gdsii_datamatrix(str, height, sname, layer)
+%function [dms] = gdsii_datamatrix(str, height, sname, layer)
 %
 % gdsii_datamatrix :  creates an ISO/IEC 16022  DataMatrix barcode 
 %                     with ASCII encoding and ECC200 error correction.
@@ -25,25 +25,25 @@ function [dms] = gdsii_datamatrix(str, height, sname, layer);
 % remove 'gf' arguments, U.G., Nov. 2012
 %
 
-% check arguments
-if nargin < 4, layer = []; end
-if nargin < 3, sname = []; end
-if nargin < 2, height = []; end
-if nargin < 1
-   error('missing argument(s)');
+    % check arguments
+    if nargin < 4, layer = []; end
+    if nargin < 3, sname = []; end
+    if nargin < 2, height = []; end
+    if nargin < 1
+        error('missing argument(s)');
+    end
+    
+    if isempty(height), height = 3000; end
+    if isempty(sname), sname = 'DATAMATRIX'; end
+    if isempty(layer), layer = 1; end
+    
+    % calculate Datamatrix
+    DM = datamatrixmex(str)';  % comes from C, must be transposed
+    DM = DM(end:-1:1,:);       % first line is at the top
+    
+    % convert Datamatrix to a GDSII structure
+    pix.height  = height/size(DM,1);  % edge length of pixel
+    pix.width   = height/size(DM,1);  % pixel width is same as height
+    dms = gdsii_bitmap(DM, pix, sname, layer);
+
 end
-
-if isempty(height), height = 3000; end
-if isempty(sname), sname = 'DATAMATRIX'; end
-if isempty(layer), layer = 1; end
-
-% calculate Datamatrix
-DM = datamatrixmex(str)';  % comes from C, must be transposed
-DM = DM(end:-1:1,:);       % first line is at the top
-
-% convert Datamatrix to a GDSII structure
-pix.height  = height/size(DM,1);  % edge length of pixel
-pix.width   = height/size(DM,1);  % pixel width is same as height
-dms = gdsii_bitmap(DM, pix, sname, layer);
-
-return

@@ -14,7 +14,7 @@
 - made function 'poly_rotz.m' accessible from everywhere.
 - make default path width a little wider in gdsii_pathtext.m
 - updated formatting of several methods and functions.
-- renamed @gds_structurer/find.m --> @gds_structure/findel.m to make
+- renamed @gds_structure/find.m --> @gds_structure/findel.m to make
   the funcion name less generic.
 - renovate the method '@gds_library/topstruct.m'. The method now
   displays the top level structure(s) when no output argument is

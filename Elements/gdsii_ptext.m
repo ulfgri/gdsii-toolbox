@@ -1,5 +1,5 @@
-function [bl, width] = gdsii_ptext(str, pos, height, layer, ang);
-%function [bl, width] = gdsii_ptext(str, pos, height, layer, ang);
+function [bl, width] = gdsii_ptext(str, pos, height, layer, ang)
+%function [bl, width] = gdsii_ptext(str, pos, height, layer, ang)
 %
 % gdsii_ptext : draw a text with characters made from boundaries
 %               suitable for lithographic reproduction.

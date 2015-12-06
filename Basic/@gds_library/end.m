@@ -1,5 +1,5 @@
-function lsidx = end(glib, kide, nide); 
-%function lsidx = end(glib, kide, nide); 
+function lsidx = end(glib, kide, nide)
+%function lsidx = end(glib, kide, nide)
 %
 % end method for the gds_library class.
 % Returns the index of the last element in the 
@@ -12,10 +12,10 @@ function lsidx = end(glib, kide, nide);
 %            (should be 1)
 % lsidx :    index of the last structure 
 
-if kide ~= 1 || nide ~= 1
-   error('gds_library :  has only one index.');
+    if kide ~= 1 || nide ~= 1
+        error('gds_library :  has only one index.');
+    end
+    
+    lsidx = numel(glib.st);
+    
 end
-
-lsidx = numel(glib.st);
-
-return

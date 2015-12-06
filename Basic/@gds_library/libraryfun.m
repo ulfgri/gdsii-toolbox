@@ -1,5 +1,5 @@
-function [cout] = libraryfun(glib, func);
-%function [cout] = libraryfun(glib, func);
+function [cout] = libraryfun(glib, func)
+%function [cout] = libraryfun(glib, func)
 %
 % libraryfun : iterator for the gds_library class
 %

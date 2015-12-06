@@ -1,5 +1,5 @@
-function nums = numst(glib);
-%function nums = numst(glib);
+function nums = numst(glib)
+%function nums = numst(glib)
 %
 % An alias for the length method
 % Returns the number of structures in a library.
@@ -10,6 +10,6 @@ function nums = numst(glib);
 
 % Ulf Griesmann, NIST, June 2011
 
-nums = numel(glib.st);
+    nums = numel(glib.st);
 
-return
+end

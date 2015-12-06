@@ -1,5 +1,5 @@
-function glib = gds_library(lname, varargin);
-%function glib = gds_library(lname, varargin);
+function glib = gds_library(lname, varargin)
+%function glib = gds_library(lname, varargin)
 %
 % Constructor for the GDS library class.
 % Libraries contain one or more GDS structures.
@@ -15,49 +15,49 @@ function glib = gds_library(lname, varargin);
 
 % Ulf Griesmann, NIST, June 2011
 
-% check arguments
-if nargin < 2 && ~ischar(lname) 
-   error('gds_library :  first argument is missing or not a string');
+    % check arguments
+    if nargin < 2 && ~ischar(lname) 
+        error('gds_library :  first argument is missing or not a string');
+    end
+    
+    % default values; the library is implemented as a cell array
+    glib.lname = lname; % library name
+    glib.reflibs = [];  % external reference libraries
+    glib.fonts = [];    % fonts
+    glib.cdate = [];    % creation date
+    glib.mdate = [];    % modification date
+    glib.st = {};       % cell array of structures
+    glib.uunit = 1e-6;  % default user unit
+    glib.dbunit = 1e-9; % default database unit
+    
+    % add the structures to the library
+    while length(varargin) > 0
+        
+        % get element
+        st = varargin{1};
+        
+        if isa(st, 'gds_structure')  % check if a structure
+            glib.st{end+1} = st;
+            varargin(1) = [];
+            
+        elseif iscell(st)            % check if it is a cell array of structures
+            if ~all(cellfun(@(x)isa(x,'gds_structure'), st))
+                error('gds_library : at least one object in cell array is not a gds_structure.');
+            end
+            glib.st = [glib.st, st];
+            varargin(1) = [];
+            
+        elseif ischar(st)
+            glib.(st) = varargin{2};
+            varargin(1:2) = [];
+            
+        else
+            error('gds_library :  argument must be GDS structure(s) or property/value pairs.');
+        end
+        
+    end
+    
+    % create the library object
+    glib = class(glib, 'gds_library');
+    
 end
-
-% default values; the library is implemented as a cell array
-glib.lname = lname; % library name
-glib.reflibs = [];  % external reference libraries
-glib.fonts = [];    % fonts
-glib.cdate = [];    % creation date
-glib.mdate = [];    % modification date
-glib.st = {};       % cell array of structures
-glib.uunit = 1e-6;  % default user unit
-glib.dbunit = 1e-9; % default database unit
-
-% add the structures to the library
-while length(varargin) > 0
-
-   % get element
-   st = varargin{1};
-   
-   if isa(st, 'gds_structure')  % check if a structure
-      glib.st{end+1} = st;
-      varargin(1) = [];
-      
-   elseif iscell(st)            % check if it is a cell array of structures
-      if ~all(cellfun(@(x)isa(x,'gds_structure'), st))
-         error('gds_library : at least one object in cell array is not a gds_structure.');
-      end
-      glib.st = [glib.st, st];
-      varargin(1) = [];
-      
-   elseif ischar(st)
-      glib.(st) = varargin{2};
-      varargin(1:2) = [];
-      
-   else
-      error('gds_library :  argument must be GDS structure(s) or property/value pairs.');
-   end
-
-end
-
-% create the library object
-glib = class(glib, 'gds_library');
-
-return

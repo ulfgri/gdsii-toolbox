@@ -1,5 +1,5 @@
-function len = length(glib);
-%function len = length(glib);
+function len = length(glib)
+%function len = length(glib)
 %
 % Length function for the gds_library class;
 % returns the number of structures in a library.
@@ -10,6 +10,6 @@ function len = length(glib);
 
 % Ulf Griesmann, NIST, June 2011
 
-len = numel(glib.st);
+    len = numel(glib.st);
 
-return
+end

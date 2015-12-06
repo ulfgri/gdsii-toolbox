@@ -1,5 +1,5 @@
-function leidx = end(gstruc, kide, nide); 
-%function leidx = end(gstruc, kide, nide); 
+function leidx = end(gstruc, kide, nide)
+%function leidx = end(gstruc, kide, nide)
 %
 % end method for the gds_structure class.
 % Returns the index of the last element in the 

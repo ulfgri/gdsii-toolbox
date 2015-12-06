@@ -1,5 +1,5 @@
-function cas = getstruct(glib, sname);
-%function cas = getstruct(glib, sname);
+function cas = getstruct(glib, sname)
+%function cas = getstruct(glib, sname)
 %
 % getstruct: copy structures from libraries by name. The method
 %            returns a cell array with gds_structure 

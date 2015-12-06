@@ -1,5 +1,5 @@
-function [ts] = topstruct(glib);
-%function [ts] = topstruct(glib);
+function [ts] = topstruct(glib)
+%function [ts] = topstruct(glib)
 %
 % topstruct :  return the name(s) of the top structure(s)
 %              in a gds_library object or display the structure

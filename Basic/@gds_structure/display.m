@@ -1,5 +1,5 @@
-function display(gstruc);
-%function display(gstruc);
+function display(gstruc)
+%function display(gstruc)
 %
 % display method for GDS structures
 %

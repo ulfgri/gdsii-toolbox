@@ -1,5 +1,5 @@
-function nume = numel(glib);
-%function nume = numel(glib);
+function nume = numel(glib)
+%function nume = numel(glib)
 %
 % Returns the number of elements in a library.
 %
@@ -9,7 +9,7 @@ function nume = numel(glib);
 
 % Ulf Griesmann, NIST, September 2013
 
-% sum element numbers for each structure
-nume = sum(cellfun(@(s)numel(s), glib.st));
+    % sum element numbers for each structure
+    nume = sum(cellfun(@(s)numel(s), glib.st));
 
-return
+end

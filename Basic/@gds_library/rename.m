@@ -1,5 +1,5 @@
-function L = rename(glib, lname);
-%function L = rename(glib, lname);
+function L = rename(glib, lname)
+%function L = rename(glib, lname)
 %
 % changes the library name of a gds_library object
 %
@@ -7,11 +7,11 @@ function L = rename(glib, lname);
 % lname :   the new name of the library
 %
 
-if nargin < 2
-   error ('gds_library.rename :  missing argument(s).');
+    if nargin < 2
+        error ('gds_library.rename :  missing argument(s).');
+    end
+    
+    L = glib;
+    L.lname = lname;
+    
 end
-
-L = glib;
-L.lname = lname;
-
-return

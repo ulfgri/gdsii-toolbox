@@ -1,5 +1,5 @@
-function display(gelm);
-%function display(gelm);
+function display(gelm)
+%function display(gelm)
 %
 % display method for GDS elements
 %

@@ -1,5 +1,5 @@
-function rnam = find_ref(gstruct);
-%function rnam = find_ref(gstruct);
+function rnam = find_ref(gstruct)
+%function rnam = find_ref(gstruct)
 %
 % A method that finds and returns the names of all structures
 % referenced in a structure

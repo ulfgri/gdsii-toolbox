@@ -1,5 +1,5 @@
-function [cdate, mdate] = sdate(gstruc);
-%function [cdate, mdate] = sdate(gstruc);
+function [cdate, mdate] = sdate(gstruc)
+%function [cdate, mdate] = sdate(gstruc)
 %
 % Returns the structure creation and modification dates.
 %
@@ -10,12 +10,12 @@ function [cdate, mdate] = sdate(gstruc);
 
 % Ulf Griesmann, NIST, November 2011
 
-if nargout == 0
-   fprintf('Creation date     : %d-%d-%d, %d:%d:%d\n', gstruc.cdate);
-   fprintf('Modification date : %d-%d-%d, %d:%d:%d\n', gstruc.mdate);
-else
-   cdate = gstruc.cdate;
-   mdate = gstruc.mdate;
+    if ~nargout
+        fprintf('Creation date     : %d-%d-%d, %d:%d:%d\n', gstruc.cdate);
+        fprintf('Modification date : %d-%d-%d, %d:%d:%d\n', gstruc.mdate);
+    else
+        cdate = gstruc.cdate;
+        mdate = gstruc.mdate;
+    end
+    
 end
-
-return

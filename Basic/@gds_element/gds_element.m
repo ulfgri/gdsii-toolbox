@@ -1,5 +1,5 @@
-function gelm = gds_element(etype, varargin);
-%function gelm = gds_element(etype, varargin);
+function gelm = gds_element(etype, varargin)
+%function gelm = gds_element(etype, varargin)
 %
 % gds_element :  Constructor for the GDS element class. It creates the 
 %                elements of a GDSII layout: boundary, box, path, text, 

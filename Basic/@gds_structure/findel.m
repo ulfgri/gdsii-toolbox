@@ -1,5 +1,5 @@
-function gelms = findel(gstruct, ffunc);
-%function gelms = findel(gstruct, ffunc);
+function gelms = findel(gstruct, ffunc)
+%function gelms = findel(gstruct, ffunc)
 %
 % Find method for the gds_structure class. Can be used to find 
 % elements with specific properties.

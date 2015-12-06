@@ -1,5 +1,5 @@
-function [cout] = structfun(gstruc, func);
-%function [cout] = structfun(gstruc, func);
+function [cout] = structfun(gstruc, func)
+%function [cout] = structfun(gstruc, func)
 %
 % structfun : iterator for the gds_structure class
 %

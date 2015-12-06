@@ -11,17 +11,17 @@ function [ostruc] = refrename(istruc, osname, nsname)
 
 % initial version, December 2012, Ulf Griesmann
 
-ostruc = istruc;
+    ostruc = istruc;
 
-% look for reference elements
-for k = 1:length(ostruc.el)
-   if is_ref(ostruc.el{k})
-      E = ostruc.el{k};         
-      if strcmp(osname, E.sname)    % check referenced structure name
-         E.sname = nsname;          % replace name
-         ostruc.el{k} = E;
-      end
-   end
+    % look for reference elements
+    for k = 1:length(ostruc.el)
+        if is_ref(ostruc.el{k})
+            E = ostruc.el{k};         
+            if strcmp(osname, E.sname)    % check referenced structure name
+                E.sname = nsname;          % replace name
+                ostruc.el{k} = E;
+            end
+        end
+    end
+    
 end
-
-return

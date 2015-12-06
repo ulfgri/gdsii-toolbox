@@ -1,5 +1,5 @@
-function gstruc = subsasgn(gstruc, ins, val);
-%function gstruc = subsasgn(gstruc, ins, val);
+function gstruc = subsasgn(gstruc, ins, val)
+%function gstruc = subsasgn(gstruc, ins, val)
 %
 % Subscript assign method for the gds_element class
 % Enables addressing elements in a structure using

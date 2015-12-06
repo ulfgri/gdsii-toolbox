@@ -1,4 +1,4 @@
-function write_element(gelm, gf, uunit, dbunit, compound);
+function write_element(gelm, gf, uunit, dbunit, compound)
 %
 % Stores a GDS element object in a library file.
 %
@@ -12,6 +12,6 @@ function write_element(gelm, gf, uunit, dbunit, compound);
 % Ulf Griesmann, NIST, June 2011
 % modified for new low-level I/O, Ulf Griesmann, January 2013
 
-gds_write_element(gf, gelm.data, uunit/dbunit, compound); 
+    gds_write_element(gf, gelm.data, uunit/dbunit, compound); 
 
-return
+end

@@ -1,5 +1,5 @@
-function cw = poly_iscw(belm);
-%function cw = poly_iscw(belm);
+function cw = poly_iscw(belm)
+%function cw = poly_iscw(belm)
 %
 % poly_iscw :  returns a vector with a flag for each
 %              polgon in a boundary element. The flag
@@ -12,13 +12,13 @@ function cw = poly_iscw(belm);
 
 % Initial version, Ulf Griesmann, NIST, November 2012
 
-% check argument
-if ~strcmp(get_etype(belm.data.internal), 'boundary')
-   error('poly_iscw :  element must be a boundary element.');
+    % check argument
+    if ~strcmp(get_etype(belm.data.internal), 'boundary')
+        error('poly_iscw :  element must be a boundary element.');
+    end
+    
+    % call mex function
+    cw = poly_iscwmex(belm.data.xy);
+    
 end
-
-% call mex function
-cw = poly_iscwmex(belm.data.xy);
-
-return
 

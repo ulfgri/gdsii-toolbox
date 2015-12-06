@@ -1,5 +1,5 @@
-function [s] = sname(gelm);
-%function [s] = sname(gelm);
+function [s] = sname(gelm)
+%function [s] = sname(gelm)
 %
 % returns the structure name referenced in a reference element
 %

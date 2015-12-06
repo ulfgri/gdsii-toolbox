@@ -1,5 +1,5 @@
-function belm = poly_path(pelm);
-%function belm = poly_path(pelm);
+function belm = poly_path(pelm)
+%function belm = poly_path(pelm)
 %
 % converts a path element into an equivalent boundary element.
 %

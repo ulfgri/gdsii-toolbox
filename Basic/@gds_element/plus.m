@@ -1,5 +1,5 @@
-function [gelm] = plus(gelm1, gelm2);
-%function [gelm] = plus(gelm1, gelm2);
+function [gelm] = plus(gelm1, gelm2)
+%function [gelm] = plus(gelm1, gelm2)
 %
 % Defines the '+' operator for the gds_element class.
 % Can be used to combine two simple or compound boundary, path,
@@ -11,27 +11,27 @@ function [gelm] = plus(gelm1, gelm2);
 % gelm  :  compound boundary path or sref element
 %          on the same layer as gelm1.
 
-% Ulf Griesmann, NIST, November 2012
+    % Ulf Griesmann, NIST, November 2012
 
-t1 = get_etype(gelm1.data.internal);
-t2 = get_etype(gelm2.data.internal);
-if ~strcmp(t1, t2)
-   error('gds_element.plus :  arguments of + must have the same type.');
+    t1 = get_etype(gelm1.data.internal);
+    t2 = get_etype(gelm2.data.internal);
+    if ~strcmp(t1, t2)
+        error('gds_element.plus :  arguments of + must have the same type.');
+    end
+    
+    switch t1
+        
+      case {'boundary', 'path'}
+        gelm = gelm1;
+        gelm.data.xy = [gelm1.data.xy, gelm2.data.xy];
+        
+      case 'sref'
+        gelm = gelm1;
+        gelm.data.xy = [gelm1.data.xy; gelm2.data.xy];
+        
+      otherwise
+        error('gds_element.plus :  inputs must be boundary, sref, or path elements.');
+    end
+    
 end
-
-switch t1
-  
-  case {'boundary', 'path'}
-     gelm = gelm1;
-     gelm.data.xy = [gelm1.data.xy, gelm2.data.xy];
-       
-  case 'sref'
-     gelm = gelm1;
-     gelm.data.xy = [gelm1.data.xy; gelm2.data.xy];
-  
-  otherwise
-     error('gds_element.plus :  inputs must be boundary, sref, or path elements.');
-end
-
-return
 

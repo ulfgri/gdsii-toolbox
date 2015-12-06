@@ -1,5 +1,5 @@
-function belm = poly_text(telm, height, type, width, ptype);
-%function belm = poly_text(telm, height, type, width, ptype);
+function belm = poly_text(telm, height, type, width, ptype)
+%function belm = poly_text(telm, height, type, width, ptype)
 %
 % renders a text element as a boundary element with
 % the text defined as polygons.

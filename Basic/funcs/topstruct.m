@@ -6,9 +6,7 @@ function [ts] = topstruct(cas)
 %              or display the top structures.
 %
 % cas :   a cell array of gds_structure objects
-% ts :    a string with the name of the top structure or cell 
-%         array with names if the library has more than one top 
-%         level structure
+% ts :    a cell array with names of top level structures
 
 % Initial version, Ulf Griesmann, December 2012
 

@@ -43,17 +43,17 @@ function bbx = calc_bbox(xy)
 %
 % calculate the bounding box of a cell array of nx2 matrices
 %
-    len = length(xy);
+    len = numel(xy);
     if len == 1      % one polygon is a common case; handle it directly 
         bbx = [min(xy{1}),max(xy{1})];
     else
-        L = zeros(len,2);
-        U = zeros(len,2);
+        ll = zeros(len,2); % lower left corner
+        ur = zeros(len,2); % upper right corner
         for k = 1:len
-            L(k,:) = min(xy{k});
-            U(k,:) = max(xy{k});
+            ll(k,:) = min(xy{k});
+            ur(k,:) = max(xy{k});
         end
-        bbx = [min(L),max(U)];
+        bbx = [min(ll),max(ur)];
     end
     
 end

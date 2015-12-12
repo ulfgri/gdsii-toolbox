@@ -25,7 +25,7 @@ function [cet, width] = gdsii_pathtext(str, pos, height, ang, pwidth, ptype, ext
 %
 % OUTPUT:
 % cet   :  Compound gds_element object with the input text string rendered 
-%          either as boundaries or as paths.
+%          as paths.
 % width :  (Optional) Width of the string in the same units as the height
 %          argument (needed e.g. for centering the string, etc.).
 %

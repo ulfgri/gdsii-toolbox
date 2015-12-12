@@ -1,5 +1,5 @@
 function gelp = subsref(gstruct, ins)
-%function gelp = subsref(gstruct, ins)
+%function gstp = subsref(gstruct, ins)
 %
 % subscript reference method for the gds_structure class
 %
@@ -27,18 +27,9 @@ function gelp = subsref(gstruct, ins)
         
       case '.'
         
-        switch ins.subs
-            
-          case 'sname'
-            gelp = gstruct.sname;
-            
-          case 'cdate'
-            gelp = gstruct.cdate;
-            
-          case 'mdate'
-            gelp = gstruct.mdate;
-            
-          otherwise
+        try
+            gelp = gstruct.(ins.subs);
+        catch
             error('gds_structure.subsref :  invalid structure property.');
         end
         

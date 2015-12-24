@@ -24,7 +24,6 @@ function gstruc = gds_structure(sname, varargin)
     gstruc.cdate = datevec(now);              % creation date
     gstruc.cdate(6) = round(gstruc.cdate(6)); % to nearest second
     gstruc.mdate = [];                        % modification date
-    gstruc.bbox = [];                         % bounding box
     
     % add the elements to the structure
     while length(varargin) > 0

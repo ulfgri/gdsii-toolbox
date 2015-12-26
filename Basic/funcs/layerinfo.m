@@ -1,5 +1,5 @@
-function [S] = layerinfo(glib)
-%function [S] = layerinfo(glib)
+function [S,L] = layerinfo(glib)
+%function [S,L] = layerinfo(glib)
 %
 % layerinfo :  displays information about the
 %              distribution of elements on layers
@@ -12,6 +12,7 @@ function [S] = layerinfo(glib)
 %         type 'etype' on layer k. E.g.: S(10).boundary
 %         When the output argument is omitted, the layer
 %         information is printed on the screen.
+% L :     (Optional) a vector with layers that contain elements
 %
 
 % initial version, Ulf Griesmann, NIST, November 16, 2012
@@ -36,14 +37,17 @@ function [S] = layerinfo(glib)
         
         % iterate over all elements
         for m=1:numel(st)
-            E = st(m);
-            if ~is_ref(E)           % sref and aref have no layer information
-                numl = E.layer + 1;  % gds layer numbers start with 0
+            el = st(m);
+            if ~is_ref(el)            % sref and aref have no layer information
+                numl = el.layer + 1;  % gds layer numbers start with 0
                 L(numl) = L(numl) + 1; 
-                S(numl).(etype(E)) = S(numl).(etype(E)) + 1;
+                S(numl).(etype(el)) = S(numl).(etype(el)) + 1;
             end
         end
     end
+
+    % layer numbers with elements
+    L = find(L) - 1;
     
     %display
     if ~nargout

@@ -5,7 +5,7 @@ function display(gelm)
 %
 
     % print variable name
-    fprintf('%s is a GDSII element:\n\n', inputname(1));
+    fprintf('\n%s is a GDSII element:\n\n', inputname(1));
 
     switch get_etype(gelm.data.internal)
   

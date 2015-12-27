@@ -439,7 +439,7 @@ set_strans(element_t *pe, mxArray *val)
       }
    }
 
-      /* check if HAS_STRANS can be cleared */
+   /* check if HAS_STRANS can be cleared */
    if ( !pe->strans.flags && !(pe->has & HAS_MAG) && !(pe->has & HAS_ANGLE) )
       pe->has &= ~HAS_STRANS;
 }

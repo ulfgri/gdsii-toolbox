@@ -1,7 +1,9 @@
 function [bbx, ref] = bbox(gstruc)
 %function [bbx, ref] = bbox(gstruc)
 %
-% Method returns the bounding box of gds_structure objects.
+% Method returns the bounding box of gds_structure objects and
+% geometry information for all the reference elements in the 
+% gds_structure object.
 % 
 % Input:
 % gstruc :  a gds_structure object
@@ -19,30 +21,30 @@ function [bbx, ref] = bbox(gstruc)
 % Initial version, Ulf Griesmann, November 2015
     
     % allocate a table for element bounding boxes
-    nel = length(gstruc.el);
+    nel = numel(gstruc.el);
     bbel = zeros(nel,4); % max number of elements
+    
+    % pre-allocate structure array with references
+    ref = repmat(struct('sname',[], 'strans',[], ...
+                        'xy',[], 'adim',[]), nel, 1);
     
     % initialize this and that
     ref = [];
     elc = 0;  % element counter
     rec = 0;  % reference counter
 
-    % iterate over all elements
+    % iterate over all elements in the structure
     for k = 1:nel
-        if is_ref(gstruc.el{k})
+        elk = gstruc.el{k};                % k-th element
+        if is_ref(elk)
             rec = rec+1;
-            E = gstruc.el{k};
-            ref(rec).sname  = E.sname;   % structure name
-            ref(rec).strans = E.strans;  % transformations
-            ref(rec).xy     = E.xy;      % translations
-            if is_etype(E,'aref')
-                ref(rec).adim = E.adim;
-            else
-                ref(rec).adim = [];
-            end
+            ref(rec).sname  = sname(elk);  % structure name
+            ref(rec).strans = strans(elk); % transformations
+            ref(rec).xy     = xy(elk);     % translations
+            ref(rec).adim   = adim(elk);   % array dimensions
         else
             elc = elc+1;
-            bbel(elc,:) = bbox(gstruc.el{k});
+            bbel(elc,:) = bbox(elk);
         end
     end
     
@@ -52,5 +54,8 @@ function [bbx, ref] = bbox(gstruc)
     else
         bbx = [Inf,Inf,-Inf,-Inf]; % only reference elements found
     end
+    
+    % truncate reference array
+    ref = ref(1:rec);
     
 end

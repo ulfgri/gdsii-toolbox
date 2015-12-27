@@ -5,7 +5,7 @@ function display(glib);
 %
 
     % print variable name
-    fprintf('%s is a GDSII library:\n\n', inputname(1));
+    fprintf('\n%s is a GDSII library:\n\n', inputname(1));
     fprintf('Library name  :  %s\n', glib.lname);
     fprintf('Database unit :  %g m\n', glib.dbunit);
     fprintf('User unit     :  %g m\n', glib.uunit);

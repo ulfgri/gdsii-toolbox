@@ -28,7 +28,7 @@ function [bbx] = bbox(gelm)
           if isempty(pwidth)
               pwidth = 0;
           end
-          bbx = bbx + [-pwidth,-pwidth,pwidth,pwidth];
+          bbx = bbx + 0.5*[-pwidth,-pwidth,pwidth,pwidth];
         
       case 'box'
           bbx = [min(gelm.data.xy),max(gelm.data.xy)];

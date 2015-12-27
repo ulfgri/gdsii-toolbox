@@ -280,9 +280,16 @@ get_adim(element_t *pe)
    mxArray *padim;                           /* pointer to adim struct array */
    const char *crfields[] = {"row", "col"};  /* for adim */
 
-   padim = mxCreateStructMatrix(1,1, 2, crfields);
-   struct_set_word(padim, 0, &pe->nrow, 1);
-   struct_set_word(padim, 1, &pe->ncol, 1);
+   /* NOTE: only in an aref element are nrow and ncol > zero */
+
+   if (pe->nrow > 0 && pe->ncol > 0) {
+      padim = mxCreateStructMatrix(1,1, 2, crfields);
+      struct_set_word(padim, 0, &pe->nrow, 1);
+      struct_set_word(padim, 1, &pe->ncol, 1);
+   }
+   else {
+      padim = empty_matrix();
+   }
 
    return padim;
 }

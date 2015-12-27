@@ -116,8 +116,8 @@ function gelm = gds_element(etype, varargin)
 %                 strans : structure transformation parameters
 %                 --------------------------------------------
 %                 strans.reflect : if this is set (=1), the element is
-%                                  reflected about the x-axis prior to
-%                                  rotation. Default is 0.
+%                                  reflected about the x-axis AFTER a
+%                                  possible rotation. Default is 0.
 %                 strans.absmag  : if set to 1, specifies absolute
 %                                  magnification. Default is 0.
 %                 strans.absang  : if set to 1, specifies absolute angle.

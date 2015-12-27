@@ -74,7 +74,12 @@ function write_gds_library(glib, fname, varargin)
     end
     
     if verbose
-        fprintf('\nLibrary name  : %s\n', glib.lname);
+        if fname(1) == '!';
+            fprintf('\nLibrary file  : %s\n', fname(2:end));
+        else
+            fprintf('\nLibrary file  : %s\n', fname);
+        end
+        fprintf('Library name  : %s\n', glib.lname);
         fprintf('User unit     : %g m\n', glib.uunit);
         fprintf('Database unit : %g m\n', glib.dbunit);
         fprintf('Structures    : %d\n\n', numel(glib.st));

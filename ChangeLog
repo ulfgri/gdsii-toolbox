@@ -1,3 +1,28 @@
+2015-December-27
+- version 127
+- fixed numerous bugs in bbox methods. There are  bugs
+  left for layouts that use array references (aref elements)
+- new methods for gds_element sref and aref object for fast retrieval
+  element properties
+- correct error in help text of the gds_element constructor. The
+  reflection in an strans record is applied after the rotation.
+- print file name when a library is written with write_gds_library.
+- Basic/funcs/layerinfo.m optionally returns a vector with layers that 
+  contain elements
+- use 'parfor' to loop over structures in 'Basic/funcs/adjmatrix.m'.
+  This has currently no effect in Octave but can speed up functions
+  that require the calculation of the structure hierarcy in MATLAB.
+- update 'Basic/Contents.m
+- update hash functions with newer version of 'gperf'
+- fix help text of 'Basic/funcs/topstruct.m'
+- corrected help text of Elements/gdsii_*text.m functions.
+- update the format of all m-files: 'return' at the end of 
+  functions is replaced by 'end', removed ';' at the end
+  of function definitions.
+- update the display methods for elements, structures, and libraries.
+- more informative warnings when units are not defined prior to using
+  Boolean set algebra operators on elements.
+ 
 2015-November-08
 - version 126
 - new bbox methods for gds_library, gds_structure, and gds_element

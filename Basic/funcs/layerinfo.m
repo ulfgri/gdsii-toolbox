@@ -46,13 +46,10 @@ function [S,L] = layerinfo(glib)
         end
     end
 
-    % layer numbers with elements
-    L = find(L) - 1;
-    
     %display
     if ~nargout
         fprintf('\n');
-        for k = find(L>0)
+        for k = find(L)
             fprintf('L %-3d ->  ', k-1); % layers start with 0
             if S(k).boundary
                 fprintf('%8d Bnd ', S(k).boundary);
@@ -73,5 +70,8 @@ function [S,L] = layerinfo(glib)
         end
         fprintf('\n');
     end
+    
+    % return layer numbers with elements
+    L = find(L) - 1;
     
 end

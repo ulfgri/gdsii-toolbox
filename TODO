@@ -6,9 +6,7 @@
 
 - 'flatten' method for libraries to replace all sref and aref elements
   with the contents of the referenced structures (removes hierarchy).
-
-- calculate bounding boxes of elements, structures and libraries
-  (bbox methods)
+  Does anyone really need this ?
 
 - mitering of paths with acute angles in 'poly_path.m'
 
@@ -28,6 +26,9 @@
 
 
 ----------------------------------------------------------
+
+- calculate bounding boxes of elements, structures and libraries
+  (bbox methods) DONE
 
 - update '@gds_element/poly_text.m' method to allow rendering of text 
   elements with either boundary or path elements. (DONE)

@@ -103,9 +103,14 @@ function gelm = gds_element(etype, varargin)
 %                          xy(1,:) :  origin (reference point)
 %                          xy(2,:) :  column spacing x number of columns
 %                          xy(3,:) :  row spacing x number of rows
+%                        These three coordinates are used to
+%                        control the orientation and position of the whole
+%                        array.
 %                sname : Name of the referenced structure
 %                strans: strans record for transforming the
-%                        structure.
+%                        structure. This controls the orientation
+%                        of the individual instances of the
+%                        referenced structure.
 %                adim :  number of rows and columns in the array
 %                           adim.row : number of rows
 %                           adim.col : number of columns

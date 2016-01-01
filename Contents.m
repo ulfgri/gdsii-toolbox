@@ -60,6 +60,6 @@
 % function for DataMatrix creation, which is under the GNU GPL version
 % 2., and the functions for Booean set operations.
 %
-% Ulf Griesmann, NIST, 2008 - 2015
+% Ulf Griesmann, NIST, 2008 - 2016
 % -------------------------------------------------------
 

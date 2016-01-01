@@ -10,7 +10,7 @@ function [bbx] = bbox_tree(cas)
 % bbx :   a vector [llx,lly,urx,ury] with the coordinates of the
 %         lower left and upper right corners of the bounding box. 
 
-% Initial version, Ulf Griesmann, November 2015
+% Initial version, Ulf Griesmann, December 2015
     
     % calculate boundary boxes before resolving the hierarchy
     % to minimize computations especially for leaf nodes 
@@ -70,10 +70,10 @@ function [bbst] = bbox_struct(A, bbdata, sidx)
                 b(m,:) = bbox_strans(bbr, bbdata(sidx).ref(m).strans);
                 b(m,:) = b(m,:) + ...
                          [bbdata(sidx).ref(m).xy, bbdata(sidx).ref(m).xy];
-            else                                   % aref
-                bba = bbdata(sidx).ref(m).xy;
-                bba(end+1,:) = bba(2,:) + bba(3,:) - bba(1,:);
-                b(m,:) = [min(bba),max(bba)];
+            else                                  % aref
+                b(m,:) = bbox_aref(bbr, bbdata(sidx).ref(m).strans, ...
+                                        bbdata(sidx).ref(m).xy, ...
+                                        bbdata(sidx).ref(m).adim);
             end
         end
 
@@ -103,7 +103,49 @@ function [bbt] = bbox_strans(bb, strans)
            bb(1,3),bb(1,2); ...
            bb(1,3),bb(1,4); ...
            bb(1,1),bb(1,4)];
+
+    box = apply_strans(box, strans);
     
+    % return to boundary box format
+    bbt = [min(box),max(box)];
+
+end
+
+
+function [bba] = bbox_aref(bbr, strans, xy, adim)
+%
+% calculates the bounding box of an aref
+%
+    % matrix with all 4 box corners of referenced box
+    box = [bbr(1,1),bbr(1,2); ...
+           bbr(1,3),bbr(1,2); ...
+           bbr(1,3),bbr(1,4); ...
+           bbr(1,1),bbr(1,4)];
+
+    % apply an strans to the box if one exists
+    if ~isempty(strans)
+        box = apply_strans(box, strans);
+    end
+    
+    % calculate the boxes in the four corners of the array
+    fourbox = zeros(16,2);
+    xy1 = xy(1,:);
+    xy2 = xy1 + (adim.col-1) * (xy(2,:) - xy1) / adim.col;
+    xy3 = xy1 + (adim.row-1) * (xy(3,:) - xy1) / adim.row;
+    fourbox = zeros(16,2);
+    fourbox(1:4,:)   = bsxfun(@plus, box, xy1);
+    fourbox(5:8,:)   = bsxfun(@plus, box, xy2);
+    fourbox(9:12,:)  = bsxfun(@plus, box, xy3);
+    fourbox(13:16,:) = bsxfun(@plus, box, xy2 + xy3 - xy1);
+
+    % return bounding box
+    bba = [min(fourbox), max(fourbox)];
+    
+end
+
+
+function [box] = apply_strans(box, strans)
+
     % first rotate
     if isfield(strans,'angle') && ~isempty(strans.angle) && strans.angle~=0
         box = poly_rotzd(box, strans.angle); % rotated box
@@ -118,8 +160,13 @@ function [bbt] = bbox_strans(bb, strans)
     if isfield(strans,'mag') && ~isempty(strans.mag)
         box = strans.mag * box;
     end
+    
+    if isfield(strans,'absmag') && strans.absmag
+        error('bbox_tree: strans.absmag not suported.');
+    end
 
-    % return to boundary box format
-    bbt = [min(box),max(box)];
+    if isfield(strans,'absang') && strans.absang
+        error('bbox_tree: strans.absang not suported.');
+    end
 
 end

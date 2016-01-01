@@ -1,3 +1,8 @@
+2016-January-01
+- version 128
+- fixed a regression in Basic/funcs/layerinfo.m
+- further debugging of 'bbox' methods. Seem to be usable now.
+
 2015-December-27
 - version 127
 - fixed numerous bugs in bbox methods. There are  bugs

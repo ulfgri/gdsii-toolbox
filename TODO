@@ -1,3 +1,7 @@
+- detect unresolved structure references in functions that 
+  operate on the structure tree (e.g. 'treeview').
+
+- method to remove a structure from a library and all references to it.
 
 - remove bugs on 64 bit Windows. Make sure everything works
   with future MATLAB versions (all 64 bit integers)

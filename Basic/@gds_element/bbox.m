@@ -23,15 +23,30 @@ function [bbx] = bbox(gelm)
           bbx = calc_bbox(gelm.data.xy);
         
       case 'path'
-          bbx = calc_bbox(gelm.data.xy);
-          pwidth = get_element_data(gelm.data.internal, 'width');
-          if isempty(pwidth)
-              pwidth = 0;
+          ptype = 0;
+          pwidth = 0;
+          ext = struct('beg',0,'end',0);
+
+          if has_property(gelm.data.internal, 'width')
+              pwidth = get_element_data(gelm.data.internal, 'width');
+          else
+              error('gds_element.bbox :  path must have width property.');
           end
-          bbx = bbx + 0.5*[-pwidth,-pwidth,pwidth,pwidth];
+          if has_property(gelm.data.internal, 'ext')
+              ext = get_element_data(gelm.data.internal, 'ext');
+          end
+          if has_property(gelm.data.internal, 'ptype')
+              ptype = get_element_data(gelm.data.internal, 'ptype');
+          end
+          
+          cab = cell(numel(gelm.data.xy),1);
+          for k = 1:numel(cab)
+              cab{k} = path_to_polygon(gelm.data.xy{k}, pwidth, ptype, ext);
+          end
+          bbx = calc_bbox(cab);
         
       case 'box'
-          bbx = [min(gelm.data.xy),max(gelm.data.xy)];
+          bbx = calc_bbox(gelm.data.xy);
         
       otherwise % for sref, aref, node, and text
           bbx = [Inf,Inf,-Inf,-Inf]; % inside any other box

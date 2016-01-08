@@ -311,3 +311,20 @@ function [np, cfac] = calc_phi(R, E, A, pap);
 end
 
 %---------------------------------------------------------
+
+function data = flatten_cells(data)
+%
+% flatten_cells :  turns a nested cell array into a flat
+%                  cell array.
+%
+% from the web, June 2013
+
+    try
+        data = cellfun(@flatten_cells,data,'un',0);
+        if any(cellfun(@iscell,data))
+            data = [data{:}];
+        end
+    catch
+        % reached non-cell data, pass through unchanged
+    end
+end

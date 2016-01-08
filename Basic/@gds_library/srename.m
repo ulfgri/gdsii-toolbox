@@ -15,7 +15,7 @@ function [olib] = srename(ilib, osname, nsname)
 
     % find the structure that needs to be replaced
     sidx =  1;
-    while sidx <= length(ilib.st)  
+    while sidx <= numel(ilib.st)  
         if strcmp(osname, sname(ilib.st{sidx}))
             break
         end

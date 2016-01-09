@@ -24,9 +24,7 @@ function [S,L] = layerinfo(glib)
     
     % initialize variables for accounting
     numl = 256; % max number of layers
-    for k=1:numl
-        S(k) = struct('boundary',0, 'path',0, 'box',0, 'node',0, 'text',0);
-    end
+    S = repmat(struct('boundary',0,'path',0,'box',0,'node',0,'text',0),1,numl);
     L = zeros(1,numl);
     
     % iterate over all structures
@@ -50,7 +48,7 @@ function [S,L] = layerinfo(glib)
     if ~nargout
         fprintf('\n');
         for k = find(L)
-            fprintf('L %-3d ->  ', k-1); % layers start with 0
+            fprintf('   L %-3d ->  ', k-1); % layers start with 0
             if S(k).boundary
                 fprintf('%8d Bnd ', S(k).boundary);
             end

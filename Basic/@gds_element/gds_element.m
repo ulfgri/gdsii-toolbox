@@ -37,8 +37,8 @@ function gelm = gds_element(etype, varargin)
 %
 %             Boundary element:
 %             -----------------
-%                xy :    a cell array of N x 2 matrices containing the vertices
-%                        of a one or more closed polygons. 
+%                xy :    a cell array of N x 2 matrices containing one or
+%                        more closed polygons with up to 8191 vertices. 
 %                dtype : data type number 0 .. 255. Default is 0.
 %                        Forms a layer specification together with 
 %                        the layer.
@@ -46,8 +46,8 @@ function gelm = gds_element(etype, varargin)
 %
 %             Path element:
 %             -------------
-%                xy :    a cell array of N x 2 matrices of vertex coordinates 
-%                        along the path describing one or more paths.
+%                xy :    a cell array of N x 2 matrices describing one or 
+%                        more paths with up to 8191 vertex coordinates. 
 %                dtype : data type number 0 .. 255. Default is 0.
 %                        Forms a layer specification together with 
 %                        the layer.

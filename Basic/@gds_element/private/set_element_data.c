@@ -261,7 +261,7 @@ set_width(element_t *pe, mxArray *val)
       mexErrMsgTxt("set_element_data :  element has no width property.");
    pd = (double *)mxGetData(val);
    pe->width = (float)pd[0];
-   if ((int)pe->width)
+   if (pe->width > 0.0)
       pe->has |= HAS_WIDTH;
    else
       pe->has &= ~HAS_WIDTH;
@@ -281,7 +281,7 @@ set_ext(element_t *pe, mxArray *val)
    if ( get_field_ptr(val, "beg", &pa) ) {
       pd = (double *)mxGetData(pa);
       pe->bgnextn = (float)pd[0];
-      if ( (int)pe->bgnextn )
+      if (pe->bgnextn > 0.0)
 	 pe->has |= HAS_BGNEXTN;
       else
 	 pe->has &= ~HAS_BGNEXTN;
@@ -291,7 +291,7 @@ set_ext(element_t *pe, mxArray *val)
    if ( get_field_ptr(val, "end", &pa) ) {
       pd = (double *)mxGetData(pa);
       pe->endextn = (float)pd[0];
-      if ( (int)pe->endextn )
+      if (pe->endextn > 0.0)
 	 pe->has |= HAS_ENDEXTN;
       else
 	 pe->has &= ~HAS_ENDEXTN;

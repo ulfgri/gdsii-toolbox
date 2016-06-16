@@ -40,7 +40,7 @@ mexFunction(int nlhs, mxArray *plhs[],
    FILE *fob;                  /* file object pointer */
    FILE **pfob;                /* pointer to fob */
    double *pd;
-   intmax_t fsize;
+   long int fsize;
    char fname[FNAME_LEN];      /* file name */
    char mode[MODE_LEN];        /* string with polygon operation */
 

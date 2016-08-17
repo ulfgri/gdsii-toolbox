@@ -24,10 +24,10 @@
  *                               |  pointer to first mooring             |
  *                               V                                       V
  *                  +-------------------------+               +--------------------+
- *                  | pointer to previous     | <------------ | pointer to prev.   |
+ *                  | pointer to previous     | <------------ | pointer to prev.   |<--
  *                  | mooring (here: NULL)    |               | mooring            |
  *                  +-------------------------+               +--------------------+
- *                  | pointer to next         | ------------> | pointer to next    |
+ *                  | pointer to next         | ------------> | pointer to next    |-->
  *                  | mooring                 |               | mooring            |
  *                  +-------------------------+               +--------------------+
  *                  | pointer to list data    |               | ptr to list data   |
@@ -158,10 +158,12 @@ delete_list( tList *list )
 {
    Anchor *anchor_block;
 
-   if ( list == NULL )
+   if ( (list == NULL) || (*list == NULL) )
      return -1;
-   anchor_block = (Anchor *) list;
-   if ( anchor_block->entries > 0 )
+
+   anchor_block = (Anchor *) *list;
+
+   if ( anchor_block->entries > 0 ) /* list is not empty */
      {
 	return -1;
      }

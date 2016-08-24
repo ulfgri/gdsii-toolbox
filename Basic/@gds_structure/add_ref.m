@@ -5,7 +5,8 @@ function [ostruc] = add_ref(istruc, struc, varargin)
 %
 % istruc :   a gds_structure object
 % struc :    a gds_structure object, a cell array of gds_structure
-%            objects, or a structure name to be referenced
+%            objects, a structure name, or a cell array of structure names
+%            to be referenced.
 % varargin : variable/property pairs to describe the placement of
 %            the gds_structure. The default position 'xy' is [0,0].
 % ostruc :   gds_structure containing the input structure with the added
@@ -28,12 +29,15 @@ function [ostruc] = add_ref(istruc, struc, varargin)
    elseif isa(struc, 'gds_structure')
       sname = {struc.sname};
    elseif iscell(struc)
-      if ~all(cellfun(@(x)isa(x,'gds_structure'), struc))
-         error('gds_structure.add_ref: object in cell array is not a gds_structure.');
+      if all( cellfun(@(x)ischar(x), struc) )
+	 sname = struc;
+      elseif all( cellfun(@(x)isa(x,'gds_structure'), struc) )
+         sname = cellfun(@(x)sname(x), struc, 'UniformOutput',0);
+      else
+         error('gds_structure.add_ref: all objects in cell array must be strings or gds_structure''s.');
       end
-      sname = topstruct(struc,1);
    else
-      error('gds_structure.add_ref:  second argument must be a string or gds_structure(s).');
+      error('gds_structure.add_ref:  second argument must be a string | gds_structure | cell array.');
    end
 
    % 'adim' property present --> create aref elements

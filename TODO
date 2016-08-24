@@ -6,8 +6,6 @@
 - remove bugs on 64 bit Windows. Make sure everything works
   with future MATLAB versions (all 64 bit integers)
 
-- delete_list: has a bug: NULL is not returned correctly
-
 - 'flatten' method for libraries to replace all sref and aref elements
   with the contents of the referenced structures (removes hierarchy).
   Does anyone really need this ?
@@ -30,6 +28,8 @@
 
 
 ----------------------------------------------------------
+
+- delete_list: has a bug: NULL is not returned correctly. DONE
 
 - calculate bounding boxes of elements, structures and libraries
   (bbox methods) DONE

@@ -1,3 +1,7 @@
+2016-August-24
+- version 131
+- fixed a bug in '@gds_structure/add_ref.m'.
+
 2016-August-17
 - version 130
 - fix for longstanding bug in low level list handling (Florian Demski).

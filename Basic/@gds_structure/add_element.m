@@ -26,7 +26,7 @@ function [ostruc] = add_element(istruc, varargin)
            ostruc.el{end+1} = E;
        elseif iscell(E)
           if ~all(cellfun(@(x)isa(x,'gds_element'), E))
-             error('gds_structure.add_element :  cell array member is no a gds_element.');
+             error('gds_structure.add_element :  cell array member is not a gds_element.');
           end
           ostruc.el = [istruc.el, E(:)']; % make row vector 
        else

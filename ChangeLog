@@ -1,3 +1,8 @@
+2016-August-28
+- version 132
+- make 'layerinfo.m' a method of the gds_library class.
+- fix spelling error in error message in '@gds_structure/add_element.m'
+
 2016-August-24
 - version 131
 - fixed a bug in '@gds_structure/add_ref.m' that prevented passing

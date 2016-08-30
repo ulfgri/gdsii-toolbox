@@ -10,20 +10,13 @@ function display(gelm)
     switch get_etype(gelm.data.internal)
   
       case 'boundary'
-          fprintf('Type: boundary\nPolygons: %d\n', length(gelm.data.xy));
+          fprintf('Type: boundary (%d)\n', length(gelm.data.xy));
           fprintf('layer = %d\n', get_element_data(gelm.data.internal, 'layer') );
           fprintf('dtype = %d\n', get_element_data(gelm.data.internal, 'dtype') );
       
       case 'sref'
-          fprintf('Type: sref\n');
+          fprintf('Type: sref (%d)\n', size(gelm.data.xy,1));
           fprintf('Sref --> %s:\n', get_element_data(gelm.data.internal, 'sname') );
-          if size(gelm.data.xy,2) > 10
-              fprintf('reference positions: %d\n', size(gelm.data.xy,2) );
-          else
-              fprintf('xy = '); 
-              fprintf('\n     %g  %g', gelm.data.xy');
-              fprintf('\n');
-          end
           if has_property(gelm.data.internal, 'strans')
               display_strans( get_element_data(gelm.data.internal, 'strans') );
           end
@@ -48,7 +41,7 @@ function display(gelm)
           fprintf('ntype = %d\n', get_element_data(gelm.data.internal, 'ntype') );
           
       case 'path'
-          fprintf('Type: path\npaths: %d\n', length(gelm.data.xy));
+          fprintf('Type: path (%d)\n', length(gelm.data.xy));
           fprintf('layer = %d\n', get_element_data(gelm.data.internal, 'layer') );
           fprintf('dtype = %d\n', get_element_data(gelm.data.internal, 'dtype') );
           if has_property(gelm.data.internal, 'ptype')

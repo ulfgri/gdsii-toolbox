@@ -87,6 +87,7 @@
 #define HAS_ANGLE     (1<<17)
 #define HAS_MAG       (1<<18)
 
+
 /* 
  * dates 
  */

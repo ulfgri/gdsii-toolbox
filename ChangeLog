@@ -1,3 +1,14 @@
+2016-September-04
+- version 133
+- fix reading of element properties. Was completely broken.
+- make writing of element properties safer by checking if
+  'attr' and 'name' fields are present in a property structure during writing.
+- fixed a bug in 'gdsio.c::now'.
+- 'layerinfo' method for gds_structure objects.
+- change display method for gds_element objects to display the number of
+  elements in a compound element in brackets after the element type.
+  Same style as in structure display method.          
+
 2016-August-28
 - version 132
 - make 'layerinfo.m' a method of the gds_library class.

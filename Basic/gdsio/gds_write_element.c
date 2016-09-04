@@ -1002,12 +1002,18 @@ write_property(FILE *fob, mxArray *prop)
 
    for (k=0; k<np; k++) {
       pa = mxGetField(prop, k, "attr");
+      if (pa == NULL) {
+	 mexErrMsgTxt("Element property has no field named \"attr\"");
+      }
       pd = (double *)mxGetData(pa);
       attr = (int16_t)pd[0];
       write_record_hdr(fob, PROPATTR, sizeof(int16_t));
       write_word(fob, attr);
 
       pa = mxGetField(prop, k, "name");
+      if (pa == NULL) {
+	 mexErrMsgTxt("Element property has no field named \"name\"");
+      }
       mxGetString(pa, value, VLEN);
       len = strlen(value);
       if (len%2)

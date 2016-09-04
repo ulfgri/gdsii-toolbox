@@ -59,6 +59,7 @@ static void read_aref(FILE *fob, mxArray **data, double dbu_to_uu);
 static void read_text(FILE *fob, mxArray **data, double dbu_to_uu); 
 static void read_node(FILE *fob, mxArray **data, double dbu_to_uu); 
 static void read_box(FILE *fob, mxArray **data, double dbu_to_uu); 
+
 static uint16_t read_elflags(FILE *fob); 
 static int32_t read_plex(FILE *fob);
 static uint16_t read_layer(FILE *fob); 
@@ -68,8 +69,7 @@ static double* read_xy2(FILE *fob, int m, double dbu_to_uu);    /* returns sref 
 static int32_t read_extn(FILE *fob);
 static int32_t read_width(FILE *fob);
 static mxArray* read_propattr(FILE *fob); 
-static mxArray* read_propvalue(FILE *fob, int rlen); 
-static mxArray* resize_property_structure(mxArray *pprop, int size);
+static mxArray* read_propname(FILE *fob, int rlen); 
 static void read_colrow(FILE *fob, uint16_t *row, uint16_t *col);
 static void init_element(element_t *elm, element_kind kind); 
 
@@ -152,12 +152,15 @@ read_boundary(FILE *fob, mxArray **data, double dbu_to_uu)
    mxArray *pstruct;
    mxArray *pprop = NULL;
    mxArray *pc;
-   tList xylist;
+   tList xylist = NULL;
+   tList attr_list = NULL;
+   tList name_list = NULL;
    uint16_t rtype, rlen;
    int nprop = 0;
    int nle, k;
    element_t bnd;  /* structure with element data */
    const char *fields[] = {"internal", "xy", "prop"};
+   const char *pfields[] = {"attr","name"};
 
 
    /* initialize element */
@@ -205,13 +208,22 @@ read_boundary(FILE *fob, mxArray **data, double dbu_to_uu)
 	    break;
 
          case PROPATTR:
-	    pprop = resize_property_structure(pprop, nprop+1);
-	    mxSetFieldByNumber(pprop, nprop, 0, read_propattr(fob));
+	    if ( attr_list == NULL) { /* create the list */
+	      if (create_list(&attr_list) == -1)
+		 mexErrMsgTxt("gds_read_element (boundary): failed to create attr_list.");
+	    }
+	    if ( list_insert(attr_list, read_propattr(fob), AFTER) == -1)
+	       mexErrMsgTxt("gds_read_element (boundary) :  attr_list insertion failed.");
+	    nprop++;
 	    break;
 
          case PROPVALUE:
- 	    mxSetFieldByNumber(pprop, nprop, 1, read_propvalue(fob,rlen));
-	    nprop += 1;
+	    if ( name_list == NULL) { /* create the list */
+	      if (create_list(&name_list) == -1)
+		 mexErrMsgTxt("gds_read_element (boundary): failed to create name_list.");
+	    }
+	    if ( list_insert(name_list, read_propname(fob,rlen), AFTER) == -1)
+	       mexErrMsgTxt("gds_read_element (boundary) :  name_list insertion failed.");
 	    break;
 
          default:
@@ -232,6 +244,27 @@ read_boundary(FILE *fob, mxArray **data, double dbu_to_uu)
 
    /* set prop field */
    if ( nprop ) {
+
+      /* check if lists match */
+      if (list_entries(attr_list) != list_entries(name_list))
+	 mexErrMsgTxt("gds_read_element (boundary) :  name and attribute lists do not match.");
+
+      /* new structure array */
+      pprop = mxCreateStructMatrix(1,nprop, 2, pfields);
+
+      /* copy data into property structure */
+      list_head(attr_list);
+      list_head(name_list);
+      for (k=0; k<nprop; k++) {
+	 mxSetFieldByNumber(pprop, k, 0, (mxArray *)get_current_entry(attr_list, NULL));
+	 mxSetFieldByNumber(pprop, k, 1, (mxArray *)get_current_entry(name_list, NULL));
+      }
+      erase_list_entries(attr_list);
+      delete_list(&attr_list);
+      erase_list_entries(name_list);
+      delete_list(&name_list);
+
+      /* add property field to element structure */
       mxSetFieldByNumber(pstruct, 0, 2, pprop);
    }
    else {
@@ -255,11 +288,14 @@ read_path(FILE *fob, mxArray **data, double dbu_to_uu)
    mxArray *pprop = NULL;
    mxArray *pc;
    tList xylist;
+   tList attr_list = NULL;
+   tList name_list = NULL;
    uint16_t rtype, rlen;
    int nprop = 0;
    int nle, k;
    element_t path;
    const char *fields[] = {"internal", "xy", "prop"};
+   const char *pfields[] = {"attr","name"};
 
 
    /* initialize element */
@@ -327,13 +363,22 @@ read_path(FILE *fob, mxArray **data, double dbu_to_uu)
 	    break;
 
          case PROPATTR:
-	    pprop = resize_property_structure(pprop, nprop+1);
-	    mxSetFieldByNumber(pprop, nprop, 0, read_propattr(fob));
+	    if ( attr_list == NULL) { /* create the list */
+	      if (create_list(&attr_list) == -1)
+		 mexErrMsgTxt("gds_read_element (boundary): failed to create attr_list.");
+	    }
+	    if ( list_insert(attr_list, read_propattr(fob), AFTER) == -1)
+	       mexErrMsgTxt("gds_read_element (boundary) :  attr_list insertion failed.");
+	    nprop++;
 	    break;
 
          case PROPVALUE:
- 	    mxSetFieldByNumber(pprop, nprop, 1, read_propvalue(fob,rlen));
-	    nprop += 1;
+	    if ( name_list == NULL) { /* create the list */
+	      if (create_list(&name_list) == -1)
+		 mexErrMsgTxt("gds_read_element (boundary): failed to create name_list.");
+	    }
+	    if ( list_insert(name_list, read_propname(fob,rlen), AFTER) == -1)
+	       mexErrMsgTxt("gds_read_element (boundary) :  name_list insertion failed.");
 	    break;
 
          default:
@@ -354,6 +399,27 @@ read_path(FILE *fob, mxArray **data, double dbu_to_uu)
 
    /* set prop field */
    if ( nprop ) {
+
+      /* check if lists match */
+      if (list_entries(attr_list) != list_entries(name_list))
+	 mexErrMsgTxt("gds_read_element (boundary) :  name and attribute lists do not match.");
+
+      /* new structure array */
+      pprop = mxCreateStructMatrix(1,nprop, 2, pfields);
+
+      /* copy data into property structure */
+      list_head(attr_list);
+      list_head(name_list);
+      for (k=0; k<nprop; k++) {
+	 mxSetFieldByNumber(pprop, k, 0, (mxArray *)get_current_entry(attr_list, NULL));
+	 mxSetFieldByNumber(pprop, k, 1, (mxArray *)get_current_entry(name_list, NULL));
+      }
+      erase_list_entries(attr_list);
+      delete_list(&attr_list);
+      erase_list_entries(name_list);
+      delete_list(&name_list);
+
+      /* add property field to element structure */
       mxSetFieldByNumber(pstruct, 0, 2, pprop);
    }
    else {
@@ -378,12 +444,15 @@ read_sref(FILE *fob, mxArray **data, double dbu_to_uu)
    mxArray *pa;
    double *pd;
    tList xylist;
+   tList attr_list = NULL;
+   tList name_list = NULL;
    uint16_t rtype, rlen;
    int nprop = 0;
    int mtotal = 0;
    int k, m, nle;
    element_t sref;
    const char *fields[] = {"internal", "xy", "prop"};
+   const char *pfields[] = {"attr","name"};
    xy_block vertex;
 
 
@@ -450,13 +519,22 @@ read_sref(FILE *fob, mxArray **data, double dbu_to_uu)
 	    break;
 
          case PROPATTR:
-	    pprop = resize_property_structure(pprop, nprop+1);
-	    mxSetFieldByNumber(pprop, nprop, 0, read_propattr(fob));
+	    if ( attr_list == NULL) { /* create the list */
+	      if (create_list(&attr_list) == -1)
+		 mexErrMsgTxt("gds_read_element (boundary): failed to create attr_list.");
+	    }
+	    if ( list_insert(attr_list, read_propattr(fob), AFTER) == -1)
+	       mexErrMsgTxt("gds_read_element (boundary) :  attr_list insertion failed.");
+	    nprop++;
 	    break;
 
          case PROPVALUE:
- 	    mxSetFieldByNumber(pprop, nprop, 1, read_propvalue(fob,rlen));
-	    nprop += 1;
+	    if ( name_list == NULL) { /* create the list */
+	      if (create_list(&name_list) == -1)
+		 mexErrMsgTxt("gds_read_element (boundary): failed to create name_list.");
+	    }
+	    if ( list_insert(name_list, read_propname(fob,rlen), AFTER) == -1)
+	       mexErrMsgTxt("gds_read_element (boundary) :  name_list insertion failed.");
 	    break;
 
          default:
@@ -484,6 +562,27 @@ read_sref(FILE *fob, mxArray **data, double dbu_to_uu)
 
    /* set prop field */
    if ( nprop ) {
+
+      /* check if lists match */
+      if (list_entries(attr_list) != list_entries(name_list))
+	 mexErrMsgTxt("gds_read_element (boundary) :  name and attribute lists do not match.");
+
+      /* new structure array */
+      pprop = mxCreateStructMatrix(1,nprop, 2, pfields);
+
+      /* copy data into property structure */
+      list_head(attr_list);
+      list_head(name_list);
+      for (k=0; k<nprop; k++) {
+	 mxSetFieldByNumber(pprop, k, 0, (mxArray *)get_current_entry(attr_list, NULL));
+	 mxSetFieldByNumber(pprop, k, 1, (mxArray *)get_current_entry(name_list, NULL));
+      }
+      erase_list_entries(attr_list);
+      delete_list(&attr_list);
+      erase_list_entries(name_list);
+      delete_list(&name_list);
+
+      /* add property field to element structure */
       mxSetFieldByNumber(pstruct, 0, 2, pprop);
    }
    else {
@@ -505,10 +604,14 @@ read_aref(FILE *fob, mxArray **data, double dbu_to_uu)
 {
    mxArray *pstruct;
    mxArray *pprop = NULL;
+   tList attr_list = NULL;
+   tList name_list = NULL;
    uint16_t rtype, rlen;
    int nprop = 0;
+   int k;
    element_t aref;
    const char *fields[] = {"internal", "xy", "prop"};
+   const char *pfields[] = {"attr","name"};
 
 
    /* initialize element */
@@ -570,13 +673,22 @@ read_aref(FILE *fob, mxArray **data, double dbu_to_uu)
 	    break;
 
          case PROPATTR:
-	    pprop = resize_property_structure(pprop, nprop+1);
-	    mxSetFieldByNumber(pprop, nprop, 0, read_propattr(fob));
+	    if ( attr_list == NULL) { /* create the list */
+	      if (create_list(&attr_list) == -1)
+		 mexErrMsgTxt("gds_read_element (boundary): failed to create attr_list.");
+	    }
+	    if ( list_insert(attr_list, read_propattr(fob), AFTER) == -1)
+	       mexErrMsgTxt("gds_read_element (boundary) :  attr_list insertion failed.");
+	    nprop++;
 	    break;
 
          case PROPVALUE:
- 	    mxSetFieldByNumber(pprop, nprop, 1, read_propvalue(fob,rlen));
-	    nprop += 1;
+	    if ( name_list == NULL) { /* create the list */
+	      if (create_list(&name_list) == -1)
+		 mexErrMsgTxt("gds_read_element (boundary): failed to create name_list.");
+	    }
+	    if ( list_insert(name_list, read_propname(fob,rlen), AFTER) == -1)
+	       mexErrMsgTxt("gds_read_element (boundary) :  name_list insertion failed.");
 	    break;
 
          default:
@@ -587,6 +699,27 @@ read_aref(FILE *fob, mxArray **data, double dbu_to_uu)
 
    /* set prop field */
    if ( nprop ) {
+
+      /* check if lists match */
+      if (list_entries(attr_list) != list_entries(name_list))
+	 mexErrMsgTxt("gds_read_element (boundary) :  name and attribute lists do not match.");
+
+      /* new structure array */
+      pprop = mxCreateStructMatrix(1,nprop, 2, pfields);
+
+      /* copy data into property structure */
+      list_head(attr_list);
+      list_head(name_list);
+      for (k=0; k<nprop; k++) {
+	 mxSetFieldByNumber(pprop, k, 0, (mxArray *)get_current_entry(attr_list, NULL));
+	 mxSetFieldByNumber(pprop, k, 1, (mxArray *)get_current_entry(name_list, NULL));
+      }
+      erase_list_entries(attr_list);
+      delete_list(&attr_list);
+      erase_list_entries(name_list);
+      delete_list(&name_list);
+
+      /* add property field to element structure */
       mxSetFieldByNumber(pstruct, 0, 2, pprop);
    }
    else {
@@ -608,11 +741,15 @@ read_text(FILE *fob, mxArray **data, double dbu_to_uu)
 {
    mxArray *pstruct;
    mxArray *pprop = NULL;
+   tList attr_list = NULL;
+   tList name_list = NULL;
    uint16_t rtype, rlen;
    int nprop = 0;
+   int k;
    char tstr[TXTLEN+4];
    element_t text;
    const char *fields[] = {"internal", "xy", "prop", "text"};
+   const char *pfields[] = {"attr","name"};
 
 
    /* initialize element */
@@ -695,13 +832,22 @@ read_text(FILE *fob, mxArray **data, double dbu_to_uu)
 	    break;
 
          case PROPATTR:
-	    pprop = resize_property_structure(pprop, nprop+1);
-	    mxSetFieldByNumber(pprop, nprop, 0, read_propattr(fob));
+	    if ( attr_list == NULL) { /* create the list */
+	      if (create_list(&attr_list) == -1)
+		 mexErrMsgTxt("gds_read_element (boundary): failed to create attr_list.");
+	    }
+	    if ( list_insert(attr_list, read_propattr(fob), AFTER) == -1)
+	       mexErrMsgTxt("gds_read_element (boundary) :  attr_list insertion failed.");
+	    nprop++;
 	    break;
 
          case PROPVALUE:
- 	    mxSetFieldByNumber(pprop, nprop, 1, read_propvalue(fob,rlen));
-	    nprop += 1;
+	    if ( name_list == NULL) { /* create the list */
+	      if (create_list(&name_list) == -1)
+		 mexErrMsgTxt("gds_read_element (boundary): failed to create name_list.");
+	    }
+	    if ( list_insert(name_list, read_propname(fob,rlen), AFTER) == -1)
+	       mexErrMsgTxt("gds_read_element (boundary) :  name_list insertion failed.");
 	    break;
 
          default:
@@ -712,6 +858,27 @@ read_text(FILE *fob, mxArray **data, double dbu_to_uu)
 
    /* set prop field */
    if ( nprop ) {
+
+      /* check if lists match */
+      if (list_entries(attr_list) != list_entries(name_list))
+	 mexErrMsgTxt("gds_read_element (boundary) :  name and attribute lists do not match.");
+
+      /* new structure array */
+      pprop = mxCreateStructMatrix(1,nprop, 2, pfields);
+
+      /* copy data into property structure */
+      list_head(attr_list);
+      list_head(name_list);
+      for (k=0; k<nprop; k++) {
+	 mxSetFieldByNumber(pprop, k, 0, (mxArray *)get_current_entry(attr_list, NULL));
+	 mxSetFieldByNumber(pprop, k, 1, (mxArray *)get_current_entry(name_list, NULL));
+      }
+      erase_list_entries(attr_list);
+      delete_list(&attr_list);
+      erase_list_entries(name_list);
+      delete_list(&name_list);
+
+      /* add property field to element structure */
       mxSetFieldByNumber(pstruct, 0, 2, pprop);
    }
    else {
@@ -733,10 +900,14 @@ read_node(FILE *fob, mxArray **data, double dbu_to_uu)
 {
    mxArray *pstruct;
    mxArray *pprop = NULL;
+   tList attr_list = NULL;
+   tList name_list = NULL;
    uint16_t rtype, rlen;
    int nprop = 0;
+   int k;
    element_t node;
    const char *fields[] = {"internal", "xy", "prop"};
+   const char *pfields[] = {"attr","name"};
 
 
    /* initialize element */
@@ -779,13 +950,22 @@ read_node(FILE *fob, mxArray **data, double dbu_to_uu)
 	    break;
 
          case PROPATTR:
-	    pprop = resize_property_structure(pprop, nprop+1);
-	    mxSetFieldByNumber(pprop, nprop, 0, read_propattr(fob));
+	    if ( attr_list == NULL) { /* create the list */
+	      if (create_list(&attr_list) == -1)
+		 mexErrMsgTxt("gds_read_element (boundary): failed to create attr_list.");
+	    }
+	    if ( list_insert(attr_list, read_propattr(fob), AFTER) == -1)
+	       mexErrMsgTxt("gds_read_element (boundary) :  attr_list insertion failed.");
+	    nprop++;
 	    break;
 
          case PROPVALUE:
- 	    mxSetFieldByNumber(pprop, nprop, 1, read_propvalue(fob,rlen));
-	    nprop += 1;
+	    if ( name_list == NULL) { /* create the list */
+	      if (create_list(&name_list) == -1)
+		 mexErrMsgTxt("gds_read_element (boundary): failed to create name_list.");
+	    }
+	    if ( list_insert(name_list, read_propname(fob,rlen), AFTER) == -1)
+	       mexErrMsgTxt("gds_read_element (boundary) :  name_list insertion failed.");
 	    break;
 
          default:
@@ -796,6 +976,27 @@ read_node(FILE *fob, mxArray **data, double dbu_to_uu)
 
    /* set prop field */
    if ( nprop ) {
+
+      /* check if lists match */
+      if (list_entries(attr_list) != list_entries(name_list))
+	 mexErrMsgTxt("gds_read_element (boundary) :  name and attribute lists do not match.");
+
+      /* new structure array */
+      pprop = mxCreateStructMatrix(1,nprop, 2, pfields);
+
+      /* copy data into property structure */
+      list_head(attr_list);
+      list_head(name_list);
+      for (k=0; k<nprop; k++) {
+	 mxSetFieldByNumber(pprop, k, 0, (mxArray *)get_current_entry(attr_list, NULL));
+	 mxSetFieldByNumber(pprop, k, 1, (mxArray *)get_current_entry(name_list, NULL));
+      }
+      erase_list_entries(attr_list);
+      delete_list(&attr_list);
+      erase_list_entries(name_list);
+      delete_list(&name_list);
+
+      /* add property field to element structure */
       mxSetFieldByNumber(pstruct, 0, 2, pprop);
    }
    else {
@@ -817,10 +1018,14 @@ read_box(FILE *fob, mxArray **data, double dbu_to_uu)
 {
    mxArray *pstruct;
    mxArray *pprop = NULL;
+   tList attr_list = NULL;
+   tList name_list = NULL;
    uint16_t rtype, rlen;
    int nprop = 0;
+   int k;
    element_t box;
    const char *fields[] = {"internal", "xy", "prop"};
+   const char *pfields[] = {"attr","name"};
 
 
    /* initialize element */
@@ -863,13 +1068,22 @@ read_box(FILE *fob, mxArray **data, double dbu_to_uu)
 	    break;
 
          case PROPATTR:
-	    pprop = resize_property_structure(pprop, nprop+1);
-	    mxSetFieldByNumber(pprop, nprop, 0, read_propattr(fob));
+	    if ( attr_list == NULL) { /* create the list */
+	      if (create_list(&attr_list) == -1)
+		 mexErrMsgTxt("gds_read_element (boundary): failed to create attr_list.");
+	    }
+	    if ( list_insert(attr_list, read_propattr(fob), AFTER) == -1)
+	       mexErrMsgTxt("gds_read_element (boundary) :  attr_list insertion failed.");
+	    nprop++;
 	    break;
 
          case PROPVALUE:
- 	    mxSetFieldByNumber(pprop, nprop, 1, read_propvalue(fob,rlen));
-	    nprop += 1;
+	    if ( name_list == NULL) { /* create the list */
+	      if (create_list(&name_list) == -1)
+		 mexErrMsgTxt("gds_read_element (boundary): failed to create name_list.");
+	    }
+	    if ( list_insert(name_list, read_propname(fob,rlen), AFTER) == -1)
+	       mexErrMsgTxt("gds_read_element (boundary) :  name_list insertion failed.");
 	    break;
 
          default:
@@ -880,6 +1094,27 @@ read_box(FILE *fob, mxArray **data, double dbu_to_uu)
 
    /* set prop field */
    if ( nprop ) {
+
+      /* check if lists match */
+      if (list_entries(attr_list) != list_entries(name_list))
+	 mexErrMsgTxt("gds_read_element (boundary) :  name and attribute lists do not match.");
+
+      /* new structure array */
+      pprop = mxCreateStructMatrix(1,nprop, 2, pfields);
+
+      /* copy data into property structure */
+      list_head(attr_list);
+      list_head(name_list);
+      for (k=0; k<nprop; k++) {
+	 mxSetFieldByNumber(pprop, k, 0, (mxArray *)get_current_entry(attr_list, NULL));
+	 mxSetFieldByNumber(pprop, k, 1, (mxArray *)get_current_entry(name_list, NULL));
+      }
+      erase_list_entries(attr_list);
+      delete_list(&attr_list);
+      erase_list_entries(name_list);
+      delete_list(&name_list);
+
+      /* add property field to element structure */
       mxSetFieldByNumber(pstruct, 0, 2, pprop);
    }
    else {
@@ -1049,47 +1284,14 @@ read_propattr(FILE *fob)
 /*-----------------------------------------------------------------*/
  
 static mxArray* 
-read_propvalue(FILE *fob, int rlen)
+read_propname(FILE *fob, int rlen)
 {
    char propname[256];
 
    if ( read_string(fob, propname, rlen) )
-      mexErrMsgTxt("read_propvalue :  read failed.");
+      mexErrMsgTxt("read_propname :  read failed.");
 
    return mxCreateString(propname);
-}
-
-
-/*-----------------------------------------------------------------*/
-
-static mxArray* 
-resize_property_structure(mxArray *pprop, int size)
-{
-   mxArray *newpprop;
-   mxArray *pattr, *pvalue;
-   int nump, k;
-   const char *fields[] = {"attr","name"};
-
-   /* new structure array */
-   newpprop = mxCreateStructMatrix(1,size, 2, fields);
-
-   /* copy over the old structure array */
-   if (pprop == NULL)
-      nump = 0; /* first one */
-   else
-      nump = mxGetM(pprop) * mxGetN(pprop);
-   for (k=0; k<nump; k++) {
-      pattr  = mxGetFieldByNumber(pprop, k, 0);
-      pvalue = mxGetFieldByNumber(pprop, k, 1);
-      mxSetFieldByNumber(newpprop, k, 0, pattr);
-      mxSetFieldByNumber(newpprop, k, 1, pvalue);
-   }
-
-   /* destroy the old structure array */
-   if (pprop != NULL)
-      mxDestroyArray(pprop);
-
-   return newpprop;
 }
 
 

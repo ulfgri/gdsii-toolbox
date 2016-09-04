@@ -1003,7 +1003,10 @@ write_property(FILE *fob, mxArray *prop)
    for (k=0; k<np; k++) {
       pa = mxGetField(prop, k, "attr");
       if (pa == NULL) {
-	 mexErrMsgTxt("Element property has no field named \"attr\"");
+	 mexErrMsgTxt("Element property has no field named \"attr\".");
+      }
+      if ( !mxIsNumeric(pa) ) {
+	  mexErrMsgTxt("Element property attribute must be a real number.");
       }
       pd = (double *)mxGetData(pa);
       attr = (int16_t)pd[0];
@@ -1012,7 +1015,10 @@ write_property(FILE *fob, mxArray *prop)
 
       pa = mxGetField(prop, k, "name");
       if (pa == NULL) {
-	 mexErrMsgTxt("Element property has no field named \"name\"");
+	 mexErrMsgTxt("Element property has no field named \"name\".");
+      }
+      if ( !mxIsChar(pa) ) {
+	 mexErrMsgTxt("Element property name (value) must be a string.");
       }
       mxGetString(pa, value, VLEN);
       len = strlen(value);

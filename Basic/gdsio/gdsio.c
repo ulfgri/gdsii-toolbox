@@ -241,8 +241,9 @@ read_string(FILE *fob, char *str, int nchar)
    nr = (int)fread(str, sizeof(char), (size_t)nchar, fob);
    if (nr != nchar)
       return READ_CHAR;
-   
-   str[nchar] = '\0';
+
+   /* make sure it is terminated */
+   str[nr] = '\0';
 
    return A_OK;
 }

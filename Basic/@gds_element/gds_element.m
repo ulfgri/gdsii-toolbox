@@ -23,14 +23,15 @@ function gelm = gds_element(etype, varargin)
 %                       This flag is omitted by default.
 %             plex :    a number used for grouping of elements. A negative
 %                       plex number specifies the plex head. Omitted by default.
-%             prop :    a structure array with property number and property name pairs.
+%             prop :    a structure array with property number and property 
+%                       name (or value) pairs.
 %                           prop(k).attr : 1 .. 127
-%                           prop(k).name : string.
+%                           prop(k).name : character string.
 %                       The total number of bytes for all properties in the structure
 %                       array must not exceed 128, or 512 in the case of sref and aref
 %                       elements.
 %             layer :   GDS layer for the element EXCEPT SREF and AREF, which
-%                       have no layer property (default is 2).
+%                       have no layer property (default is 1).
 %             
 %           Element specific properties:
 %           ============================
@@ -136,7 +137,7 @@ function gelm = gds_element(etype, varargin)
 % Initial version, Ulf Griesmann, NIST, June 2011
 
     % get element properties
-    if isstruct(varargin{1})  % properties are from gds_read_element
+    if ~isempty(varargin) && isstruct(varargin{1})  % properties are from gds_read_element
   
         data = varargin{1};
    
@@ -175,8 +176,9 @@ function gelm = gds_element(etype, varargin)
     end
 
     % create the element object
-    % NOTE: each object of a class must have the same fields. Since the
-    % structure 'data' has a varying number of fields, e.g. 'text' is only present
+    % NOTE: each object of a class must have the same fields (old style objects in 
+    % Octave/Matlab are essentially thinly veiled structures). Since the structure
+    % 'data' has a varying number of fields, e.g. 'text' is only present
     % in text elements, we need to create an object 'elmo' that has 'data' as 
     % its only field.
     elmo.data = data;

@@ -2,7 +2,7 @@
 Octave / MATLAB Toolbox for GDSII Stream Format
 ===============================================
 
-Ulf Griesmann, NIST, 2008 - 2015 
+Ulf Griesmann, NIST, 2008 - 2016 
 ulf.griesmann@nist.gov, ulfgri@gmail.com
 
 

@@ -58,7 +58,7 @@
 % 
 % This software is in the Public Domain, with the exception of the mex
 % function for DataMatrix creation, which is under the GNU GPL version
-% 2., and the functions for Booean set operations.
+% 2., and the functions for Boolean set operations.
 %
 % Ulf Griesmann, NIST, 2008 - 2016
 % -------------------------------------------------------

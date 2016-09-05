@@ -1,3 +1,7 @@
+
+- clean up the C code for reading and writing element data. 
+  There is too much code duplication.
+
 - detect unresolved structure references in functions that 
   operate on the structure tree (e.g. 'treeview').
 

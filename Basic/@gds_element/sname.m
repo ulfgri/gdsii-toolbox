@@ -6,6 +6,10 @@ function [s] = sname(gelm)
 % gelm :   a gds_element object
 % s :      a string with the referenced structure name
 
+    if ~isref(gelm.data.internal)
+        error('gds_element.sname :  element is not a reference element.');
+    end
+    
     s = get_element_data(gelm.data.internal, 'sname');
 
 end

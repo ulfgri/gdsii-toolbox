@@ -18,3 +18,9 @@ A: Structures are added to a layout (library) by passing them as
    descendant of the top level structure through a chain of structure
    references. These must be created using the 'add_ref' method.
    
+
+Q: After compiling the toolbox on Octave/Windows or Matlab/Windows, 
+   reading a layout results in a crash or in an error message (e.g. 'get_etype
+   not found'). 
+
+A: Exit and restart Octave or Matlab. Then try again.

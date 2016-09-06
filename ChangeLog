@@ -1,3 +1,11 @@
+2016-September-06
+- version 134
+- new methods '@gds_structure/refrename.m' and '@gds_library/srename.m'
+  to structures from a library together will all references to the structure.
+- fix typo in 'Contents.m'
+- improve methods that return gds_element properties with error checking.
+- add '@gds_element/prop' method that returns user defined element properties.
+
 2016-September-04
 - version 133
 - fix reading of element properties. Was completely broken.

@@ -4,9 +4,6 @@ function display(gstruc)
 % display method for GDS structures
 %
 
-   % check argument
-   if nargin == 0, error('gds_structure.display :  missing argument.'); end;
-
    % print variable name
    fprintf('\n%s is a GDSII structure with ', inputname(1));
    nel = numel(gstruc.el);
@@ -15,10 +12,10 @@ function display(gstruc)
    else
       fprintf('%d elements:\n\n', nel);
    end
-   fprintf('sname = %s\n', gstruc.sname);
-   fprintf('cdate = %d-%d-%d, %02d:%02d:%02d\n', gstruc.cdate);
+   fprintf('   sname = %s\n', gstruc.sname);
+   fprintf('   cdate = %d-%d-%d, %02d:%02d:%02d\n', gstruc.cdate);
    if ~isempty(gstruc.mdate)
-      fprintf('mdate = %d-%d-%d, %02d:%02d:%02d\n', gstruc.mdate);
+      fprintf('   mdate = %d-%d-%d, %02d:%02d:%02d\n', gstruc.mdate);
    end
    fprintf('\n');
 

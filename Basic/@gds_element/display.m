@@ -16,14 +16,14 @@ function display(gelm)
       
       case 'sref'
           fprintf('Type: sref (%d)\n', size(gelm.data.xy,1));
-          fprintf('Sref --> %s:\n', get_element_data(gelm.data.internal, 'sname') );
+          fprintf('Sref --> %s\n', get_element_data(gelm.data.internal, 'sname') );
           if has_property(gelm.data.internal, 'strans')
               display_strans( get_element_data(gelm.data.internal, 'strans') );
           end
    
       case 'aref'
           fprintf('Type: aref\n');
-          fprintf('Aref --> %s:\n', get_element_data(gelm.data.internal, 'sname') );
+          fprintf('Aref --> %s\n', get_element_data(gelm.data.internal, 'sname') );
           fprintf('xy = '); 
           fprintf('\n     %g  %g', gelm.data.xy');
           fprintf('\n');

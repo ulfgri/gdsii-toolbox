@@ -1,3 +1,9 @@
+2016-September-08
+- version 135
+- improve display methods to more closely conform to other display
+  methods in Octave/Matlab (e.g., indent element data).
+- remove superfluous ':' in display of reference elements.    
+
 2016-September-06
 - version 134
 - new methods '@gds_structure/refrename.m' and '@gds_library/srename.m'

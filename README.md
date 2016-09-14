@@ -6,7 +6,7 @@ Ulf Griesmann, NIST, 2008 - 2016
 ulf.griesmann@nist.gov, ulfgri@gmail.com
 
 
-All functions in this toolbox are in the Public Domain (see 
+Most functions in this toolbox are in the Public Domain (see 
 Notice_and_Disclaimer.pdf), with the following exceptions:
 
 - Boolean/clipper.hpp and Boolean/clipper.cpp are subject to the

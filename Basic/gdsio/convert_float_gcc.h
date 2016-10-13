@@ -29,7 +29,7 @@ excess64_to_ieee754(uint64_t *b)
    int count = 0;
    uint64_t fraction;
    uint16_t exp_ieee;
-   int8_t exp_ex64;
+   int8_t exp_ex64 = 0;
 
 
    /* Fraction takes binary content of last seven bytes */
@@ -78,7 +78,7 @@ excess64_to_ieee754(uint64_t *b)
 static INLINE void 
 ieee754_to_excess64(double d, uint64_t *b)
 {
-   uint16_t exp_ex64;
+   uint16_t exp_ex64 = 0;
    uint16_t exp_ieee;
    uint64_t fraction;
    uint64_t d_bits;
@@ -98,12 +98,13 @@ ieee754_to_excess64(double d, uint64_t *b)
 
    /* Verify if IEEE754 exponent exceeds Calma format range, return error */
    if ( (exp_ieee > 1275) || (exp_ieee < 767) ) {
-     mexErrMsgTxt("ieee754_to_excess64 :  floating point number cannot be represented in excess-64 format.");
+      mexErrMsgTxt("ieee754_to_excess64 :  floating point number cannot be represented in excess-64 format.");
    } 
    else {
       /* Convert power of 2 to power of 16, remainder absorbed by fraction
-         as ieee-1023 is default, add 4 (changing from 52 to 56 bit size of
-         the fraction) and adding 4 times 64, the new offset of base 16.*/
+       * as ieee-1023 is default, add 4 (changing from 52 to 56 bit size of
+       * the fraction) and adding 4 times 64, the new offset of base 16.
+       */
       exp_ex64 = exp_ieee - 1023 + 4 + 4*64;
       for(i=1; i<3;i++) {
 	 /* As factors 2^1, 2^2 and 2^3 do not fit in 2^4, shift fraction

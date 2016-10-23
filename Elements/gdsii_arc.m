@@ -10,9 +10,9 @@ function [pg] = gdsii_arc(arc, layer, dtype, prop, plex, elflags)
 %                       arc.r == 0 creates a circle segment.
 %             arc.c :   center coordinate of the arc; 1x2 matrix
 %                       Default is [0,0].
-%             arc.a1 :  start angle of arc in radians
-%             arc.a2 :  end angle of arc in radians
-%                       both angles must be from the interval [0,2pi]
+%             arc.a1 :  start angle of arc in DEGREES
+%             arc.a2 :  end angle of arc in DEGREES
+%                       both angles must be from the interval [0,360]
 %          OR :
 %             arc.x1 :  start point of INSIDE arc
 %             arc.x2 :  a point on the arc
@@ -72,10 +72,20 @@ function [pg] = gdsii_arc(arc, layer, dtype, prop, plex, elflags)
     if ~isfield(arc, 'pap')
         arc.pap = 2;
     end
+    
+    % convert angles degrees --> radians
+    if isfield(arc, 'a1')
+        arc.a1 = pi * arc.a1 / 180;
+    end
+    if isfield(arc, 'a2')
+        arc.a2 = pi * arc.a2 / 180;
+    end    
 
     % calculate center, radius if 3 points are given
     if isfield(arc, 'x1')
         [arc.c, arc.r] = circle_3point(x1, x2, x3);
+        arc.a1 = atan2(x1(2),x1(1));
+        arc.a2 = atan2(x3(2),x3(1));
     end
 
     % calculate the polygon approximation

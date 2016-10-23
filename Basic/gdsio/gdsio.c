@@ -43,7 +43,12 @@ now(date_t dv)
 
    /* fill date vector */
    if (pts == NULL) {
-      memset(&dv, '\0', sizeof dv);
+      dv[0] = 0;
+      dv[1] = 0;
+      dv[2] = 0;
+      dv[3] = 0;
+      dv[4] = 0;
+      dv[5] = 0;
    }
    else {
       dv[0] = pts->tm_year + 1900;

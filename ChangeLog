@@ -1,3 +1,9 @@
+2016-October-24
+- version 136
+- finally squashed bug in gdsio::now
+- mxlist.h: conform to C99 (default for GCC 5)
+- Update README
+
 2016-September-08
 - version 135
 - improve display methods to more closely conform to other display

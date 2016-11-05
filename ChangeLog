@@ -6,6 +6,7 @@
   enable more complex indexing operations. E.g. it is now possible to
   write S(10).xy to get the xy record of the 10th element in a
   structure without having to copy the element first.
+- update to Clipper library version 6.4
 
 2016-October-24
 - version 136

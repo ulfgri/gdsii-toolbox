@@ -129,7 +129,7 @@ static mxArray*
 get_layer(element_t *pe)
 {
    if (pe->kind == GDS_SREF || pe->kind == GDS_AREF)
-      mexErrMsgTxt("get_element_data :  element as no layer property");
+      return empty_matrix();
    else
       return mxCreateDoubleScalar((double)pe->layer);
 
@@ -143,7 +143,7 @@ static mxArray*
 get_dtype(element_t *pe)
 {
    if (pe->kind == GDS_SREF || pe->kind == GDS_AREF)
-      mexErrMsgTxt("get_element_data :  element as no [data|text|box|node] type property");
+      return empty_matrix();
    else
       return mxCreateDoubleScalar((double)pe->dtype);
 
@@ -266,7 +266,7 @@ get_sname(element_t *pe)
    if (pe->kind == GDS_SREF || pe->kind == GDS_AREF)
       return mxCreateString(pe->sname);
    else
-      mexErrMsgTxt("get_element_data :  element as no sname property");
+      return empty_matrix();
 
    return NULL; /* make compiler happy */
 }

@@ -1,3 +1,12 @@
+2016-November-05
+- version 137
+- return [] in 'get_element_data' if an element does not have a requested 
+  property instead of throwing an error.
+- improved 'subsref' methods for gds_library and gds_structure objects that
+  enable more complex indexing operations. E.g. it is now possible to
+  write S(10).xy to get the xy record of the 10th element in a
+  structure without having to copy the element first.
+
 2016-October-24
 - version 136
 - finally squashed bug in gdsio::now

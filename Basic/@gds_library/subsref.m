@@ -10,11 +10,16 @@ function gstrs = subsref(glib, ins)
 
 % Ulf Griesmann, NIST, June 2011
 
-    switch ins.type
+    % convert cs-lists --> cell arrays
+    itype = {ins.type};
+    isubs = flatten({ins.subs});
+    
+    % first indexing operator
+    switch itype{1}
  
       case '()'
         
-        idx = ins.subs{:};
+        idx = isubs{1};
         
         if ischar(idx) && idx == ':'
             gstrs = glib.st(1:end);
@@ -38,6 +43,32 @@ function gstrs = subsref(glib, ins)
       otherwise
         error('gds_library.subsref :  invalid indexing type.');
         
+    end
+
+    % pass additional structure indexing to structure subsref method
+    if length(itype) > 1
+        sins.type = itype{2};
+        sins.subs = isubs{2};
+        if iscell(gstrs)
+            gstrs = cellfun(@(x)subsref(x, sins), gstrs, 'Un',0); 
+        else
+            gstrs = subsref(gstrs, sins); 
+        end
+    end
+    
+    % flatten a cell array
+    function fca = flatten(ca)
+        
+        fca = cell(size(ca));
+    
+        for k = 1:length(ca)
+            if iscell(ca{k})
+                ct = ca{k};
+                fca{k} = ct{1};
+            else
+                fca(k) = ca(k);
+            end
+        end    
     end
   
 end  

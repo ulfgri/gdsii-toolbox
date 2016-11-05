@@ -12,11 +12,17 @@ function gelp = subsref(gstruct, ins)
 
 % Ulf Griesmann, NIST, June 2011
 
-    switch ins.type
+    % convert cs-lists --> cell arrays
+    itype = {ins.type};
+    isubs = flatten({ins.subs});
+    
+    % first indexing operator
+    switch itype{1}
  
       case '()'
         
-        idx = ins.subs{:};
+        idx = isubs{1};
+
         if ischar(idx) && idx == ':'
             gelp = gstruct.el(1:end);
         elseif length(idx) == 1 
@@ -38,4 +44,30 @@ function gelp = subsref(gstruct, ins)
         
     end
   
+    % pass additional element indexing to element subsref method
+    if length(itype) > 1
+        eins.type = itype{2};
+        eins.subs = isubs{2};
+        if iscell(gelp)
+            gelp = cellfun(@(x)subsref(x, eins), gelp, 'Un',0); 
+        else
+            gelp = subsref(gelp, eins); 
+        end
+    end
+    
+    % flatten a cell array
+    function fca = flatten(ca)
+        
+        fca = cell(size(ca));
+    
+        for k = 1:length(ca)
+            if iscell(ca{k})
+                ct = ca{k};
+                fca{k} = ct{1};
+            else
+                fca(k) = ca(k);
+            end
+        end    
+    end
+    
 end  

@@ -7,7 +7,7 @@ function [pos] = xy(gelm)
 % pos :    a cell array containing one or more nx2 matrices 
 %          with reference positions
 
-    if ~isfield(gelm.data, 'xy');
+    if ~isfield(gelm.data, 'xy')
         error('gds_element.xy :  element has no position data.');
     end
 

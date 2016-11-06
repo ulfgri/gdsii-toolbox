@@ -1,3 +1,6 @@
+- new 'layer' method for gds_element objects to query layer/data type, which
+  is faster than field indexing.
+
 2016-November-05
 - version 137
 - return [] in 'get_element_data' if an element does not have a requested 

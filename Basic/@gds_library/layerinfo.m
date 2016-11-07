@@ -29,10 +29,11 @@ function [S,L] = layerinfo(glib)
         st = glib.st{k};
         
         % iterate over all elements
-        for m=1:numel(st)
-            el = st(m);
-            if ~is_ref(el)            % sref and aref have no layer information
-                numl = el.layer + 1;  % gds layer numbers start with 0
+	elms = st(:);  % get cell array of all elements in structure
+        for m=1:numel(elms)
+	    el = elms{m};
+	    if ~is_ref(el)
+	        numl = layer(el) + 1;  % gds layer numbers start with 0
                 Li(numl) = Li(numl) + 1; 
                 Si(numl).(etype(el)) = Si(numl).(etype(el)) + 1;
             end

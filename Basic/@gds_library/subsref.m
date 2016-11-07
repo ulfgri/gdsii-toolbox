@@ -12,7 +12,7 @@ function gstrs = subsref(glib, ins)
 
     % convert cs-lists --> cell arrays
     itype = {ins.type};
-    isubs = flatten({ins.subs});
+    isubs = {ins.subs};
     
     % first indexing operator
     switch itype{1}
@@ -20,9 +20,12 @@ function gstrs = subsref(glib, ins)
       case '()'
         
         idx = isubs{1};
+        if iscell(idx)
+            idx = idx{1};
+        end
         
         if ischar(idx) && idx == ':'
-            gstrs = glib.st(1:end);
+            gstrs = glib.st;
         elseif length(idx) == 1      % return one structure
             gstrs = glib.st{idx};
         else
@@ -54,21 +57,6 @@ function gstrs = subsref(glib, ins)
         else
             gstrs = subsref(gstrs, sins); 
         end
-    end
-    
-    % flatten a cell array
-    function fca = flatten(ca)
-        
-        fca = cell(size(ca));
-    
-        for k = 1:length(ca)
-            if iscell(ca{k})
-                ct = ca{k};
-                fca{k} = ct{1};
-            else
-                fca(k) = ca(k);
-            end
-        end    
     end
   
 end  

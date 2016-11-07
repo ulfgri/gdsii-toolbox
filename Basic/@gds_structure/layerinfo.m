@@ -26,7 +26,7 @@ function [S,L] = layerinfo(gstruc)
     for s=1:numel(gstruc.el)
         el = gstruc.el{s};
         if ~is_ref(el)            % sref and aref have no layer information
-            numl = el.layer + 1;  % gds layer numbers start with 0
+            numl = layer(el) + 1; % gds layer numbers start with 0
             Li(numl) = Li(numl) + 1; 
             Si(numl).(etype(el)) = Si(numl).(etype(el)) + 1;
         end

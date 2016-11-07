@@ -14,7 +14,7 @@ function gelp = subsref(gstruct, ins)
 
     % convert cs-lists --> cell arrays
     itype = {ins.type};
-    isubs = flatten({ins.subs});
+    isubs = {ins.subs};
     
     % first indexing operator
     switch itype{1}
@@ -22,9 +22,12 @@ function gelp = subsref(gstruct, ins)
       case '()'
         
         idx = isubs{1};
+        if iscell(idx)
+            idx = idx{1};
+        end
 
         if ischar(idx) && idx == ':'
-            gelp = gstruct.el(1:end);
+            gelp = gstruct.el;
         elseif length(idx) == 1 
             gelp = gstruct.el{idx};  % return element
         else
@@ -53,21 +56,6 @@ function gelp = subsref(gstruct, ins)
         else
             gelp = subsref(gelp, eins); 
         end
-    end
-    
-    % flatten a cell array
-    function fca = flatten(ca)
-        
-        fca = cell(size(ca));
-    
-        for k = 1:length(ca)
-            if iscell(ca{k})
-                ct = ca{k};
-                fca{k} = ct{1};
-            else
-                fca(k) = ca(k);
-            end
-        end    
     end
     
 end  

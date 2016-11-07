@@ -1,8 +1,13 @@
+2016-November-07
+- version 139
+- much improved (faster) 'subsref' methods for gds_library and gds_structure 
+  objects.
+- improved the speed of 'layerinfo' methods by eliminating element indexing.
 - new 'layer' method for gds_element objects to query layer/data type, which
   is faster than field indexing.
 
 2016-November-05
-- version 137
+- version 137/138
 - return [] in 'get_element_data' if an element does not have a requested 
   property instead of throwing an error.
 - improved 'subsref' methods for gds_library and gds_structure objects that

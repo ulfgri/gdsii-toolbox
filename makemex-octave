@@ -44,3 +44,4 @@ mkoctfile --mex -s poly_boolmex.cpp clipper.cpp
 rm *.o
 
 cd ..
+echo 'Done.'

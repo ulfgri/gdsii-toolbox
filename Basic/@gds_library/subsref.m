@@ -10,18 +10,17 @@ function gstrs = subsref(glib, ins)
 
 % Ulf Griesmann, NIST, June 2011
 
-    % convert cs-lists --> cell arrays
-    itype = {ins.type};
-    isubs = {ins.subs};
+    gstrs = [];
     
     % first indexing operator
-    switch itype{1}
+    idx = ins(1).subs;
+    
+    switch ins(1).type
  
       case '()'
-        
-        idx = isubs{1};
+                
         if iscell(idx)
-            idx = idx{1};
+            idx = idx{:};
         end
         
         if ischar(idx) && idx == ':'
@@ -35,13 +34,15 @@ function gstrs = subsref(glib, ins)
       case '.'                        % look up structure name
         
         for k = 1:length(glib.st)
-            if strcmp(ins.subs, get(glib.st{k}, 'sname')) 
+            if strcmp(idx, sname(glib.st{k})) 
                 gstrs = glib.st{k};
-                return 
+                break;
             end
         end 
-        
-        error(sprintf('gds_library.subsref :  structure >> %s << not found', ins.subs));   
+    
+        if isempty(gstrs)
+            error(sprintf('gds_library.subsref :  structure >> %s << not found', ins.subs));   
+        end
         
       otherwise
         error('gds_library.subsref :  invalid indexing type.');
@@ -49,13 +50,11 @@ function gstrs = subsref(glib, ins)
     end
 
     % pass additional structure indexing to structure subsref method
-    if length(itype) > 1
-        sins.type = itype{2};
-        sins.subs = isubs{2};
+    if length(ins) > 1
         if iscell(gstrs)
-            gstrs = cellfun(@(x)subsref(x, sins), gstrs, 'Un',0); 
+            gstrs = cellfun(@(x)subsref(x, ins(2:end)), gstrs, 'Un',0); 
         else
-            gstrs = subsref(gstrs, sins); 
+            gstrs = subsref(gstrs, ins(2:end)); 
         end
     end
   

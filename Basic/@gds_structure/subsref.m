@@ -12,20 +12,17 @@ function gelp = subsref(gstruct, ins)
 
 % Ulf Griesmann, NIST, June 2011
 
-    % convert cs-lists --> cell arrays
-    itype = {ins.type};
-    isubs = {ins.subs};
-    
     % first indexing operator
-    switch itype{1}
+    idx = ins(1).subs;
+
+    switch ins(1).type
  
       case '()'
         
-        idx = isubs{1};
         if iscell(idx)
-            idx = idx{1};
+            idx = idx{:};
         end
-
+        
         if ischar(idx) && idx == ':'
             gelp = gstruct.el;
         elseif length(idx) == 1 
@@ -37,7 +34,7 @@ function gelp = subsref(gstruct, ins)
       case '.'
         
         try
-            gelp = gstruct.(ins.subs);
+            gelp = gstruct.(ins(1).subs);
         catch
             error('gds_structure.subsref :  invalid structure property.');
         end
@@ -48,13 +45,11 @@ function gelp = subsref(gstruct, ins)
     end
   
     % pass additional element indexing to element subsref method
-    if length(itype) > 1
-        eins.type = itype{2};
-        eins.subs = isubs{2};
+    if length(ins) > 1
         if iscell(gelp)
-            gelp = cellfun(@(x)subsref(x, eins), gelp, 'Un',0); 
+            gelp = cellfun(@(x)subsref(x, ins(2:end)), gelp, 'Un',0); 
         else
-            gelp = subsref(gelp, eins); 
+            gelp = subsref(gelp, ins(2:end)); 
         end
     end
     

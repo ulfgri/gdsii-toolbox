@@ -25,6 +25,7 @@ rm *.o
 
 cd ../@gds_element/private
 mkoctfile --mex -s poly_iscwmex.c
+mkoctfile --mex -s poly_areamex.c
 mkoctfile --mex -s -I../../gdsio isref.c
 mkoctfile --mex -s -I../../gdsio get_etype.c
 mkoctfile --mex -s -I../../gdsio is_not_internal.c

@@ -14,9 +14,7 @@ end
 if ~(exist('OCTAVE_VERSION')==5)
 
     % low level functions
-    fprintf('\n\n>>>>>\n');
-    fprintf('>>>>>  Compiling mex functions for low-level i/o on MATLAB ...\n');
-    fprintf('>>>>>\n');
+    fprintf('Compiling mex functions for low-level i/o on MATLAB ...\n');
 
     cd Basic/gdsio
     mex -O gds_open.c mexfuncs.c
@@ -34,6 +32,7 @@ if ~(exist('OCTAVE_VERSION')==5)
 
     cd ../@gds_element/private
     mex -O poly_iscwmex.c
+    mex -O poly_areamex.c
     mex -O -I../../gdsio isref.c
     mex -O -I../../gdsio get_etype.c
     mex -O -I../../gdsio is_not_internal.c
@@ -46,9 +45,7 @@ if ~(exist('OCTAVE_VERSION')==5)
     mex -O datamatrixmex.c
 
     % Boolean functions
-    fprintf('\n\n>>>>>\n');
-    fprintf('>>>>>  Compiling Boolean set algebra functions (Clipper)...\n');
-    fprintf('>>>>>\n\n');
+    fprintf('Compiling Boolean set algebra functions (Clipper)...\n');
 
     % for Clipper library
     cd ../../Boolean
@@ -60,9 +57,7 @@ if ~(exist('OCTAVE_VERSION')==5)
 else % we are on Octave with gcc
 
     % low level functions
-    fprintf('\n\n>>>>>\n');
-    fprintf('>>>>>  Compiling mex functions for low-level i/o on Octave/Windows ...\n');
-    fprintf('>>>>>\n');
+    fprintf('Compiling mex functions for low-level i/o on Octave/Windows ...\n');
 
     setenv('CFLAGS', '-O3 -fomit-frame-pointer -march=native -mtune=native');
     setenv('CXXFLAGS', '-O3 -fomit-frame-pointer -march=native -mtune=native');
@@ -84,6 +79,7 @@ else % we are on Octave with gcc
 
     cd ../@gds_element/private
     mex poly_iscwmex.c
+    mex poly_areamex.c
     mex -I../../gdsio isref.c
     mex -I../../gdsio get_etype.c
     mex -I../../gdsio is_not_internal.c
@@ -98,9 +94,7 @@ else % we are on Octave with gcc
     system('del *.o');
     
     % Boolean functions
-    fprintf('\n\n>>>>>\n');
-    fprintf('>>>>>  Compiling Boolean set algebra functions (Clipper)...\n');
-    fprintf('>>>>>\n\n');
+    fprintf('Compiling Boolean set algebra functions (Clipper)...\n');
     
     % for Clipper library
     cd ../../Boolean
@@ -111,3 +105,5 @@ else % we are on Octave with gcc
     cd ..
 
 end
+
+fprintf('Done.\n');

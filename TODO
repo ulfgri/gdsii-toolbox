@@ -1,9 +1,12 @@
 
+- base path --> boundary conversion functions on polygon offsetting.
+
 - clean up the C code for reading and writing element data. 
   There is too much code duplication.
 
 - detect unresolved structure references in functions that 
-  operate on the structure tree (e.g. 'treeview').
+  operate on the structure tree (e.g. 'treeview'). In other
+  words: check that leaf nodes do not contain reference elements.
 
 - remove bugs on 64 bit Windows. Make sure everything works
   with future MATLAB versions (all 64 bit integers)

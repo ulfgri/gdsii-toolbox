@@ -16,32 +16,33 @@ function prop = subsref(gelm, ins)
     switch ins.type
  
       case '.'
-        if is_not_internal(ins.subs)
-            prop = gelm.data.(ins.subs);
-        else
-            prop = get_element_data(gelm.data.internal, ins.subs);
-        end
+          if is_not_internal(ins.subs)
+              prop = gelm.data.(ins.subs);
+          else
+              prop = get_element_data(gelm.data.internal, ins.subs);
+          end
         
       case '()'
-        idx = ins.subs{:};
+          idx = ins.subs{:};
         
-        switch get_etype(gelm.data.internal)
+          switch get_etype(gelm.data.internal)
             
-          case {'boundary','path'}
-            if length(idx) == 1 && idx(1) ~= ':'
-                prop = gelm.data.xy{idx};  % return polygon
-            else
-                prop = gelm.data.xy(idx);  % return cell array of polygons
-            end
+            case {'boundary','path'}
+                if length(idx) == 1 && idx(1) ~= ':'
+                    prop = gelm.data.xy{idx};  % return polygon
+                else
+                    prop = gelm.data.xy(idx);  % return cell array of polygons
+                end
             
-          otherwise
-            prop = gelm.data.xy(idx,:);  % location
+            case 'sref'
+                prop = gelm.data.xy(idx,:);    % location
             
-        end
+            otherwise
+                error('gds_element.subsref: element must be boundary, path, or sref.');
+          end
         
       otherwise
         error('gds_element.subsref :  invalid indexing type.');
-        
     end
     
 end  

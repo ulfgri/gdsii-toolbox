@@ -12,10 +12,10 @@ function leidx = end(gstruc, kide, nide)
 %            (should be 1)
 % leidx :    index of the last element 
 
-if kide ~= 1 || nide ~= 1
-   error('gds_structure :  has only one index.');
+    if kide ~= 1 || nide ~= 1
+        error('gds_structure :  has only one index.');
+    end
+
+    leidx = numel(gstruc.el);
+
 end
-
-leidx = numel(gstruc.el);
-
-return

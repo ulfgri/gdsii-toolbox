@@ -13,7 +13,7 @@ function [olib] = srename(ilib, osname, nsname)
 
     olib = ilib;
 
-    % find the structure that needs to be replaced
+    % find the structure that needs to be renamed
     sidx =  1;
     while sidx <= numel(ilib.st)  
         if strcmp(osname, sname(ilib.st{sidx}))

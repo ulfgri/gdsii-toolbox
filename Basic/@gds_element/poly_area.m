@@ -16,6 +16,6 @@ function A = poly_area(bei)
     end
     
     % calculate area
-    A = sum( poly_areamex(bei.data.xy) );
+    A = sum( abs(poly_areamex(bei.data.xy)) );
     
 end

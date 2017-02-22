@@ -1,10 +1,13 @@
 /*
- * A mex function to compute the area of polygons
+ * A mex function to compute the area of a polygon
  * 
- * [ar] = poly_areamex(pa);
+ * [ar] = polyarea(pa);
  *
  * pa :  cell array of polygons (nx2 matrices)
  * ar :  array of polygon areas with same shape as 'pa'
+ *
+ * Reference:
+ * mathworld.wolfram.com/PolygonArea.html
  *
  * This software is in the Public Domain
  * Ulf Griesmann, NIST, November 2016
@@ -63,14 +66,14 @@ mexFunction(int nlhs, mxArray *plhs[],
       pda = mxGetData(par);        /* ptr to a data */     
       M = m = mxGetM(par);         /* rows = vertex number */
 
-      /* check if last vertex is duplicate of first */
-      if ( (pda[0] == pda[m-1]) && (pda[m] == pda[2*m-1]) ) {
-	       m--;
+      /* ignore last vertex if it is duplicate of first */
+      if ( (pda[0] == pda[M-1]) && (pda[M] == pda[2*M-1]) ) {
+	 --m;  /* unique vertices */
       }
 
       /* check if enough vertices */
       if (m <= 2) {
-	       mexErrMsgTxt("polygons must have at least 3 vertices.");
+	  mexErrMsgTxt("polygons must have at least 3 vertices.");
       }
 
       /* calculate area */
@@ -87,18 +90,12 @@ INLINE double
 polygon_area(double * RESTRICT p, int M, int m)
 {
     int k;
-    double A;
-
-    A = 0.0;
+    double A = 0.0;
 
     for (k=0; k<m; k++) {
         A += p[k]*p[M+k+1] - p[k+1]*p[M+k];
     }
     A *= 0.5;
-
-    /* make area independent of polygon orientation */
-    if (A < 0.0)
-        A = -A;
 
     return A;    
 }

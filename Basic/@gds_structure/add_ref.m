@@ -23,16 +23,16 @@ function [ostruc] = add_ref(istruc, struc, varargin)
    % copy input to output
    ostruc = istruc;
 
-   % get the structure name
+   % get structure name, create cell array S of structure names
    if ischar(struc)
-      sname = {struc};   
+      S = {struc};   
    elseif isa(struc, 'gds_structure')
-      sname = {struc.sname};
+      S = {struc.sname};
    elseif iscell(struc)
       if all( cellfun(@(x)ischar(x), struc) )
-	 sname = struc;
+	 S = struc;
       elseif all( cellfun(@(x)isa(x,'gds_structure'), struc) )
-         sname = cellfun(@(x)sname(x), struc, 'UniformOutput',0);
+         S = cellfun(@(x)sname(x), struc, 'UniformOutput',0);
       else
          error('gds_structure.add_ref: all objects in cell array must be strings or gds_structure''s.');
       end
@@ -48,7 +48,7 @@ function [ostruc] = add_ref(istruc, struc, varargin)
    end
    
    % create reference elements
-   rel = cellfun(@(x)gds_element(rtype, 'sname',x, varargin{:}), sname, 'UniformOutput',0);
+   rel = cellfun(@(x)gds_element(rtype, 'sname',x, varargin{:}), S, 'UniformOutput',0);
    
    % add them to output structure
    ostruc.el = [ostruc.el, rel];

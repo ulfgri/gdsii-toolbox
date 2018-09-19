@@ -19,17 +19,15 @@
 
 #ifdef __GNUC__
    #define RESTRICT __restrict
-   #define INLINE __inline__
 #else
    #define RESTRICT
-   #define INLINE
 #endif
 
 
 /*-- local prototypes -----------------------------------------*/
 
-INLINE double
-polygon_area(double * RESTRICT p, int M, int m);
+static double
+polygon_area(double * RESTRICT p, int M, int isopen);
 
 
 /*-------------------------------------------------------------*/
@@ -41,59 +39,64 @@ mexFunction(int nlhs, mxArray *plhs[],
    mxArray *par;     /* pointer to array structure */
    double *pda;      /* polygon data */
    double *pout;     /* pointer to output data */
-   int m, M;
-   int k, Na;
+   int k, M, Nc, isopen;
 
    /* check argument pa */
    if ( !mxIsCell(prhs[0]) ) {
       mexErrMsgTxt("argument must be a cell array.");
    }
 
-   Na = mxGetNumberOfElements(prhs[0]);
-   if (!Na) {
-      mexErrMsgTxt("no input polygons pa.");
+   Nc = mxGetNumberOfElements(prhs[0]);
+   if (!Nc) {
+      mexErrMsgTxt("polyarea: no input polygons pa.");
    }
 
    /* create output array */
-   plhs[0] = mxCreateDoubleMatrix(mxGetM(prhs[0]), mxGetN(prhs[0]), mxREAL);
+   plhs[0] = mxCreateDoubleMatrix(Nc, 1, mxREAL);
    pout = (double *)mxGetData(plhs[0]);
 
    /* calculate polygon areas */
-   for (k=0; k<Na; k++) {
+   for (k=0; k<Nc; k++) {
 
       /* get the next polygon from the cell array */ 
       par = mxGetCell(prhs[0], k); /* ptr to mxArray */
       pda = mxGetData(par);        /* ptr to a data */     
-      M = m = mxGetM(par);         /* rows = vertex number */
-
-      /* ignore last vertex if it is duplicate of first */
-      if ( (pda[0] == pda[M-1]) && (pda[M] == pda[2*M-1]) ) {
-	 --m;  /* unique vertices */
-      }
+      M = mxGetM(par);             /* rows = vertex number */
 
       /* check if enough vertices */
-      if (m <= 2) {
-	  mexErrMsgTxt("polygons must have at least 3 vertices.");
+      if (M < 3) {
+	  mexErrMsgTxt("polyarea: polygons must have 3 or more vertices.");
+      }
+
+      /* check if the polygon is closed or open */
+      if ((pda[0] != pda[M-1]) || (pda[M] != pda[2*M-1])) {
+	isopen = 1;
+      }
+      else {
+	isopen = 0;
       }
 
       /* calculate area */
-      pout[k] = polygon_area(pda, M, m);
+      pout[k] = polygon_area(pda, M, isopen);
    }
 }
 
 
 /*
  * calculate the area of a simple polygon
- * Note: polygons are in row-major order
+ * Note: polygons are in column-major order
  */
-INLINE double
-polygon_area(double * RESTRICT p, int M, int m)
+static double
+polygon_area(double * RESTRICT p, int M, int isopen)
 {
     int k;
     double A = 0.0;
 
-    for (k=0; k<m; k++) {
+    for (k=0; k<M-1; k++) {
         A += p[k]*p[M+k+1] - p[k+1]*p[M+k];
+    }
+    if (isopen) {
+        A += p[M-1]*p[M] - p[0]*p[2*M-1]; 
     }
     A *= 0.5;
 

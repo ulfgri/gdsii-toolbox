@@ -27,7 +27,7 @@ function [A,N] = adjmatrix(S)
     % compute the adjacency matrix
     A = sparse(length(N),length(N));
 
-    parfor k = 1:length(N) % loop over structures
+    for k = 1:length(N) % loop over structures
   
         % find names of all referenced structures in the k-th structure
         R = find_ref(S{k});

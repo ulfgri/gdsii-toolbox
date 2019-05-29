@@ -30,7 +30,7 @@ mexFunction(int nlhs, mxArray *plhs[],
    date_t cdate;       /* creation date */
    date_t mdate;       /* modification date */
    char sname[NLEN];   /* structure name */
-   int slen;           /* string length */
+   int snlen;          /* structure name length */
 
    /* check argument number */
    if (nrhs != 3) {
@@ -55,17 +55,17 @@ mexFunction(int nlhs, mxArray *plhs[],
       mexErrMsgTxt("failed to write BGNSTR record (mdate).");
    
    /* STRNAME record */
-   mxGetString(prhs[1], sname, NLEN-2);
-   slen = mxGetN(prhs[1]);  /* string length */
-   if (slen > 256) {
-      mexPrintf("\nStructure name %s exceeds 256 characters\n\n", sname);
+   snlen = mxGetNumberOfElements(prhs[1]);  /* string length */
+   if (snlen > 32) {
+      mexPrintf("\nStructure name %s exceeds 32 characters\n\n", sname);
       mexErrMsgTxt("structure name too long.");     
    }
-   if (slen % 2)          /* string length is odd */
-      slen += 1;
-   if ( write_record_hdr(fob, STRNAME, slen) )
+   mxGetString(prhs[1], sname, NLEN-2);
+   if (snlen % 2)          /* string length is odd */
+      snlen += 1;
+   if ( write_record_hdr(fob, STRNAME, snlen) )
       mexErrMsgTxt("failed to write STRNAME record header.");
-   if ( write_string(fob, sname, slen) )
+   if ( write_string(fob, sname, snlen) )
       mexErrMsgTxt("failed to write STRNAME record (sname).");
 }
 

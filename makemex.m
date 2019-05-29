@@ -75,7 +75,6 @@ else % we are on Octave with gcc
     mex gds_write_element.c gdsio.c mexfuncs.c
     mex gds_read_element.c gdsio.c mexfuncs.c mxlist.c
     mex gds_record_info.c gdsio.c mexfuncs.c
-    system('del *.o');
 
     cd ../@gds_element/private
     mex poly_iscwmex.c
@@ -87,11 +86,9 @@ else % we are on Octave with gcc
     mex -I../../gdsio has_property.c
     mex -I../../gdsio get_element_data.c ../../gdsio/mexfuncs.c
     mex -I../../gdsio set_element_data.c ../../gdsio/mexfuncs.c
-    system('del *.o');
 
     cd ../../../Structures/private
     mex datamatrixmex.c
-    system('del *.o');
     
     % Boolean functions
     fprintf('Compiling Boolean set algebra functions (Clipper)...\n');
@@ -99,7 +96,6 @@ else % we are on Octave with gcc
     % for Clipper library
     cd ../../Boolean
     mex poly_boolmex.cpp clipper.cpp
-    system('del *.o');
     
     % back up
     cd ..

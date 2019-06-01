@@ -22,9 +22,9 @@ plex,    &get_plex
 layer,   &get_layer
 dtype,   &get_dtype
 ptype,   &get_ptype
-ttype,   &get_dtype
-btype,   &get_dtype
-ntype,   &get_dtype
+ttype,   &get_ttype
+btype,   &get_btype
+ntype,   &get_ntype
 width,   &get_width
 ext,     &get_ext
 font,    &get_font

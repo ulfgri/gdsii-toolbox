@@ -7,7 +7,7 @@ function gelm = gds_element(etype, varargin)
 %
 % gelm :       element object created by the constructor
 % etype :      a string with one of the GDSII elements: boundary,
-%              path, box, aref, sref, text, node. 
+%              path, box, text, node, sref, aref. 
 % varargin :   EITHER a list of property, value pairs
 %              OR a structure with ALL element properties - no
 %              error checking ! This provides a fast way to create
@@ -30,9 +30,11 @@ function gelm = gds_element(etype, varargin)
 %                       The total number of bytes for all properties in the structure
 %                       array must not exceed 128, or 512 in the case of sref and aref
 %                       elements.
-%             layer :   GDS layer for the element EXCEPT SREF and AREF, which
-%                       have no layer property (default is 1).
-%             
+%             layer :   GDS layer for the element (default is 1).
+%             dtype :   data type number 0 .. 255. Default is 0. 
+%                       layer and dtype for a complete layer specification.
+%             NOTE: sref and aref elements have no layer and dtype properties.
+%
 %           Element specific properties:
 %           ============================
 %
@@ -40,18 +42,12 @@ function gelm = gds_element(etype, varargin)
 %             -----------------
 %                xy :    a cell array of N x 2 matrices containing one or
 %                        more closed polygons with up to 8191 vertices. 
-%                dtype : data type number 0 .. 255. Default is 0.
-%                        Forms a layer specification together with 
-%                        the layer.
 %                nume :  number of polygons in the boundary element
 %
 %             Path element:
 %             -------------
 %                xy :    a cell array of N x 2 matrices describing one or 
 %                        more paths with up to 8191 vertex coordinates. 
-%                dtype : data type number 0 .. 255. Default is 0.
-%                        Forms a layer specification together with 
-%                        the layer.
 %                ptype : path type 0,1, 2, or 4. Default is 0.
 %                width : width of the path in user units
 %                        Negative numbers imply absolute widths 
@@ -65,7 +61,7 @@ function gelm = gds_element(etype, varargin)
 %             ------------
 %                xy :    5 x N matrix of closed rectangular
 %                        polygon.
-%                btype : a box type 0 .. 255
+%                btype : a box type 0 .. 255. Default is 0.
 %
 %             Node element:
 %             -------------
@@ -76,8 +72,7 @@ function gelm = gds_element(etype, varargin)
 %             -------------
 %                text :  a text string
 %                xy :    text location in user units  
-%                ttype : text type, a number 0 .. 63. Default
-%                             is 0.
+%                ttype : text type, a number 0 .. 63. Default is 0.
 %                font :  text font 0 .. 3. Default is 0
 %                verj :  vertical justification; 0 = top, 1 =
 %                        middle, 2 = bottom. Default is 0.
@@ -85,9 +80,9 @@ function gelm = gds_element(etype, varargin)
 %                        = middle, 2 = right. Default is 0.
 %                ptype : path type. Default is 1.
 %                width : width of line for drawing text in
-%                        user units (obsolete)
+%                        user units (obsolete).
 %                strans: an strans record which describes text
-%                        transformations. Omitted by default. 
+%                        transformations. Omitted by default.
 %
 %             Sref element(s):
 %             ----------------

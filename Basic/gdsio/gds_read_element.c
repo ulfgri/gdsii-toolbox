@@ -328,6 +328,10 @@ read_path(FILE *fob, mxArray **data, double dbu_to_uu)
 	    path.layer = read_layer(fob);
 	    break;
 
+         case DATATYPE:
+	    path.dtype = read_type(fob);
+	    break;
+
          case PATHTYPE:
 	    path.ptype = read_type(fob);
 	    path.has |= HAS_PTYPE;
@@ -346,10 +350,6 @@ read_path(FILE *fob, mxArray **data, double dbu_to_uu)
          case ENDEXTN:
 	    path.endextn = dbu_to_uu * read_extn(fob);
 	    path.has |= HAS_ENDEXTN;
-	    break;
-
-         case DATATYPE:
-	    path.dtype = read_type(fob);
 	    break;
 
          case ELFLAGS:
@@ -776,7 +776,7 @@ read_text(FILE *fob, mxArray **data, double dbu_to_uu)
 	    break;
 
          case TEXTTYPE:
-	    text.dtype = read_type(fob);
+	    text.ttype = read_type(fob);
 	    break;
 
          case XY:
@@ -785,6 +785,10 @@ read_text(FILE *fob, mxArray **data, double dbu_to_uu)
 
          case LAYER:
 	    text.layer = read_layer(fob);
+	    break;
+
+         case DATATYPE:
+	    text.dtype = read_type(fob);
 	    break;
 
          case PATHTYPE:
@@ -935,8 +939,12 @@ read_node(FILE *fob, mxArray **data, double dbu_to_uu)
 	    node.layer = read_layer(fob);
 	    break;
 
-         case NODETYPE:
+         case DATATYPE:
 	    node.dtype = read_type(fob);
+	    break;
+
+         case NODETYPE:
+	    node.ntype = read_type(fob);
 	    break;
 
          case ELFLAGS:
@@ -1053,8 +1061,12 @@ read_box(FILE *fob, mxArray **data, double dbu_to_uu)
 	    box.layer = read_layer(fob);
 	    break;
 
-         case BOXTYPE:
+         case DATATYPE:
 	    box.dtype = read_type(fob);
+	    break;
+
+         case BOXTYPE:
+	    box.btype = read_type(fob);
 	    break;
 
          case ELFLAGS:

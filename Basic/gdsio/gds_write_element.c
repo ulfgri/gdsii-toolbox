@@ -791,9 +791,13 @@ write_text(FILE *fob, mxArray *data, double uu_to_dbu)
    write_record_hdr(fob, LAYER, sizeof(uint16_t));
    write_word(fob, text.layer);
 
+   /* DATATYPE */
+   write_record_hdr(fob, DATATYPE, sizeof(uint16_t));
+   write_word(fob, text.dtype);
+   
    /* TEXTTYPE */
    write_record_hdr(fob, TEXTTYPE, sizeof(uint16_t));
-   write_word(fob, text.dtype);
+   write_word(fob, text.ttype);
 
    /* PRESENTATION */
    if ( text.has & HAS_PRESTN ) {
@@ -894,9 +898,13 @@ write_node(FILE *fob, mxArray *data, double uu_to_dbu)
    write_record_hdr(fob, LAYER, sizeof(uint16_t));
    write_word(fob, node.layer);
 
+   /* DATATYPE */
+   write_record_hdr(fob, DATATYPE, sizeof(uint16_t));
+   write_word(fob, node.dtype);
+   
    /* NODETYPE */
    write_record_hdr(fob, NODETYPE, sizeof(uint16_t));
-   write_word(fob, node.dtype);
+   write_word(fob, node.ntype);
    
    /* XY */
    if ( get_field_ptr(data, "xy", &field) ) {
@@ -956,9 +964,13 @@ write_box(FILE *fob, mxArray *data, double uu_to_dbu)
    write_record_hdr(fob, LAYER, sizeof(uint16_t));
    write_word(fob, box.layer);
  
+   /* DATATYPE */
+   write_record_hdr(fob, DATATYPE, sizeof(uint16_t));
+   write_word(fob, box.dtype);
+   
    /* BOXTYPE */
    write_record_hdr(fob, BOXTYPE, sizeof(uint16_t));
-   write_word(fob, box.dtype);
+   write_word(fob, box.btype);
    
    /* XY */
    if ( get_field_ptr(data, "xy", &field) ) {

@@ -200,7 +200,7 @@ set_ttype(element_t *pe, mxArray *val)
    if ( pe->kind != GDS_TEXT )
       mexErrMsgTxt("set_element_data :  element has no ttype property.");
    pd = (double *)mxGetData(val);
-   pe->dtype = (uint16_t)pd[0];
+   pe->ttype = (uint16_t)pd[0];
 }
 
 
@@ -214,7 +214,7 @@ set_ntype(element_t *pe, mxArray *val)
    if ( pe->kind != GDS_NODE )
       mexErrMsgTxt("set_element_data :  element has no ntype property.");
    pd = (double *)mxGetData(val);
-   pe->dtype = (uint16_t)pd[0];
+   pe->ntype = (uint16_t)pd[0];
 }
 
 
@@ -228,7 +228,7 @@ set_btype(element_t *pe, mxArray *val)
    if ( pe->kind != GDS_BOX )
       mexErrMsgTxt("set_element_data :  element has no btype property.");
    pd = (double *)mxGetData(val);
-   pe->dtype = (uint16_t)pd[0];
+   pe->btype = (uint16_t)pd[0];
 }
 
 

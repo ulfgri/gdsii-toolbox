@@ -33,6 +33,9 @@ static mxArray* get_plex(element_t *pe);
 static mxArray* get_layer(element_t *pe);
 static mxArray* get_dtype(element_t *pe);
 static mxArray* get_ptype(element_t *pe);
+static mxArray* get_ttype(element_t *pe);
+static mxArray* get_ntype(element_t *pe);
+static mxArray* get_btype(element_t *pe);
 static mxArray* get_width(element_t *pe);
 static mxArray* get_ext(element_t *pe);
 static mxArray* get_font(element_t *pe);
@@ -143,11 +146,9 @@ static mxArray*
 get_dtype(element_t *pe)
 {
    if (pe->kind == GDS_SREF || pe->kind == GDS_AREF)
-      return empty_matrix();
-   else
-      return mxCreateDoubleScalar((double)pe->dtype);
+      mexErrMsgTxt("get_element_data :  sref and aref have no dtype property.");
 
-   return NULL; /* make compiler happy */
+   return mxCreateDoubleScalar((double)pe->dtype);
 }
 
 
@@ -156,7 +157,10 @@ get_dtype(element_t *pe)
 static mxArray* 
 get_ptype(element_t *pe)
 {
-   if (pe->has & HAS_PTYPE)
+   if (pe->kind != GDS_PATH && pe->kind != GDS_TEXT)
+      mexErrMsgTxt("get_element_data :  element has no ptype property.");
+
+   if (pe->has & HAS_PTYPE)  /* path type is optional */
       return mxCreateDoubleScalar((double)pe->ptype);
    else
       return empty_matrix();
@@ -167,9 +171,48 @@ get_ptype(element_t *pe)
 
 
 static mxArray* 
+get_ttype(element_t *pe)
+{
+   if (pe->kind != GDS_TEXT)
+      mexErrMsgTxt("get_element_data :  element has no ttype property.");
+
+   return mxCreateDoubleScalar((double)pe->ttype);
+}
+
+
+/*-----------------------------------------------------------------*/
+
+
+static mxArray* 
+get_ntype(element_t *pe)
+{
+   if (pe->kind != GDS_NODE)
+      mexErrMsgTxt("get_element_data :  element has no ntype property.");
+
+   return mxCreateDoubleScalar((double)pe->ntype);
+}
+
+
+/*-----------------------------------------------------------------*/
+
+
+static mxArray* 
+get_btype(element_t *pe)
+{
+   if (pe->kind != GDS_BOX)
+      mexErrMsgTxt("get_element_data :  element has no btype property.");
+
+   return mxCreateDoubleScalar((double)pe->btype);
+}
+
+
+/*-----------------------------------------------------------------*/
+
+
+static mxArray* 
 get_width(element_t *pe)
 {
-   if (pe->has & HAS_WIDTH)
+  if (pe->has & HAS_WIDTH)  /* width property is optional */
       return mxCreateDoubleScalar((double)pe->width);
    else
       return empty_matrix();

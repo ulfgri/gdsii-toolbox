@@ -124,9 +124,12 @@ typedef struct {
    unsigned int has;  /* element property flags */
    uint16_t elflags;
    uint16_t layer;
-   uint16_t dtype;    /* [data|text|node|box] type */
+   uint16_t dtype;    /* data type */
    uint16_t ptype;    /* path type */
-   uint16_t present;  /* presentation */
+   uint16_t ttype;    /* text type */
+   uint16_t ntype;    /* node type */
+   uint16_t btype;    /* box type */
+   uint16_t present;  /* text presentation */
    uint16_t nrow;
    uint16_t ncol;
    int32_t plex;

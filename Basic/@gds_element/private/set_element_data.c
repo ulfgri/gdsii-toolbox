@@ -170,7 +170,7 @@ set_layer(element_t *pe, mxArray *val)
    double *pd;     /* pointer to data */
 
    if ( (pe->kind == GDS_SREF) || (pe->kind == GDS_AREF) )
-      mexErrMsgTxt("set_element_data :  reference element has no layer property.");
+      mexErrMsgTxt("set_element_data :  reference elements have no layer property.");
    pd = (double *)mxGetData(val);
    pe->layer = (uint16_t)pd[0];
 }
@@ -183,8 +183,8 @@ set_dtype(element_t *pe, mxArray *val)
 {
    double *pd;     /* pointer to data */
 
-   if ( (pe->kind != GDS_BOUNDARY) && (pe->kind != GDS_PATH) )
-      mexErrMsgTxt("set_element_data :  element has no dtype property.");
+   if ( (pe->kind == GDS_SREF) || (pe->kind == GDS_AREF) )
+      mexErrMsgTxt("set_element_data :  reference elements have no dtype property.");
    pd = (double *)mxGetData(val);
    pe->dtype = (uint16_t)pd[0];
 }

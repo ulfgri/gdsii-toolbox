@@ -58,6 +58,7 @@ function display(gelm)
           fprintf('   Type: text\n');
           fprintf('   text = %s\n', gelm.data.text);
           fprintf('   layer = %d\n', get_element_data(gelm.data.internal, 'layer') );
+          fprintf('   dtype = %d\n', get_element_data(gelm.data.internal, 'dtype') );
           fprintf('   ttype = %d\n', get_element_data(gelm.data.internal, 'ttype') );
           if has_property(gelm.data.internal, 'present')
               fprintf('   font = %d\n', get_element_data(gelm.data.internal, 'font') );

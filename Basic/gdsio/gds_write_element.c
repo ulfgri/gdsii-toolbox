@@ -791,9 +791,11 @@ write_text(FILE *fob, mxArray *data, double uu_to_dbu)
    write_record_hdr(fob, LAYER, sizeof(uint16_t));
    write_word(fob, text.layer);
 
-   /* DATATYPE */
-   write_record_hdr(fob, DATATYPE, sizeof(uint16_t));
-   write_word(fob, text.dtype);
+   /* DATATYPE (only if explicitely set) */
+   if ( text.has & HAS_DTYPE ) {
+     write_record_hdr(fob, DATATYPE, sizeof(uint16_t));
+     write_word(fob, text.dtype);
+   }
    
    /* TEXTTYPE */
    write_record_hdr(fob, TEXTTYPE, sizeof(uint16_t));

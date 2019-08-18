@@ -48,12 +48,12 @@ struct keyword {
    unsigned int flag_bit;
 };
 
-#define TOTAL_KEYWORDS 9
+#define TOTAL_KEYWORDS 10
 #define MIN_WORD_LENGTH 3
-#define MAX_WORD_LENGTH 7
+#define MAX_WORD_LENGTH 18
 #define MIN_HASH_VALUE 3
-#define MAX_HASH_VALUE 15
-/* maximum key range = 13, duplicates = 0 */
+#define MAX_HASH_VALUE 18
+/* maximum key range = 16, duplicates = 0 */
 
 #ifdef __GNUC__
 __inline
@@ -67,32 +67,32 @@ hash (register const char *str, register size_t len)
 {
   static unsigned char asso_values[] =
     {
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 10, 16, 16,
-      16,  5, 16, 16, 16, 16, 16, 16, 16,  0,
-      16, 16,  0, 16, 16,  0, 16, 16, 16,  5,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
-      16, 16, 16, 16, 16, 16
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 10, 19, 19,
+       0,  5, 19, 19, 19, 19, 19, 19, 19,  0,
+      19, 19,  0, 19, 19,  0, 19, 19, 19,  5,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19
     };
   return len + asso_values[(unsigned char)str[0]];
 }
@@ -103,27 +103,30 @@ in_word_set (register const char *str, register size_t len)
   static struct keyword wordlist[] =
     {
       {""}, {""}, {""},
-#line 30 "has_hash.gperf"
+#line 31 "has_hash.gperf"
       {"mag",     HAS_MAG},
 #line 24 "has_hash.gperf"
       {"plex",    HAS_PLEX},
-#line 25 "has_hash.gperf"
+#line 26 "has_hash.gperf"
       {"ptype",   HAS_PTYPE},
-#line 29 "has_hash.gperf"
+#line 30 "has_hash.gperf"
       {"strans",  HAS_STRANS},
-#line 28 "has_hash.gperf"
+#line 29 "has_hash.gperf"
       {"present", HAS_PRESTN},
-#line 27 "has_hash.gperf"
+#line 28 "has_hash.gperf"
       {"ext",     (HAS_BGNEXTN | HAS_ENDEXTN)},
       {""},
-#line 26 "has_hash.gperf"
+#line 27 "has_hash.gperf"
       {"width",   HAS_WIDTH},
       {""},
 #line 23 "has_hash.gperf"
       {"elflags", HAS_ELFLAGS},
       {""}, {""},
-#line 31 "has_hash.gperf"
-      {"angle",   HAS_ANGLE}
+#line 32 "has_hash.gperf"
+      {"angle",   HAS_ANGLE},
+      {""}, {""},
+#line 25 "has_hash.gperf"
+      {"dtype    HAS_DTYPE"}
     };
 
   if (len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH)

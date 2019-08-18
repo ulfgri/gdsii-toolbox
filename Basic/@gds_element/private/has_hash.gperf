@@ -22,6 +22,7 @@ struct keyword {
 %%
 elflags, HAS_ELFLAGS
 plex,    HAS_PLEX
+dtype    HAS_DTYPE
 ptype,   HAS_PTYPE
 width,   HAS_WIDTH
 ext,     (HAS_BGNEXTN | HAS_ENDEXTN)

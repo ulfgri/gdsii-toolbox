@@ -83,6 +83,7 @@
 #define HAS_BGNEXTN   (1<<4)
 #define HAS_ENDEXTN   (1<<5)
 #define HAS_PRESTN    (1<<6)
+#define HAS_DTYPE     (1<<7)  /* for text elements only */
 #define HAS_STRANS    (1<<16)
 #define HAS_ANGLE     (1<<17)
 #define HAS_MAG       (1<<18)

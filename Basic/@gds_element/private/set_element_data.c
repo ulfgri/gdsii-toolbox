@@ -187,6 +187,9 @@ set_dtype(element_t *pe, mxArray *val)
       mexErrMsgTxt("set_element_data :  reference elements have no dtype property.");
    pd = (double *)mxGetData(val);
    pe->dtype = (uint16_t)pd[0];
+
+   /* For compatibility with Cadence make dtype optional for text elements */
+   pe->has |= HAS_DTYPE;
 }
 
 

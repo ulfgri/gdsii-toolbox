@@ -1,21 +1,22 @@
 function [cd] = gdsii_cdfeature(layer, mincd, uunit)
 %function [cd] = gdsii_cdfeature(layer, mincd, uunit)
 %  
-% gdsii_cdfeature : create a structure 'CD_FEATURE' containing a
-%                   critical dimension feature at a specified
-%                   position. The CD feature consists dense and
-%                   isolated angular lines with a label indicating
-%                   the line width in micrometer. After the
-%                   CD_FEATURE structure has been defined, one or
-%                   more CD features can be positioned in a layout
-%                   using gds_structure.add_ref (or gdsii_sref).
+% Creates a structure 'CD_FEATURE' containing a critical dimension
+% feature at a specified position. The CD feature consists of dense
+% and isolated angular lines with a label indicating the line width
+% in micrometer. After the CD_FEATURE structure has been defined,
+% one or more CD features can be positioned in a layout using
+% gds_structure.add_ref (or gdsii_sref).
 %
+% INPUT
 % layer : (Optional) Layer to which the feature will be
 %         written. Default is to write to the default layer.
 % mincd : (Optional) minimum CD feature that will be included in
 %         the pattern. Default is to write all patterns down to 100
 %         nm.
 % uunit : (Optional) user unit in m. Default is 1e-6 m = 1 um.
+%
+% OUTPUT
 % cd :    A cell array containing gds_structure objects.
 %
 

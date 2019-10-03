@@ -1,12 +1,9 @@
-function [cas] = gdsii_zonelens(sname, rad, pos, maxpe, ctrblack, ...
-                                papprox, layer, aperture, verbose)
-% function [cas] = gdsii_zonelens(sname, rad, pos, maxpe, ctrblack,
-%                                 papprox, layer, aperture, verbose)
+function [cas] = gdsii_zonelens(sname,rad,pos,maxpe,ctrblack,papprox,layer,aperture,verbose)
+%function [cas] = gdsii_zonelens(sname,rad,pos,maxpe,ctrblack,papprox,layer,aperture,verbose)
 %
-% gdsii_zonelens : generates the design data (in GDSII format)
-%      for a zone plate. A list of zone radii and the center
-%      coordinate (in GDSII user units) of the pattern must be
-%      provided by the user. 
+% Generates the design data (in GDSII format) for a zone plate. A list
+% of zone radii and the center coordinate (in GDSII user units) of the
+% pattern must be provided by the user.
 %
 % sname    : name of the top level GDSII structure. Default is ZONE_LENS.
 % rad      : a vector with zone radii in GDS user units
@@ -32,8 +29,8 @@ function [cas] = gdsii_zonelens(sname, rad, pos, maxpe, ctrblack, ...
 %               aperture.oper :  one of the clipping operators of
 %                                the 'polybool' function: 'and',
 %                                'or', 'xor', and 'notb'. 
-% verbose  : (OPTIONAL) print progress information if verbose ~= 0.
-%            Default is 0 (no progress info).
+% verbose  : (OPTIONAL) print progress information if verbose==true.
+%            Default is false (no progress info).
 % cas      : zone plate layout is returned a cell array of
 %            gds_structure objects.
 %
@@ -52,7 +49,7 @@ function [cas] = gdsii_zonelens(sname, rad, pos, maxpe, ctrblack, ...
 %   U.G., March 2015, fixed a couple bugs
 
     % check input parameters
-    if nargin < 9, verbose = []; end
+    if nargin < 9, verbose = false; end
     if nargin < 8, aperture = []; end
     if nargin < 7, layer = []; end
     if nargin < 6, papprox = []; end
@@ -68,7 +65,7 @@ function [cas] = gdsii_zonelens(sname, rad, pos, maxpe, ctrblack, ...
     if isempty(maxpe), maxpe = 1; end
     if isempty(ctrblack), ctrblack = 0; end
     if isempty(papprox), papprox = 1; end
-    if isempty(verbose), verbose = 0; end
+    if isempty(verbose), verbose = false; end
     
     if isempty(layer)
         layer = 1;
@@ -119,7 +116,7 @@ function [cas] = gdsii_zonelens(sname, rad, pos, maxpe, ctrblack, ...
         iidx = iidx + 2;
         oidx = oidx + 2;
         if oidx > length(rad)
-            break;
+            break
         end
         
         % next zone
@@ -141,7 +138,7 @@ function [cas] = gdsii_zonelens(sname, rad, pos, maxpe, ctrblack, ...
     % add references to main structure & flatten cell array if necessary
     if iscell(cas{1})                  % pairs of structures
 
-        for k=1:length(cas)
+        for k=1:numel(cas)
             sp = cas{k};               % a structure pair
             zps = add_ref(zps, sp{1}); % first is zone structure
         end    
@@ -149,7 +146,7 @@ function [cas] = gdsii_zonelens(sname, rad, pos, maxpe, ctrblack, ...
         
     else                               % only structures with boundaries
 
-        for k=1:length(cas)
+        for k=1:numel(cas)
             zps = add_ref(zps, cas{k});
         end    
         
@@ -164,6 +161,8 @@ function [cas] = gdsii_zonelens(sname, rad, pos, maxpe, ctrblack, ...
 
 end
 
+
+%---------------------------------------------------------
 
 function [zos] = single_zone(zpar);
 %function [zos] = single_zone(zpar);
@@ -226,10 +225,11 @@ function [zos] = single_zone(zpar);
     end
 
     % progress info
-    if zpar.vb && mod(zpar.nz,200)==0
+    if zpar.vb && ~mod(zpar.nz,200)
         fprintf('... completed zone %d\n', zpar.nz);
     end
 end
+
 
 %---------------------------------------------------------
 
@@ -268,9 +268,9 @@ function [xy] = generate_segment(r1, r2, sa, pe, pap);
     
     % assemble the boundary vertices
     if r1 > 0
-        ra = [ra1; ra2; ra1(1,:)];
+        ra = vertcat(ra1,ra2,ra1(1,:));
     else
-        ra = [ra2; [0,0]; ra2(1,:)]; % the whole quadrant
+        ra = vertcat(ra2,[0,0],ra2(1,:)); % the whole quadrant
     end
     if length(ra) > 2^15 - 1
         error('too many points in boundary');
@@ -281,12 +281,14 @@ function [xy] = generate_segment(r1, r2, sa, pe, pap);
 
 end
 
+
 %---------------------------------------------------------
 
 function XY = pol_cart(T,R);
 % convert from polar to cartesian coordinates
     XY = [R.*cos(T),R.*sin(T)];
 end
+
 
 %---------------------------------------------------------
 
@@ -309,6 +311,7 @@ function [np, cfac] = calc_phi(R, E, A, pap);
     end
     
 end
+
 
 %---------------------------------------------------------
 

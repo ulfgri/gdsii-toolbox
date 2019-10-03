@@ -1,10 +1,9 @@
 function [dms] = gdsii_datamatrix(str, height, sname, layer)
 %function [dms] = gdsii_datamatrix(str, height, sname, layer)
 %
-% gdsii_datamatrix :  creates an ISO/IEC 16022  DataMatrix barcode 
-%                     with ASCII encoding and ECC200 error correction.
-%                     The DataMatrix is returned as a cell array of 
-%                     gds_structure objects. 
+% Creates an ISO/IEC 16022 DataMatrix barcode with ASCII encoding and
+% ECC200 error correction. The DataMatrix is returned as a cell array
+% of gds_structure objects.
 %
 % str :    string to be encoded in the DataMatrix. 
 %          Must be less than 300 characters. 

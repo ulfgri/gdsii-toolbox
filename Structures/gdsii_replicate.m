@@ -1,8 +1,7 @@
 function [ostruc] = gdsii_replicate(struc, rstruc, xy, grid, ang)
 %function [ostruc] = gdsii_replicate(struc, rstruc, xy, grid, ang)
 %
-% gdsii_replicate :  convenience function for creating array 
-%                    references.
+% Convenience function for creating array references
 %
 % Input:
 % struc :   a gds_structure object to which a reference is added 

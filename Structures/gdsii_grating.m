@@ -1,8 +1,8 @@
 function [gs] = gdsii_grating(name, pos, pitch, duty, width, height, ang, layer)
 %function [gs] = gdsii_grating(name, pos, pitch, duty, width, height, ang, layer)
 %
-% gdsii_grating :  returns a named structure with a grating pattern.
-%                  A function that is useful for generating test patterns. 
+% Returns a named structure with a grating pattern.  A function that
+% is useful for generating test patterns.
 %
 % name   : (Optional) name of the structure. Default is 'GRATING' 
 % pos    : position of the lower left corner of the grating before

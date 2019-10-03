@@ -1,9 +1,10 @@
 function [astruc] = gdsii_multref(name, struc, xy, strans)
 %function [astruc] = gdsii_multref(name, struct, xy, strans)
 %
-% gdsii_multref :  replicates a structure at many positions. The
-%                  positions are not restricted to a grid.
-%                  Much easier to use than an array reference.
+% Replicates a structure at many positions. The positions are not
+% restricted to a grid.  Much easier to use than an array reference.
+%
+% NOTE: the replicated structures are not checked for overlap
 %
 % name  :  name of the new structure.
 % struc :  gds_structure object to be replicated.

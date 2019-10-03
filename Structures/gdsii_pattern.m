@@ -1,10 +1,9 @@
 function [scb] = gdsii_pattern(sname, xy, layer, dtype, prop, flex, elflags);
 %function [scb] = gdsii_pattern(sname, xy, layer, dtype, prop, flex, elflags);
 %
-% gdsii_pattern :  a convenience function that creates a gds_structure object 
-%                  containing a compound boundary element. Makes it easier to 
-%                  create layouts that are described by numerous polygons.
-%
+% A convenience function that creates a gds_structure object
+% containing a compound boundary element. Makes it easier to create
+% layouts that are described by numerous polygons.
 %
 % sname  : name of the gds_structure object. 
 % xy     : polgon or cell array of polygons (N x 2 matrices).

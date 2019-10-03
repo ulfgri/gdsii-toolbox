@@ -1,8 +1,8 @@
 function [bms] = gdsii_bitmap(bmap, pixel, sname, layer)
 %function [bms] = gdsii_bitmap(bmap, pixel, sname, layer)
 %
-% gdsii_bitmap : The function creates a GDSII structure containing
-%                a bitmap composed of black and white pixels.
+% Creates a GDSII structure containing a bitmap composed of black and
+% white pixels.
 %
 % bmap :   matrix with elements 1 for black pixels and 0 for white
 %          pixels. 

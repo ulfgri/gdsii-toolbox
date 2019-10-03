@@ -1,8 +1,8 @@
 function [chp] = gdsii_checky(tname, N, minel, maxel, pos, repl, ang, fmt, layer)
 %function [chp] = gdsii_checky(tname, N, minel, maxel, pos, repl, ang, fmt, layer)
 %
-% gdsii_checky :  returns a nested checker board pattern with
-%                 alternating rows of solid and checkered patterns. 
+% Returns a nested checker board pattern with alternating rows of
+% solid and checkered patterns.
 %
 % tname : (Optional) name of the top level structure.
 %         Default is CHECKY_TOP.

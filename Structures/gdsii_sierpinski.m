@@ -1,9 +1,8 @@
 function [sf] = gdsii_sierpinski(tname, minel, maxel, ctrblk, pos, ang, layer)
 %function [sf] = gdsii_sierpinski(tname, minel, maxel, ctrblk, pos, ang, layer)
 %
-% gdsii_sierpinski :  
-%      returns a gds_structure object containing a Sierpinski
-%      fractal composed of equilateral triangles. 
+% Returns a gds_structure object containing a Sierpinski fractal
+% composed of equilateral triangles.
 %
 % tname :  (Optional) name of the top level structure. 
 %          Default is SIERPINSKI_TOP.

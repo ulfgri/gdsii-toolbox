@@ -34,10 +34,17 @@ function [cas] = gdsii_zonelens(sname,rad,pos,maxpe,ctrblack,papprox,layer,apert
 % cas      : zone plate layout is returned a cell array of
 %            gds_structure objects.
 %
-% NOTE: when an aperture for clipping is passed as an argument, the
+% NOTES 
+% 1) When an aperture for clipping is passed as an argument, the
 % zone plate is created entirely from boundary elements. Otherwise,
 % only one octant is created from boundary elements which is then
-% replicated with sref elements.
+% replicated with sref elements to reduce the size of the layout
+% file.
+% 2) Structure names used internally by the function contain a random
+% number to ensure that the names are unique even when a layout consist
+% of several zone lenses. In the unlikely case of a name collision the
+% layout script should be run again to avoid the collision.
+% 3) The number of vertices in a zone segment has an upper limit of 800.
 
 % Ulf Griesmann, NIST, Feb. 2008
 %   U.G., Aug. 2008: added writing to different layers
@@ -84,7 +91,7 @@ function [cas] = gdsii_zonelens(sname,rad,pos,maxpe,ctrblack,papprox,layer,apert
     zps = gds_structure(sname);
     
     % initialize variables
-    zpid = floor(1000*rand(1));    % unique zone plate id
+    zpid = floor(10000*rand(1));   % unique zone plate id
     tnz = ceil(length(rad)/2);     % total number of zones
     
     % create a cell array with zone information
@@ -185,9 +192,9 @@ function [zos] = single_zone(zpar);
 %         each zone, OR a cell array of cell arrays each
 %         containting a pair of gds_structure objects.
 
-    % calculate number of segments with about 300 vertices
+    % calculate number of segments with about 800 vertices
     np = calc_phi(zpar.ro, zpar.pe, pi/2, zpar.pa);
-    nseg = max(round(4*np/150),8); % 8 segments || < 300 vertices
+    nseg = max(round(4*np/400),8); % 8 segments || < 800 vertices
         
     % generate boundary data for a segment centered at 0
     xy = generate_segment(zpar.ri, zpar.ro, 2*pi/nseg, zpar.pe, zpar.pa);

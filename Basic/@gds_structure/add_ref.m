@@ -34,7 +34,7 @@ function [ostruc] = add_ref(istruc, struc, varargin)
       elseif all( cellfun(@(x)isa(x,'gds_structure'), struc) )
          S = cellfun(@(x)sname(x), struc, 'UniformOutput',0);
       else
-         error('gds_structure.add_ref: all objects in cell array must be strings or gds_structure''s.');
+         error('gds_structure.add_ref: all objects in cell array must be strings or gds_structure objects.');
       end
    else
       error('gds_structure.add_ref:  second argument must be a string | gds_structure | cell array.');

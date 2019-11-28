@@ -1,4 +1,6 @@
 
+- make toolbox work with Unicode strings (requires replacing mxGetString)
+
 - base path --> boundary conversion functions on polygon offsetting.
 
 - clean up the C code for reading and writing element data. 

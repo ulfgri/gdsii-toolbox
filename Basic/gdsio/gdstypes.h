@@ -107,7 +107,7 @@ typedef enum {GDS_BOUNDARY=1, GDS_PATH, GDS_BOX, GDS_NODE, GDS_TEXT,
 typedef enum {PROP_ELFLAGS=1, PROP_PLEX, PROP_LAYER, 
 	      PROP_DTYPE, PROP_PTYPE, PROP_TTYPE, PROP_BTYPE, PROP_NTYPE, 
               PROP_WIDTH, PROP_EXT, PROP_FONT, PROP_VERJ, PROP_HORJ,
-	      PROP_STRANS, PROP_SNAME, PROP_ADIM} property_kind;
+	      PROP_STRANS, PROP_ADIM} property_kind;
  
 
 /* 
@@ -134,7 +134,6 @@ typedef struct {
    uint16_t nrow;
    uint16_t ncol;
    int32_t plex;
-   char sname[34];    /* 32 chars max for structure names */
    strans_t strans;
    float width;
    float bgnextn;

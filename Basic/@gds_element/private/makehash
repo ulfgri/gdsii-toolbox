@@ -3,8 +3,19 @@
 # make the hash functions
 #
 
+echo "el_hash.h"
 gperf el_hash.gperf > el_hash.h
+
+echo "get_prop_hash.h"
 gperf get_prop_hash.gperf > get_prop_hash.h
+
+echo "set_prop_hash.h"
 gperf set_prop_hash.gperf > set_prop_hash.h
+
+echo "has_hash.h"
 gperf has_hash.gperf > has_hash.h
+
+echo "notint_hash.h"
 gperf notint_hash.gperf > notint_hash.h
+
+echo "Done."

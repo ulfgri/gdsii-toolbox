@@ -28,7 +28,6 @@
 
 #define PS_LEN  16
 #define ERR_LEN 64
-#define SN_LEN  34
 
 
 /*- local function prototypes -------------------------------------*/
@@ -47,7 +46,6 @@ static void set_font(element_t *pe, mxArray *val);
 static void set_verj(element_t *pe, mxArray *val);
 static void set_horj(element_t *pe, mxArray *val);
 static void set_strans(element_t *pe, mxArray *val);
-static void set_sname(element_t *pe, mxArray *val);
 static void set_adim(element_t *pe, mxArray *val);
 
 /* include hash function */
@@ -445,17 +443,6 @@ set_strans(element_t *pe, mxArray *val)
    /* check if HAS_STRANS can be cleared */
    if ( !pe->strans.flags && !(pe->has & HAS_MAG) && !(pe->has & HAS_ANGLE) )
       pe->has &= ~HAS_STRANS;
-}
-
-
-/*-----------------------------------------------------------------*/
-
-static void 
-set_sname(element_t *pe, mxArray *val)
-{
-   if (pe->kind != GDS_SREF && pe->kind != GDS_AREF)
-      mexErrMsgTxt("set_element_data :  element has no sname property.");
-   mxGetString(val, pe->sname, SN_LEN);
 }
 
 

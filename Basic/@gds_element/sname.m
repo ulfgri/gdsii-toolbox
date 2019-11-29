@@ -10,6 +10,6 @@ function [s] = sname(gelm)
         error('gds_element.sname :  element is not a reference element.');
     end
     
-    s = get_element_data(gelm.data.internal, 'sname');
+    s = gelm.data.sname;
 
 end

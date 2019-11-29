@@ -11,6 +11,7 @@
  * data.xy : a cell array with boundaries, paths, or positions
  * data.prop : structure array with properties
  * data.text : text of a text element
+ * data.sname: structure name in reference elements
  *
  * Input
  * gf :    a file handle returned by gds_open.
@@ -443,6 +444,7 @@ read_sref(FILE *fob, mxArray **data, double dbu_to_uu)
    mxArray *pprop = NULL;
    mxArray *pa;
    double *pd;
+   char *sname;
    tList xylist;
    tList attr_list = NULL;
    tList name_list = NULL;
@@ -451,7 +453,7 @@ read_sref(FILE *fob, mxArray **data, double dbu_to_uu)
    int mtotal = 0;
    int k, m, nle;
    element_t sref;
-   const char *fields[] = {"internal", "xy", "prop"};
+   const char *fields[] = {"internal", "xy", "prop", "sname"};
    const char *pfields[] = {"attr","name"};
    xy_block vertex;
 
@@ -460,7 +462,7 @@ read_sref(FILE *fob, mxArray **data, double dbu_to_uu)
    init_element(&sref, GDS_SREF);
 
    /* output data structure */
-   pstruct = mxCreateStructMatrix(1,1, 3, fields);
+   pstruct = mxCreateStructMatrix(1,1, 4, fields);
 
    /* create a list for the XY data record(s) */
    if ( create_list(&xylist) == -1 )
@@ -486,8 +488,10 @@ read_sref(FILE *fob, mxArray **data, double dbu_to_uu)
 	    break;
 
          case SNAME:
-	    if ( read_string(fob, sref.sname, rlen) )
+	    sname = mxCalloc(rlen+1, sizeof(char));
+	    if ( read_string(fob, sname, rlen) )
 	       mexErrMsgTxt("gds_read_element (sref) :  could not read structure name.");
+	    struct_set_string(pstruct, 3, sname);
 	    break;
 
          case STRANS:
@@ -606,11 +610,12 @@ read_aref(FILE *fob, mxArray **data, double dbu_to_uu)
    mxArray *pprop = NULL;
    tList attr_list = NULL;
    tList name_list = NULL;
+   char *sname;
    uint16_t rtype, rlen;
    int nprop = 0;
    int k;
    element_t aref;
-   const char *fields[] = {"internal", "xy", "prop"};
+   const char *fields[] = {"internal", "xy", "prop", "sname"};
    const char *pfields[] = {"attr","name"};
 
 
@@ -636,8 +641,10 @@ read_aref(FILE *fob, mxArray **data, double dbu_to_uu)
  	    break;
 
          case SNAME:
-	    if ( read_string(fob, aref.sname, rlen) )
+	    sname  = mxCalloc(rlen+1, sizeof(char));
+	    if ( read_string(fob, sname, rlen) )
 	       mexErrMsgTxt("gds_read_element (sref) :  could not read structure name.");
+	    struct_set_string(pstruct, 3, sname);
 	    break;
 
          case COLROW:

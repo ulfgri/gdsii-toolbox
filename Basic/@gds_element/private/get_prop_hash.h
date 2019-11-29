@@ -45,12 +45,12 @@ struct keyword {
    mxArray * (*get_prop_func)(element_t *);
 };
 
-#define TOTAL_KEYWORDS 16
+#define TOTAL_KEYWORDS 15
 #define MIN_WORD_LENGTH 3
 #define MAX_WORD_LENGTH 7
 #define MIN_HASH_VALUE 3
-#define MAX_HASH_VALUE 35
-/* maximum key range = 33, duplicates = 0 */
+#define MAX_HASH_VALUE 20
+/* maximum key range = 18, duplicates = 0 */
 
 #ifdef __GNUC__
 __inline
@@ -64,32 +64,32 @@ hash (register const char *str, register size_t len)
 {
   static unsigned char asso_values[] =
     {
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 20,  3, 36,
-      30,  0, 15, 36, 10, 36, 36, 36, 25, 36,
-      20, 36,  5, 36, 36,  0, 15, 36,  0, 10,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36, 36, 36, 36, 36,
-      36, 36, 36, 36, 36, 36
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21,  8, 13, 21,
+       8,  0,  4, 21, 15, 21, 21, 21,  9, 21,
+      15, 21,  0, 21, 21,  0, 10, 21,  5,  5,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21
     };
   return len + asso_values[(unsigned char)str[0]];
 }
@@ -102,41 +102,36 @@ in_word_set (register const char *str, register size_t len)
       {""}, {""}, {""},
 #line 29 "get_prop_hash.gperf"
       {"ext",     &get_ext},
-#line 31 "get_prop_hash.gperf"
-      {"verj",    &get_verj},
-#line 34 "get_prop_hash.gperf"
-      {"sname",   &get_sname},
-#line 33 "get_prop_hash.gperf"
-      {"strans",  &get_strans},
-#line 20 "get_prop_hash.gperf"
-      {"elflags", &get_elflags},
-#line 26 "get_prop_hash.gperf"
-      {"btype",   &get_btype},
 #line 21 "get_prop_hash.gperf"
       {"plex",    &get_plex},
 #line 24 "get_prop_hash.gperf"
       {"ptype",   &get_ptype},
-      {""}, {""}, {""},
-#line 32 "get_prop_hash.gperf"
-      {"horj",    &get_horj},
-#line 28 "get_prop_hash.gperf"
-      {"width",   &get_width},
-      {""}, {""}, {""},
+#line 33 "get_prop_hash.gperf"
+      {"strans",  &get_strans},
+#line 20 "get_prop_hash.gperf"
+      {"elflags", &get_elflags},
 #line 30 "get_prop_hash.gperf"
       {"font",    &get_font},
-#line 25 "get_prop_hash.gperf"
-      {"ttype",   &get_ttype},
-      {""}, {""}, {""},
-#line 35 "get_prop_hash.gperf"
+#line 31 "get_prop_hash.gperf"
+      {"verj",    &get_verj},
+#line 28 "get_prop_hash.gperf"
+      {"width",   &get_width},
+      {""},
+#line 34 "get_prop_hash.gperf"
       {"adim",    &get_adim},
-#line 27 "get_prop_hash.gperf"
-      {"ntype",   &get_ntype},
-      {""}, {""}, {""}, {""},
+#line 23 "get_prop_hash.gperf"
+      {"dtype",   &get_dtype},
 #line 22 "get_prop_hash.gperf"
       {"layer",   &get_layer},
-      {""}, {""}, {""}, {""},
-#line 23 "get_prop_hash.gperf"
-      {"dtype",   &get_dtype}
+#line 25 "get_prop_hash.gperf"
+      {"ttype",   &get_ttype},
+      {""}, {""},
+#line 26 "get_prop_hash.gperf"
+      {"btype",   &get_btype},
+#line 32 "get_prop_hash.gperf"
+      {"horj",    &get_horj},
+#line 27 "get_prop_hash.gperf"
+      {"ntype",   &get_ntype}
     };
 
   if (len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH)

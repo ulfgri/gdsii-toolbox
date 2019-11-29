@@ -42,7 +42,6 @@ static mxArray* get_font(element_t *pe);
 static mxArray* get_verj(element_t *pe);
 static mxArray* get_horj(element_t *pe);
 static mxArray* get_strans(element_t *pe);
-static mxArray* get_sname(element_t *pe);
 static mxArray* get_adim(element_t *pe);
 
 /* include hash function */
@@ -298,20 +297,6 @@ get_strans(element_t *pe)
       str = empty_matrix();
 
    return str;
-}
-
-
-/*-----------------------------------------------------------------*/
-
-static mxArray* 
-get_sname(element_t *pe)
-{
-   if (pe->kind == GDS_SREF || pe->kind == GDS_AREF)
-      return mxCreateString(pe->sname);
-   else
-      return empty_matrix();
-
-   return NULL; /* make compiler happy */
 }
 
 

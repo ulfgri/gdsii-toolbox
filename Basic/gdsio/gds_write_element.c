@@ -238,7 +238,7 @@ write_compound_boundary(FILE *fob, mxArray *data, double uu_to_dbu)
       nxy = mxGetNumberOfElements(caxy);
    }
    else   
-      mexErrMsgTxt("gds_write_element (boundary) :  missing or empty xy field.");
+      mexErrMsgTxt("gds_write_element (comp-boundary) :  missing or empty xy field.");
 
    /* 
     * write one compound boundary element with multiple XY records 
@@ -411,7 +411,7 @@ write_compound_path(FILE *fob, mxArray *data, double uu_to_dbu)
       nxy = mxGetNumberOfElements(caxy);
    }
    else   
-      mexErrMsgTxt("gds_write_element (path) :  missing or empty xy field.");
+      mexErrMsgTxt("gds_write_element (comp-path) :  missing or empty xy field.");
 
    /* 
     * write out one path element with multiple XY records 
@@ -490,8 +490,9 @@ write_compound_path(FILE *fob, mxArray *data, double uu_to_dbu)
 static void 
 write_sref(FILE *fob, mxArray *data, double uu_to_dbu)
 {
-   mxArray *internal, *propfield, *pxy;
+   mxArray *internal, *propfield, *pxy, *psname;
    double *pdxy=NULL;
+   char *sname;
    int32_t xy[2];
    int mxy=0;
    int k,nlen;
@@ -532,15 +533,24 @@ write_sref(FILE *fob, mxArray *data, double uu_to_dbu)
       }
 
       /* SNAME */
-      nlen = strlen(sref.sname);
+      if ( get_field_ptr(data, "sname", &psname) ) {
+	 sname = mxArrayToString(psname);
+      }
+      else {  
+	 mexErrMsgTxt("gds_write_element (sref) :  missing sname field.");
+      }
+      nlen = strlen(sname);
       if ( !nlen )
 	 mexErrMsgTxt("gds_write_element (sref) :  name of referenced structure missing.");
-      if (nlen % 2)
-	 nlen += 1;
-      if (nlen > 32)
-	 mexErrMsgTxt("gds_write_element (sref) :  structure name must have <= 32 chars.");
-      write_record_hdr(fob, SNAME, nlen);
-      write_string(fob, sref.sname, nlen);
+      if (nlen % 2) {
+	 write_record_hdr(fob, SNAME, nlen+1);
+	 write_string(fob, sname, nlen);
+	 write_string(fob, "\0\0", 1);     /* make record length even */
+      }
+      else {
+	 write_record_hdr(fob, SNAME, nlen);
+	 write_string(fob, sname, nlen);
+      }
 
       /* STRANS */
       if ( sref.has & HAS_STRANS ) {
@@ -577,8 +587,9 @@ write_sref(FILE *fob, mxArray *data, double uu_to_dbu)
 static void 
 write_compound_sref(FILE *fob, mxArray *data, double uu_to_dbu)
 {
-   mxArray *internal, *propfield, *pxy;
+   mxArray *internal, *propfield, *pxy, *psname;
    double *pdxy=NULL;
+   char *sname;
    int ncxy;      /* number of compound xy records */
    int mrem;      /* remainder in last record */
    int mxy=0;
@@ -618,15 +629,24 @@ write_compound_sref(FILE *fob, mxArray *data, double uu_to_dbu)
    }
 
    /* SNAME */
-   nlen = strlen(sref.sname);
+   if ( get_field_ptr(data, "sname", &psname) ) {
+      sname = mxArrayToString(psname);
+   }
+   else {   
+      mexErrMsgTxt("gds_write_element (comp-sref) :  missing sname field.");
+   }
+   nlen = strlen(sname);
    if ( !nlen )
-      mexErrMsgTxt("gds_write_element (sref) :  name of referenced structure missing.");
-   if (nlen % 2)
-      nlen += 1;
-   if (nlen > 32)
-      mexErrMsgTxt("gds_write_element (sref) :  structure name must have <= 32 chars.");
-   write_record_hdr(fob, SNAME, nlen);
-   write_string(fob, sref.sname, nlen);
+      mexErrMsgTxt("gds_write_element (comp-sref) :  name of referenced structure missing.");
+   if (nlen % 2) {
+      write_record_hdr(fob, SNAME, nlen+1);
+      write_string(fob, sname, nlen);
+      write_string(fob, "\0\0", 1);     /* make record length even */
+   }
+   else {
+      write_record_hdr(fob, SNAME, nlen);
+      write_string(fob, sname, nlen);
+   }
 
    /* STRANS */
    if ( sref.has & HAS_STRANS ) {
@@ -670,8 +690,9 @@ write_compound_sref(FILE *fob, mxArray *data, double uu_to_dbu)
 static void 
 write_aref(FILE *fob, mxArray *data, double uu_to_dbu)
 {
-   mxArray *field, *propfield, *internal;
+   mxArray *field, *propfield, *internal, *psname;
    double *pd;
+   char *sname;
    int32_t xy[6];
    int mxy,nxy=0,nlen;
    element_t aref;
@@ -698,15 +719,24 @@ write_aref(FILE *fob, mxArray *data, double uu_to_dbu)
    }
 
    /* SNAME */   
-   nlen = strlen(aref.sname);
+   if ( get_field_ptr(data, "sname", &psname) ) {
+     sname = mxArrayToString(psname);
+   }
+   else {   
+      mexErrMsgTxt("gds_write_element (aref) :  missing sname field.");
+   }
+   nlen = strlen(sname);
    if ( !nlen )
       mexErrMsgTxt("gds_write_element (aref) :  name of referenced structure missing.");
-   if (nlen % 2)
-      nlen += 1;
-   if (nlen > 32)
-      mexErrMsgTxt("gds_write_element (aref) :  structure name must have <= 32 chars.");
-   write_record_hdr(fob, SNAME, nlen);
-   write_string(fob, aref.sname, nlen);
+   if (nlen % 2) {
+      write_record_hdr(fob, SNAME, nlen+1);
+      write_string(fob, sname, nlen);
+      write_string(fob, "\0\0", 1);     /* make record length even */
+   }
+   else {
+      write_record_hdr(fob, SNAME, nlen);
+      write_string(fob, sname, nlen);
+   }
 
    /* STRANS */
    if ( aref.has & HAS_STRANS ) {

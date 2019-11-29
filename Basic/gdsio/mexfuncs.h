@@ -45,7 +45,7 @@ struct_set_word(mxArray *saptr, int fieldnum, uint16_t *word, int n);
 /*
  * copy a string variable to a structure array
  * saptr :     pointer to structure array
- * fieldnum :  field number
+ * fieldnum :  field number (0 based)
  * str :       character string
  */
 void

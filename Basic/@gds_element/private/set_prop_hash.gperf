@@ -31,5 +31,4 @@ font,    &set_font
 verj,    &set_verj
 horj,    &set_horj
 strans,  &set_strans
-sname,   &set_sname
 adim,    &set_adim

@@ -23,7 +23,7 @@ function data = parse_element_data(etype, propval)
         
         % check if property is stored outside the internal structure
         if ~isempty(elvalue)
-            if is_not_internal(elproperty) % xy, prop, text
+            if is_not_internal(elproperty) % xy, prop, text, sname
                 data.(elproperty) = elvalue;
             else
                 ipropval = [ipropval, {elproperty,elvalue}];

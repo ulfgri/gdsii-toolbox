@@ -31,5 +31,4 @@ font,    &get_font
 verj,    &get_verj
 horj,    &get_horj
 strans,  &get_strans
-sname,   &get_sname
 adim,    &get_adim

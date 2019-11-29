@@ -21,8 +21,6 @@
 #include "mex.h"
 #include "mexfuncs.h"
 
-#define NLEN   48
-
 
 /*-----------------------------------------------------------------*/
 
@@ -34,7 +32,7 @@ mexFunction(int nlhs, mxArray *plhs[],
    double *pd;         /* pointer to data */
    date_t cdate;       /* creation date */
    date_t mdate;       /* modification date */
-   char sname[NLEN];   /* structure name */
+   char *sname;        /* structure name */
    uint16_t rtype, rlen;
    int k;
 
@@ -60,6 +58,7 @@ mexFunction(int nlhs, mxArray *plhs[],
       mexErrMsgTxt("gds_structdata :  failed to read STRNAME record.");
    if (rtype != STRNAME)   
       mexErrMsgTxt("gds_structdata :  invalid STRNAME record.");
+   sname = mxCalloc(rlen+1, sizeof(char));  /* string buffer */
    if ( read_string(fob, sname, rlen) )
       mexErrMsgTxt("gds_structdata :  failed to read structure name.");
      

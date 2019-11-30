@@ -1,11 +1,9 @@
 function [glib] = read_gds_library(gdsname, verbose, hdronly)
 %function [glib] = read_gds_library(gdsname, verbose, hdronly)
-%
-% read_gds_library :  
-%        Reads a GDSII file and returns its structures
-%        and elements as a gds_library object. Can also be 
-%        used to read and display the header portion of a 
-%        GDSII file.
+%  
+% Reads a GDSII file and returns its structures and elements as a
+% gds_library object. Can also be used to read and display the header
+% portion of a GDSII file.
 %
 % gdsname :  name of a GDSII file to read (with or without .gds extension).
 % verbose :  when > 0, print out information about the file and

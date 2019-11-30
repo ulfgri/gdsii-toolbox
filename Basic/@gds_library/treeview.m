@@ -1,10 +1,10 @@
 function treeview(glib);
 %function treeview(glib);
 %
-% treeview - display the structure hierarchy graph
-%            of the structures contained in a gds_library
-%            object.
+% Displays the structure hierarchy graph of the structures 
+% contained in a gds_library object.
 %
+% INPUT
 % glib :  a gds_library object
 %
 

@@ -1,8 +1,7 @@
 function write_gds_library(glib, fname, varargin)
 %function write_gds_library(glib, fname, varargin)
 % 
-% write_gds_library :
-%     writes a GDS library object to a file
+% writes a GDS library object to a file
 %
 % glib  :     a gds_library object
 % fname :     GDS file name. When the file name has the extension .cgds 

@@ -1,6 +1,6 @@
 /*
  * Part of the GDSII toolbox for Octave & MATLAB
- * Copyright (c) 2012- 2013, Ulf Griesmann
+ * Copyright (c) 2012- 2019, Ulf Griesmann
  *
  * Description:
  * Writes element data to a GDSII library file.

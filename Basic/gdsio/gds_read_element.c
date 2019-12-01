@@ -20,7 +20,6 @@
  * dbunit: database unit in m
  *
  * Output: 
- * estr :  a string with element type name
  * data :  a structure with element data
  */
 

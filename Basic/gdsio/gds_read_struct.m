@@ -26,7 +26,7 @@ function [gst] = gds_read_struct(gf, uunit, dbunit)
         data = gds_read_element(gf, rtype, dbunit/uunit);
         
         % create element object and add to cell array
-        elist{end+1} = gds_element([], data);
+        elist{end+1} = gds_element('_file_', data);
         
     end
 

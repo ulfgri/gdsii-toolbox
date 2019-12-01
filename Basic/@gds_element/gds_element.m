@@ -131,16 +131,16 @@ function gelm = gds_element(etype, varargin)
 
 % Initial version, Ulf Griesmann, NIST, June 2011
 
+    if ~ischar(etype)
+        error('gds_element constructor: first argument must be element type string.');
+    end
+    
     % get element properties
-    if ~isempty(varargin) && isstruct(varargin{1})  % properties are from gds_read_element
+    if strcmp(etype, '_file_')  % was called from gds_read_element
   
         data = varargin{1};
    
-    else  % collect all arguments into a structure
-
-        if ~ischar(etype)
-            error('gds_element constructor:  first argument must be a string.');
-        end
+    else                        % collect all arguments into a structure
         
         data = parse_element_data(etype, varargin);
         

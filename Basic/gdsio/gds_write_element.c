@@ -541,7 +541,7 @@ write_sref(FILE *fob, mxArray *data, double uu_to_dbu)
       }
       nlen = strlen(sname);
       if ( !nlen )
-	 mexErrMsgTxt("gds_write_element (sref) :  name of referenced structure missing.");
+	 mexErrMsgTxt("gds_write_element (sref) :  missing name of referenced structure.");
       if (nlen % 2) {
 	 write_record_hdr(fob, SNAME, nlen+1);
 	 write_string(fob, sname, nlen);

@@ -9,7 +9,7 @@ function [s] = sname(gelm)
     if ~isref(gelm.data.internal)
         error('gds_element.sname :  element is not a reference element.');
     end
-    
+
     s = gelm.data.sname;
 
 end

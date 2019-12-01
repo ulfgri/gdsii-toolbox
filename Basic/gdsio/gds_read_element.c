@@ -622,7 +622,7 @@ read_aref(FILE *fob, mxArray **data, double dbu_to_uu)
    init_element(&aref, GDS_AREF);
 
    /* output data structure */
-   pstruct = mxCreateStructMatrix(1,1, 3, fields);
+   pstruct = mxCreateStructMatrix(1,1, 4, fields);
 
    /* read element properties */
    while (1) {
@@ -642,7 +642,7 @@ read_aref(FILE *fob, mxArray **data, double dbu_to_uu)
          case SNAME:
 	    sname  = mxCalloc(rlen+1, sizeof(char));
 	    if ( read_string(fob, sname, rlen) )
-	       mexErrMsgTxt("gds_read_element (sref) :  could not read structure name.");
+	       mexErrMsgTxt("gds_read_element (aref) :  could not read structure name.");
 	    struct_set_string(pstruct, 3, sname);
 	    break;
 

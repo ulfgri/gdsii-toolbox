@@ -1,7 +1,7 @@
 function [bbx] = bbox_tree(cas)
-%function [bbx] = bbox_tree(cas)
+% function [bbx] = bbox_tree(cas)
 %
-% bbox_tree: calculate the boundary box of a GDSII structure tree
+% Calculates the boundary box of a GDSII structure tree
 %
 % Input:
 % cas :  a cell array of gds_structure objects
@@ -11,24 +11,26 @@ function [bbx] = bbox_tree(cas)
 %         lower left and upper right corners of the bounding box. 
 
 % Initial version, Ulf Griesmann, December 2015
+% major bug fixes, Alexandre Simard, March 2021
     
     % calculate boundary boxes before resolving the hierarchy
     % to minimize computations especially for leaf nodes 
     caslen = numel(cas);
     bbdata = repmat(struct('bbox',[Inf,Inf,-Inf,-Inf], ...
-                           'ref',[]), caslen,1);
+                           'ref',[],'name',[]), caslen,1);
     for k = 1:caslen
         [bbdata(k).bbox, bbdata(k).ref] = bbox(cas{k});
+        bbdata(k).name = get(cas{k},'sname');
     end
 
     % find top level structure(s) - they have no parents
-    A = adjmatrix(cas);
+    [A,N] = adjmatrix(cas);
     T = find(sum(A)==0);    % array with top parent indices
     
     % calculate bounding boxes of all top level structures
     bbst = zeros(length(T),4);
     for k=1:length(T)
-        bbst(k,:) = bbox_struct(A, bbdata, T(k)); 
+        bbst(k,:) = bbox_struct(A, bbdata, T(k), N); 
     end
     
     bbx = [min(bbst(:,1:2),[],1),max(bbst(:,3:4),[],1)];
@@ -36,14 +38,13 @@ function [bbx] = bbox_tree(cas)
 end
 
 
-function [bbst] = bbox_struct(A, bbdata, sidx)
+function [bbst] = bbox_struct(A, bbdata, sidx, N)
 %
 % This function is called recursively to apply strans
 % transformations to the pre-computed boundary boxes and to
 % calculate the boundary boxes for the resolved structure
 % hierarchy.
-%
-    
+%    
     % indices of child structures referenced by structure sidx
     chi = find(A(sidx,:));
         
@@ -60,20 +61,27 @@ function [bbst] = bbox_struct(A, bbdata, sidx)
     for k = 1:length(chi)
        
         % recursively calculate boundary box of the referenced structures
-        bbr = bbox_struct(A, bbdata, chi(k));
+        bbr = bbox_struct(A, bbdata, chi(k), N);
         
         % apply any transformations to the boundary box
-        nref = length(bbdata(sidx).ref);
+        
+        % Find the sref of this refrences structured
+        refloc = bbdata(sidx).ref;
+        ind = arrayfun(@(x)strcmp(N{chi(k)},x.sname), refloc, 'UniformOutput', false);
+	ind = horzcat(ind{:});    
+        refloc = refloc(ind);
+        
+        nref = length(refloc);        
         b = zeros(nref,4);
         for m = 1:nref
-            if isempty(bbdata(sidx).ref(m).adim)  % sref
-                b(m,:) = bbox_strans(bbr, bbdata(sidx).ref(m).strans);
+            if isempty(refloc(m).adim)  % sref
+                b(m,:) = bbox_strans(bbr, refloc(m).strans);
                 b(m,:) = b(m,:) + ...
-                         [bbdata(sidx).ref(m).xy, bbdata(sidx).ref(m).xy];
-            else                                  % aref
-                b(m,:) = bbox_aref(bbr, bbdata(sidx).ref(m).strans, ...
-                                        bbdata(sidx).ref(m).xy, ...
-                                        bbdata(sidx).ref(m).adim);
+                         [refloc(m).xy, refloc(m).xy];
+            else                        % aref
+                b(m,:) = bbox_aref(bbr, refloc(m).strans, ...
+                                        refloc(m).xy, ...
+                                        refloc(m).adim);
             end
         end
 
@@ -83,7 +91,6 @@ function [bbst] = bbox_struct(A, bbdata, sidx)
     % calculate the final boundary box
     B(k+1,:) = bbdata(sidx).bbox;
     bbst = [min(B(:,1:2),[],1), max(B(:,3:4),[],1)];
-    
 end
 
 
@@ -145,17 +152,17 @@ end
 
 
 function [box] = apply_strans(box, strans)
+    
+    % reflection comes after rotation
+    if isfield(strans,'reflect') && strans.reflect
+        box(:,2) = -box(:,2);
+    end
 
     % first rotate
     if isfield(strans,'angle') && ~isempty(strans.angle) && strans.angle~=0
         box = poly_rotzd(box, strans.angle); % rotated box
     end
-    
-    % reflection comes after rotation
-    if isfield(strans,'reflect') && strans.reflect
-        box(:,1) = -box(:,1);
-    end
-    
+
     % magnification
     if isfield(strans,'mag') && ~isempty(strans.mag)
         box = strans.mag * box;
